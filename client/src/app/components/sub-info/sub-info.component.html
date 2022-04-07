@@ -1,0 +1,10 @@
+<div *ngIf="sub$ | async as sub; else loader">
+        <div class="card-body">
+            <h4 class=" card-title">{{sub.title}}</h4>
+            
+        </div>
+</div>
+
+<ng-template #loader>
+    <app-loader class="loader"></app-loader>
+</ng-template>

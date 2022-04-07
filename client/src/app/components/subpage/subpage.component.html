@@ -1,0 +1,48 @@
+<div class="sub-wrapper" *ngIf="sub$ | async as sub; else loader"> 
+        <div class="card sub">
+                <div class="sub-bg">
+                    <div *ngIf='sub.bannerUrl; else defaultBanner' class="banner" [ngStyle]="{'background-image': 'url(' + sub.bannerUrl + ')'}" >
+                    </div>
+                </div>
+                <div class="sub-content">
+                        <div class="sub-header">
+                            <div class="sub-avatar" [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}" ></div>
+                            <div class="sub-heading">
+                                    <span class="sub-title">{{sub.title}}</span>
+                                    <button class="ml-auto btn btn-primary btn-sm">Подписаться</button>
+                            </div>
+                            
+                        </div>
+                        <div class="mt-2 sub-description">
+                            {{sub.description}}
+                        </div>
+                        <div class="sub-users">3562 подписчиков</div>
+                </div>   
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="posts-list">
+                <app-post *ngFor="let post of sub.posts; trackBy: trackByFn" [post]="post" class="my-2">
+                        <a [routerLink]="['/u', post.username]" class="py-1 pr-1 username">{{post.username}}</a>
+                        <a [routerLink]="[post.url]" class="p-1 ml-2 text-muted date">{{post.createdAt | dateAgo}}</a>
+                </app-post>
+            </div>
+        </div>
+        <div class="col-4 my-2">
+            <app-sidebar>
+                <app-top-subs slotStart></app-top-subs>
+                <app-sidebar-buttons [subName]="sub.name" slotButtons></app-sidebar-buttons>
+            </app-sidebar>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-template #defaultBanner>
+    <div class="banner banner-default"></div>
+</ng-template>
+
+<ng-template #loader>
+    <app-loader class="loader"></app-loader>
+</ng-template>

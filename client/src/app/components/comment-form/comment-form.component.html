@@ -1,0 +1,6 @@
+<div class="comment-input">
+    <form [formGroup]="commentForm" (ngSubmit)="sendComment()">
+        <textarea class="form-control" id="comment" formControlName="body" rows="5" placeholder="Написать комментарий"></textarea>
+        <button class="mt-1 ml-auto btn btn-primary btn-sm d-block" [disabled]="commentForm.invalid">Отправить</button>
+    </form>
+</div>

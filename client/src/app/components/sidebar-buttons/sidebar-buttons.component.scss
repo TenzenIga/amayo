@@ -1,0 +1,11 @@
+
+button {
+    font-weight: bold;
+}
+
+a{
+    font-weight: bold;
+    &:hover {
+        text-decoration: none;
+    }
+}

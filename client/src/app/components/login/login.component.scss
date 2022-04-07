@@ -1,0 +1,26 @@
+.register-section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register{
+    max-width: 280px;
+    width: 100%;
+}
+
+.small-text{
+    font-size: .8rem;
+}
+
+.form-group {
+    position: relative;
+}
+button {
+    font-weight: bold;
+}
+
+span {
+    position: absolute;
+}

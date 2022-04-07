@@ -1,0 +1,53 @@
+.post-footer{
+        color: #6c757d;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+}
+
+.book {
+    &:hover{
+        color: #346eb8;
+    }
+}
+
+.share {
+    &:hover{
+        color: #346eb8;
+    }
+}
+
+.votes {
+    display: flex;
+    span {
+        margin: 0 5px;
+    }
+    .thumb-up:hover{
+        color: #346eb8;
+    }
+    .thumb-down {
+        padding: 4px 0;
+
+    &:hover {
+        color: #dc3545;
+        }
+    }
+}
+
+.comments {
+    
+    display:flex;
+    &-icon {
+        padding: 2px 0;
+      
+    }
+    
+    span {
+        margin-left: 8px;
+        
+    }
+    &:hover{
+        color: #346eb8;
+    }
+}

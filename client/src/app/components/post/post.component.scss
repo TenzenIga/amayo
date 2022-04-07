@@ -1,0 +1,25 @@
+:host{
+    display: block;
+}
+.post {
+
+    cursor: pointer;
+
+    &-header {
+        display: flex;
+        & > *{
+            font-weight: 500;
+            
+        } 
+        .username {
+            font-weight: 500;
+        }
+    }
+    a {
+        color: #212529;
+        text-decoration: none;
+    }
+    
+
+}
+

@@ -1,0 +1,11 @@
+<div class="card post">
+    <div class="card-body">
+        <div class="post-header">
+            <ng-content>      
+            </ng-content>
+        </div>
+        <h4 [routerLink]="[post.url]" class="card-title">{{post.title}}</h4>
+        <p class="card-text">{{post.body}}</p>
+        <app-post-footer [post]="post"></app-post-footer>
+    </div>
+  </div>

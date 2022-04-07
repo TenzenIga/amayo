@@ -1,0 +1,16 @@
+<div *ngIf="topSubs$ | async as topSubs; else loader">
+    <div *ngIf="topSubs.length > 0" class="card" >
+        <div class="card-body">
+            <h4 class=" card-title">Топ сообщества</h4>
+            <div class="py-2 sub" *ngFor="let sub of topSubs">
+                <div class="mr-2 sub-avatar"  [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}" ></div>
+                <a (click)="goToSub(sub.name)" class="sub-title text-muted">{{sub.title}}</a>
+                <button class="ml-auto btn btn-primary btn-sm">Подписаться</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loader>
+    <app-loader class="loader"></app-loader>
+</ng-template>
