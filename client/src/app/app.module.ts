@@ -31,6 +31,7 @@ import { TopSubsComponent } from './components/top-subs/top-subs.component';
 import { SubInfoComponent } from './components/sub-info/sub-info.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SearchInputComponent } from './components/search-input/search-input.com
     ToastrModule.forRoot(),
     FontAwesomeModule,
     AppRoutingModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [AuthGuard, {
     provide: HTTP_INTERCEPTORS,
