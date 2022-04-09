@@ -1,12 +1,14 @@
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import { createConnection} from "typeorm";
 import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
+
 dotenv.config()
+
 
 import authRoutes from './routes/auth';
 import postsRoutes from './routes/posts';
@@ -14,6 +16,7 @@ import subRoutes from './routes/subs';
 import miscRoutes from './routes/misc';
 import userRoutes from './routes/users';
 import trim from "./middleware/trim";
+import conn from "../ormconfig";
 
 const app = express();
 
@@ -38,7 +41,7 @@ app.listen(5000, async () => {
   console.log('Server running at http://localhost:5000');
 
   try {
-      await createConnection();
+     await createConnection(conn);
       console.log('Database connected');
   } catch(err){
       console.log(err);
