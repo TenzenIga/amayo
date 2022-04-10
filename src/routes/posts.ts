@@ -29,6 +29,28 @@ const createPost = async (req:Request, res:Response) => {
     }
 }
 
+const deletePost = async (req:Request, res:Response) => {    
+    const {identifier} = req.params;
+    const user = res.locals.user;
+    
+    try {
+        const post = await Post.findOneOrFail({identifier});
+
+        console.log(post);
+        
+        if(post.username !== user.username){
+            return res.status(403).json({error: 'You dont own this post'})
+        }
+        const response = await Post.delete({identifier})
+        
+        return  res.json(response)
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({error:"Something went wrong"})
+        
+    }
+}
+
 const getPosts = async (_:Request, res:Response) => {
     try {
         const posts = await Post.find({
@@ -49,6 +71,7 @@ const getPosts = async (_:Request, res:Response) => {
 
 const getPost = async (req:Request, res:Response) => {
     const {identifier, slug} = req.params;
+     
     try {
         const post = await Post.findOneOrFail(
             {identifier, slug},
@@ -112,6 +135,7 @@ const getPostComments = async (req: Request, res: Response) => {
 const router = Router()
 
 router.post('/', user, auth, createPost);
+router.delete('/:identifier', user, auth, deletePost);
 router.get('/', user, getPosts);
 router.get('/:identifier/:slug', user, getPost);
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost);
