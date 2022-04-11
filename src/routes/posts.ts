@@ -30,18 +30,18 @@ const createPost = async (req:Request, res:Response) => {
 }
 
 const deletePost = async (req:Request, res:Response) => {    
-    const {identifier} = req.params;
+    const {identifier, slug} = req.params;
     const user = res.locals.user;
     
     try {
-        const post = await Post.findOneOrFail({identifier});
+        const post = await Post.findOneOrFail({identifier, slug});
 
         console.log(post);
         
         if(post.username !== user.username){
             return res.status(403).json({error: 'You dont own this post'})
         }
-        const response = await Post.delete({identifier})
+        const response = await Post.delete({identifier, slug})
         
         return  res.json(response)
     } catch (err) {

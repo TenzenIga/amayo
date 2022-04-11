@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { PostsService } from '@core/services/posts.service';
 import { Post, PostComment } from '@shared/interfaces';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -14,7 +15,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class PostPageComponent implements OnInit {
  
-
+  public identifier:string;
+  public slug:string;
   public post$: Observable<Post>;
   public comments$: Observable<PostComment[]>;
 
@@ -22,10 +24,13 @@ export class PostPageComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    const identifier = this.activatedRoute.snapshot.paramMap.get('identifier');
-    const slug = this.activatedRoute.snapshot.paramMap.get('slug');
-    this.post$ = this.postService.getPost(identifier, slug);
-    this.comments$ = this.postService.getPostCommets(identifier, slug);
+    this.activatedRoute.paramMap.subscribe((params: ParamMap)=> {
+        this.identifier = params.get('identifier');
+        this.slug = params.get('slug');
+        this.post$ =  this.postService.getPost(this.identifier, this.slug);
+        this.comments$ = this.postService.getPostCommets(this.identifier, this.slug);
+      })
+
   }
 
   public sendComment(commentBody: string): void{

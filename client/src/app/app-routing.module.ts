@@ -21,8 +21,8 @@ const routes: Routes = [
   {path: 'userpage', component: UserpageComponent, canActivate: [AuthGuard]},
   {path: 'submit', component: CreatePostPageComponent, canActivate: [AuthGuard]},
   {path: 'create', component: CreateSubFormComponent, canActivate: [AuthGuard]},
-  {path: 'a/:subName', component: SubpageComponent},
-  {path: 'a/:subName/:identifier/:slug', component: PostPageComponent},
+  {path: 'r/:subName', component: SubpageComponent},
+  {path: 'r/:subName/:identifier/:slug', component: PostPageComponent},
   {path: '**', component: NotFoundPageComponent}
 ];
 
