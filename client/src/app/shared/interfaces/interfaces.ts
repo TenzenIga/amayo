@@ -17,8 +17,6 @@ export type postPayload = {
 
 export type subPayload = {
   name: string;
-  title: string;
-  description: string;
 };
 export interface Post {
     id?: number;

@@ -13,14 +13,14 @@ import Post from "../entity/Post";
 import { makeId } from "../utils/helpers";
 
 const createSub = async (req:Request, res:Response) => {
-    const {name, title, description} = req.body;
+    const {name} = req.body;
 
     const user: User = res.locals.user;
 
     try {
         let errors:any = {}
         if(isEmpty(name)) errors.name = 'Name must not be empty';
-        if(isEmpty(title)) errors.title = 'Title must not be empty';
+
 
         const sub = await getRepository(Sub)
             .createQueryBuilder('sub')
@@ -39,7 +39,7 @@ const createSub = async (req:Request, res:Response) => {
     }
 
     try {
-        const sub = new Sub({name, description, title,  user});
+        const sub = new Sub({name,  user});
         await sub.save()
 
         return res.json(sub)

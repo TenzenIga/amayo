@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
 
-import { signupPayload, loginPayload } from '@shared/interfaces';
+import { signupPayload, loginPayload } from '@shared/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'

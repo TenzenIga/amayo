@@ -2,7 +2,7 @@
     <div class="comment__header">
         <div class="avatar"></div>
         <a [routerLink]="['/u', comment.username]" class="py-1 pr-1 username">{{comment.username}}</a>
-        <a [routerLink]="[post.url]" class="p-1 ml-2 text-muted date">{{comment.createdAt | dateAgo}}</a>
+        <a [routerLink]="[post.url]" class="p-1 ms-2 text-muted date">{{comment.createdAt | dateAgo}}</a>
     </div>
     <div class='mt-1 comment__body'>
         {{comment.body}}
@@ -12,10 +12,10 @@
             <fa-icon [icon]="faCommentAlt" class="reply-icon" ></fa-icon>
             <span >Ответить</span>
         </div>
-        <div class="ml-4 book">
+        <div class="ms-4 book">
             <fa-icon [icon]="faBookmark"></fa-icon>
         </div>
-        <div class="ml-auto votes">
+        <div class="ms-auto votes">
             <fa-icon [icon]="faThumbsUp" class="mx-1 thumb-up" (click)="vote(1)" [ngClass]="comment.userVote === 1 ? 'text-success' : ''" ></fa-icon>
             <span class="text-success">{{comment.voteScore}}</span>
             <fa-icon [icon]="faThumbsDown" class="mx-1 thumb-down" (click)="vote(-1)" [ngClass]="comment.userVote === -1 ? 'text-danger' : ''" ></fa-icon>

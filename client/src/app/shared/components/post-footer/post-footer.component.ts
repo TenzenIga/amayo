@@ -4,7 +4,7 @@ import {faCommentAlt, faBookmark} from '@fortawesome/free-regular-svg-icons';
 import {faShare, faThumbsDown, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
 
 import { PostsService } from '@core/services/posts.service';
-import { Post } from '@shared/interfaces';
+import { Post } from '@shared/interfaces/interfaces';
 import { AuthService } from '@core/services/auth.service';
 
 @Component({

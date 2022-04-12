@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { SubService } from '@core/services/sub.service';
-import { Sub } from '@shared/interfaces';
+import { Sub } from '@shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-sub-info',

@@ -32,6 +32,7 @@ import { SubInfoComponent } from './components/sub-info/sub-info.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { StoreModule } from '@ngrx/store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { StoreModule } from '@ngrx/store';
     TopSubsComponent,
     SubInfoComponent,
     CreatePostPageComponent,
-    SearchInputComponent
+    SearchInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +67,7 @@ import { StoreModule } from '@ngrx/store';
     FontAwesomeModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
+    NgbModule,
   ],
   providers: [AuthGuard, {
     provide: HTTP_INTERCEPTORS,

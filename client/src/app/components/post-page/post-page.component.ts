@@ -3,9 +3,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { PostsService } from '@core/services/posts.service';
-import { Post, PostComment } from '@shared/interfaces';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { switchMap } from 'rxjs/operators';
+import { Post, PostComment } from '@shared/interfaces/interfaces';
+
 
 
 @Component({
@@ -45,7 +44,7 @@ export class PostPageComponent implements OnInit {
     });
   }
 
-  public trackByFn(index: string, comment: PostComment): string {
+  public trackByFn( comment: PostComment): string {
     return comment.identifier;
   }
 }

@@ -3,13 +3,13 @@
         <fa-icon [icon]="faCommentAlt" class="comments-icon" ></fa-icon>
         <span *ngIf="post.commentCount > 0" >{{post.commentCount}}</span>
     </div>
-    <div class="book ml-4">
+    <div class="book ms-4">
         <fa-icon [icon]="faBookmark"></fa-icon>
     </div>
-    <div class="share ml-4">
+    <div class="share ms-4">
         <fa-icon [icon]="faShare"></fa-icon>
     </div>
-    <div class="votes ml-auto">
+    <div class="votes ms-auto">
         <fa-icon [icon]="faThumbsUp" class="thumb-up mx-1" (click)="vote(1)" [ngClass]="post.userVote === 1 ? 'text-success' : ''" ></fa-icon>
         <span class="text-success">{{post.voteScore}}</span>
         <fa-icon [icon]="faThumbsDown" class="thumb-down mx-1" (click)="vote(-1)" [ngClass]="post.userVote === -1 ? 'text-danger' : ''" ></fa-icon>

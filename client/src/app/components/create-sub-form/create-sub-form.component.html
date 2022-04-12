@@ -1,16 +1,8 @@
 <form [formGroup]="subForm" (ngSubmit)="createSub()">
+  <legend>Создать сообщество</legend>
     <div class="mb-3">
-      <label for="title" class="form-label">Название</label>
-      <input type="text" formControlName="name" class="form-control" id="title" >
-    </div>
-    <div class="mb-3">
-      <label for="title" class="form-label">Название</label>
-      <input type="text" formControlName="title" class="form-control" id="title" >
-    </div>
-    <div class="mb-3">
-      <label for="description" class="form-label">Описание</label>
-      <textarea class="form-control" formControlName="description" id="description" rows="3"></textarea>
+      <input type="text" formControlName="name" class="form-control"  id="title" >
     </div>
     <button type="submit" class="btn btn-secondary">Отмена</button>
-    <button type="submit" class="btn btn-primary">Создать</button>
+    <button type="submit" class="btn btn-primary">Создать сообщество</button>
   </form>

@@ -5,7 +5,7 @@
                 <div class="post-page__header">
                     <div class="avatar" ></div>
                     <a [routerLink]="['/u', post.username]" class="py-1 pr-1 username">{{post.username}}</a>
-                    <a [routerLink]="[post.url]" class="p-1 ml-2 text-muted date">{{post.createdAt | dateAgo}}</a>
+                    <a [routerLink]="[post.url]" class="p-1 ms-2 text-muted date">{{post.createdAt | dateAgo}}</a>
                 </div>
                 <h3 class="post-page__title">{{post.title}}</h3>
                 <div class="mt-2 post-page__body">

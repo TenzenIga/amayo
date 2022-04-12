@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { PostsService } from '@core/services/posts.service';
 import { SubService } from '@core/services/sub.service';
-import { postPayload } from '@shared/interfaces';
+import { postPayload } from '@shared/interfaces/interfaces';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 
 @Component({

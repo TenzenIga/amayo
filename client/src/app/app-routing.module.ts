@@ -9,7 +9,6 @@ import { UserpageComponent } from './components/userpage/userpage.component';
 import { AuthGuard } from './auth.guard';
 import { SubpageComponent } from './components/subpage/subpage.component';
 import { PostPageComponent } from './components/post-page/post-page.component';
-import { CreateSubFormComponent } from './components/create-sub-form/create-sub-form.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
 
 
@@ -20,7 +19,6 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'userpage', component: UserpageComponent, canActivate: [AuthGuard]},
   {path: 'submit', component: CreatePostPageComponent, canActivate: [AuthGuard]},
-  {path: 'create', component: CreateSubFormComponent, canActivate: [AuthGuard]},
   {path: 'r/:subName', component: SubpageComponent},
   {path: 'r/:subName/:identifier/:slug', component: PostPageComponent},
   {path: '**', component: NotFoundPageComponent}

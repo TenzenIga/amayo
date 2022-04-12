@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from '@core/services/auth.service';
 import { Router } from '@angular/router';
-import { loginPayload } from '@shared/interfaces';
+import { loginPayload } from '@shared/interfaces/interfaces';
 
 type errors = {
   username: null | string

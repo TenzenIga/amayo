@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 
 import { AuthService } from '@core/services/auth.service';
-import { signupPayload } from '@shared/interfaces';
+import { signupPayload } from '@shared/interfaces/interfaces';
 
 type errors = {
   email: null | string,

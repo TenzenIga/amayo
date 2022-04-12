@@ -4,8 +4,8 @@ import { AuthService } from '@core/services/auth.service';
 import { PostsService } from '@core/services/posts.service';
 import {faCommentAlt, faBookmark} from '@fortawesome/free-regular-svg-icons';
 import { faThumbsDown, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
+import { Post, PostComment } from '@shared/interfaces/interfaces';
 
-import { Post, PostComment } from '@shared/interfaces';
 
 @Component({
   selector: 'app-comment',

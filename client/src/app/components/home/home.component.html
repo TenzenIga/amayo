@@ -3,9 +3,9 @@
         <div class="posts-list">
             <app-post *ngFor="let post of posts; trackBy: trackByFn" [post]="post" class="my-2">
                     <a [routerLink]="['a/', post.subName]" class="py-1 pr-1 sub">a/{{post.subName}}</a>
-                    <a [routerLink]="['/u', post.username]" class="p-1 ml-2 username">{{post.username}}</a>
-                    <a [routerLink]="[post.url]" class="p-1 ml-2 text-muted date">{{post.createdAt | dateAgo}}</a>
-                    <button class="ml-auto btn btn-primary btn-sm">Подписаться</button>
+                    <a [routerLink]="['/u', post.username]" class="p-1 ms-2 username">{{post.username}}</a>
+                    <a [routerLink]="[post.url]" class="p-1 ms-2 text-muted date">{{post.createdAt | dateAgo}}</a>
+                    <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
             </app-post>
         </div>
     </div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PostsService } from '@core/services/posts.service';
-import { Post } from '@shared/interfaces';
+import { Post } from '@shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-home',
