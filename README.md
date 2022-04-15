@@ -1,4 +1,6 @@
-## Клон Reddit
+# Клон Reddit
+## Backend:
+Express, postgres, typeorm
 
-backend: Express, postgres, typeorm
-frontend: Angular, ngrx, bootstrap
+## frontend:
+Angular, ngrx, bootstrap

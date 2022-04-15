@@ -2,7 +2,7 @@
     <div class="col-8" *ngIf="posts$ | async as posts; else loader" >
         <div class="posts-list">
             <app-post *ngFor="let post of posts; trackBy: trackByFn" [post]="post" class="my-2">
-                    <a [routerLink]="['a/', post.subName]" class="py-1 pr-1 sub">a/{{post.subName}}</a>
+                    <a [routerLink]="['r/', post.subName]" class="py-1 pr-1 sub">r/{{post.subName}}</a>
                     <a [routerLink]="['/u', post.username]" class="p-1 ms-2 username">{{post.username}}</a>
                     <a [routerLink]="[post.url]" class="p-1 ms-2 text-muted date">{{post.createdAt | dateAgo}}</a>
                     <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
@@ -12,7 +12,12 @@
     <div class="my-2 col-4">
         <app-sidebar>
             <app-top-subs slotStart></app-top-subs>
-            <app-sidebar-buttons slotButtons></app-sidebar-buttons>
+            <div class="card" slotMid >
+                <div class="card-body">
+                        <button  class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill" >Новый пост</button>
+                        <app-create-sub-form></app-create-sub-form>
+                </div>
+            </div>    
         </app-sidebar>
     </div>
 </div>

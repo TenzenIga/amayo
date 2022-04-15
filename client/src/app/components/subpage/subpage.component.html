@@ -6,12 +6,14 @@
                 </div>
                 <div class="sub-content">
                         <div class="sub-header">
-                            <div class="sub-avatar" [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}" ></div>
-                            <div class="sub-heading">
-                                    <span class="sub-title">{{sub.title}}</span>
-                                    <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
+                            <div class="avatar-wrapper">
+                                <div class="avatar" [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}" ></div>
                             </div>
-                            
+                            <div class="ms-3 mt-2 sub-heading">
+                                <span  class="sub-heading__title">{{sub.name}}</span>
+                                <span class="sub-heading__name">r/{{sub.name}}</span>
+                            </div>
+                            <button class="ms-3 mb-auto mt-3 btn btn-primary btn-sm">Подписаться</button>
                         </div>
                         <div class="mt-2 sub-description">
                             {{sub.description}}

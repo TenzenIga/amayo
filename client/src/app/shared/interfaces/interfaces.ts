@@ -59,3 +59,7 @@ export interface PostComment {
   userVote: number;
   voteScore: number;
 }
+
+export interface ValdiateSubInput {
+  fieldError: string | null
+}

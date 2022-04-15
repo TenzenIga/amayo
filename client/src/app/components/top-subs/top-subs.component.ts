@@ -21,7 +21,7 @@ export class TopSubsComponent implements OnInit {
   }
   
   public goToSub(subname: string): void {    
-    this.router.navigate([`/a/${subname}`]);
+    this.router.navigate([`/r/${subname}`]);
   }
 
 

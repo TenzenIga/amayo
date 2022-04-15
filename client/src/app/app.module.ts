@@ -26,7 +26,6 @@ import { CommentComponent } from './components/comment/comment.component';
 import { CommentFormComponent } from './components/comment-form/comment-form.component';
 import { CreatePostFormComponent } from './components/create-post-form/create-post-form.component';
 import { CreateSubFormComponent } from './components/create-sub-form/create-sub-form.component';
-import { SidebarButtonsComponent } from './components/sidebar-buttons/sidebar-buttons.component';
 import { TopSubsComponent } from './components/top-subs/top-subs.component';
 import { SubInfoComponent } from './components/sub-info/sub-info.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
@@ -51,7 +50,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommentFormComponent,
     CreatePostFormComponent,
     CreateSubFormComponent,
-    SidebarButtonsComponent,
     TopSubsComponent,
     SubInfoComponent,
     CreatePostPageComponent,

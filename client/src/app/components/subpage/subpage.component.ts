@@ -22,7 +22,9 @@ export class SubpageComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(routeParams => {
-        this.subName = routeParams['subName'];
+      
+      this.subName = routeParams['subName'];
+      console.log(this.subName);
         this.sub$ = this.subName ? this.subService.getSub(this.subName) : null;
       });
     }

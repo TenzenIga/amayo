@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Sub, subPayload } from '@shared/interfaces/interfaces';
+import { Sub, subPayload, ValdiateSubInput } from '@shared/interfaces/interfaces';
 
 
 @Injectable({
@@ -28,6 +28,10 @@ export class SubService {
 
   public createSub(subPayload: subPayload): Observable<Sub>{
     return this.http.post<Sub>(`${this.url}/subs`, subPayload, this.httpOptions);
+  }
+
+  public validateSub(subPayload: subPayload): Observable<ValdiateSubInput>{
+    return this.http.post<ValdiateSubInput>(`${this.url}/subs/validateSub`, subPayload, this.httpOptions);
   }
   
   public searchSubs(subName: string): Observable<Sub[]>{

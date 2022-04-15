@@ -1,12 +1,16 @@
 <div *ngIf="topSubs$ | async as topSubs; else loader">
     <div *ngIf="topSubs.length > 0" class="card" >
         <div class="card-body">
-            <h4 class=" card-title">Топ сообщества</h4>
-            <div class="py-2 sub" *ngFor="let sub of topSubs">
-                <div class="mr-2 sub-avatar"  [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}" ></div>
-                <a (click)="goToSub(sub.name)" class="sub-title text-muted">{{sub.title}}</a>
-                <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
-            </div>
+           
+            <ul class="list-group py-2" >
+                <h4 class=" card-title">Топ сообщества</h4>
+                <li  class="list-group-item sub" *ngFor="let sub of topSubs; let i = index; trackBy: trackByFn">
+                    <span class="pe-2">{{i}}</span>
+                    <div class="mr-2 sub-avatar"  [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}" ></div>
+                    <a (click)="goToSub(sub.name)" class="sub-title">r/{{sub.name}}</a>
+                    <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
