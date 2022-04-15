@@ -16,7 +16,7 @@ export default class Sub extends Entity{
     @Column({unique:true})
     name: string
 
-    @Column()
+    @Column({ type: 'text', nullable:true})
     title: string
 
     @Column({ type: 'text', nullable:true})

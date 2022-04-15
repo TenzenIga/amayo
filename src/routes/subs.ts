@@ -10,7 +10,7 @@ import User from "../entity/User";
 import Sub from "../entity/Sub";
 import user from "../middleware/user";
 import Post from "../entity/Post";
-import { makeId } from "../utils/helpers";
+import { makeId, validateSubName } from "../utils/helpers";
 
 const createSub = async (req:Request, res:Response) => {
     const {name} = req.body;
@@ -48,6 +48,27 @@ const createSub = async (req:Request, res:Response) => {
         return res.status(500).json({error:'Something went wrong'})
     }
 }
+
+const checkIfSubExist = async (req: Request, res: Response) => {
+    const {name} = req.body;
+       
+    if(!validateSubName(name)){
+        return res.json({fieldError:'Название должно быть в пределах 3-21 символов, и может содержать буквы, цифры и нижнее подчеркивание.'});
+    }
+    try {
+        const sub = await getRepository(Sub)
+        .createQueryBuilder('sub')
+        .where('lower(sub.name) = :name', { name: name.toLowerCase() })
+        .getOne()
+        if(sub){
+         return  res.json({fieldError:`Сообщество r/${name} уже существует`});
+        }
+        return res.json({fieldError: null})
+    } catch (error) {
+        return res.status(500).json({error:'Something went wrong'})
+    }
+  
+} 
 
 const getSub = async (req:Request,res:Response) =>{
     const name = req.params.name;
@@ -156,6 +177,7 @@ const searchSubs = async (req: Request, res: Response) => {
 
 const router = Router()
 
+router.post('/validateSub', user, auth, checkIfSubExist);
 router.post('/', user, auth, createSub);
 router.get('/:name', user, getSub);
 router.get('/search/:name', searchSubs);

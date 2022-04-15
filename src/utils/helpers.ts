@@ -9,3 +9,8 @@ export function makeId(length:number):string {
    return result.join('');
 }
 
+export function validateSubName(name: string): boolean {
+  const allowedChars = /^[A-Za-zА-Яa-я0-9_]+$/;
+  return !!name.match(allowedChars);
+
+}

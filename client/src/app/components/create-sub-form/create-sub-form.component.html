@@ -1,8 +1,36 @@
-<form [formGroup]="subForm" (ngSubmit)="createSub()">
-  <legend>Создать сообщество</legend>
-    <div class="mb-3">
-      <input type="text" formControlName="name" class="form-control"  id="title" >
-    </div>
-    <button type="submit" class="btn btn-secondary">Отмена</button>
-    <button type="submit" class="btn btn-primary">Создать сообщество</button>
-  </form>
+<button (click)="triggerModal(modalData)" class="my-3 btn btn-outline-primary btn-sm d-block w-100 rounded-pill">Создать сообщество</button>
+
+<ng-template #modalData let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Создать сообщество</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">      
+    <form [formGroup]="subForm" (ngSubmit)="createSub()">
+      <label for="name" class="form-label">Название</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="name">r/</span>
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="Название" 
+          aria-label="name" 
+          maxlength="21" 
+          formControlName="name" 
+          aria-describedby="name"  
+          id="name"
+          (blur)="onBlur()"
+          >
+      </div>
+      <div  class="form-text"> Осталось символов {{getRemainingChars()}}</div>
+      <div class="text-danger" *ngIf="error">
+        {{error}}
+      </div>
+    </form>
+    
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="modal.close()" >Отмена</button>
+    <button type="submit" class="btn btn-primary" [disabled]="this.subForm.invalid || !!error" (click)="createSub()">Создать сообщество</button>
+  </div>
+</ng-template>
