@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { faBirthdayCake, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { SubService } from '@core/services/sub.service';
 import { Sub } from '@shared/interfaces/interfaces';
@@ -11,6 +12,9 @@ import { Sub } from '@shared/interfaces/interfaces';
   styleUrls: ['./sub-info.component.scss']
 })
 export class SubInfoComponent implements OnInit {
+  public faBirthdayCake = faBirthdayCake;
+  public faCalendarAlt = faCalendarAlt;
+
   public sub$: Observable<Sub>;
   constructor(private subService: SubService, private activatedRoute: ActivatedRoute) {
     

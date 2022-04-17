@@ -1,11 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PostsService } from '@core/services/posts.service';
 import { SubService } from '@core/services/sub.service';
-import { postPayload } from '@shared/interfaces/interfaces';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { postPayload, Sub } from '@shared/interfaces/interfaces';
+import { Observable } from 'rxjs';
+import { debounce, debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
+import { quillConfiguration } from './quilConfig';
+
 
 @Component({
   selector: 'app-create-post-form',
@@ -13,10 +16,11 @@ import { distinctUntilChanged, filter } from 'rxjs/operators';
   styleUrls: ['./create-post-form.component.scss']
 })
 export class CreatePostFormComponent implements OnInit {
-  @Input()
+  //context
   public subName?: string
   public postPayload: postPayload;
-
+  public subs$: Observable<Sub[]>;
+  public quilConfig = quillConfiguration;
   public postForm = new FormGroup({
       sub: new FormControl('', [Validators.required] ),
       title: new FormControl('', [Validators.required]),
@@ -26,18 +30,12 @@ export class CreatePostFormComponent implements OnInit {
     constructor(private postService: PostsService, private subService:SubService, router: Router) { }
 
     ngOnInit(): void {
-      
-      this.postPayload = {
-        sub: this.subName ? this.subName : '',
-        title: '',
-        body: '',
-      };
-
-      this.postForm.get("sub").valueChanges.pipe(
-        filter((x) => !!x),
-        distinctUntilChanged()).subscribe(x => {
-        this.subService.searchSubs(x).subscribe(res => console.log(res))
-     })
+      this.postForm.get('sub').valueChanges.pipe(
+        filter(text => text.length > 2),
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap( text => this.subService.searchSubs(text))
+      )
     }
 
     public createPost(): void{

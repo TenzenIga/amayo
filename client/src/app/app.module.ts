@@ -32,6 +32,7 @@ import { CreatePostPageComponent } from './components/create-post-page/create-po
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FontAwesomeModule,
     AppRoutingModule,
     StoreModule.forRoot({}, {}),
+    QuillModule.forRoot(),
     NgbModule,
   ],
   providers: [AuthGuard, {

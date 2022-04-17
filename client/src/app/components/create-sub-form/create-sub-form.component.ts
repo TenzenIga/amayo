@@ -50,6 +50,7 @@ export class CreateSubFormComponent implements OnInit {
     }
     this.subService.createSub(this.subPayload).subscribe(data => {      
       this.modalService.dismissAll();
+      this.router.navigate([`/r/${this.subForm.get('name').value}`]);
     }, error => {
       console.log(error);
       // this.errors = error.error.errors;

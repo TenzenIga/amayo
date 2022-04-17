@@ -1,7 +1,16 @@
-<form class="" [formGroup]="postForm" (ngSubmit)="createPost()">
+<form class="form" [formGroup]="postForm" (ngSubmit)="createPost()" >
   <h3>Новый пост</h3>
-  <input type="text" formControlName="sub"  class="form-control"  placeholder="Сообщество">
+  <input type="text" formControlName="sub" placeholder="Выберите сообщество" class="form-control" >
+
+  <!-- <ul *ngIf="subs$ | async as subs" class="list-group">
+    <li *ngFor="let sub of subs; trackBy:trackBy" class="list-group-item">
+      {{sub.name}}
+    </li>
+  </ul> -->
   <input type="text" formControlName="title" class="form-control"  placeholder="Заголовок">
-  <textarea class="form-control" formControlName="body"  rows="3"></textarea>
+  <quill-editor
+  [styles]="{'min-height': '320px'}" 
+  [modules]="quilConfig">
+  </quill-editor>
   <button type="submit" class="btn btn-primary">Создать</button>
 </form>

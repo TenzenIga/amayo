@@ -1,7 +1,27 @@
-<div *ngIf="sub$ | async as sub; else loader">
+<div *ngIf="sub$ | async as sub; else loader" class="card">
+    <div class="card-header">
+        О сообществе
+      </div>
         <div class="card-body">
-            <h4 class=" card-title">{{sub.title}}</h4>
-            
+            <div class="sub-desc">
+                {{sub.description}}
+            </div>
+            <div class="users mt-2">
+                <div class="all">
+                    <div class="number">435k</div>
+                    <div class="type">Участников</div>
+                </div>
+                <div class="online">
+                    <div class="number">144</div>
+                    <div class="type">Online</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="sub-date">
+                <fa-icon [icon]="faBirthdayCake" class="mx-1 "></fa-icon> создан {{sub.createdAt | date: 'mediumDate'}} 
+            </div>
+            <button  class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill" >Новый пост</button>
         </div>
 </div>
 

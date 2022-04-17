@@ -13,12 +13,8 @@
                                 <span  class="sub-heading__title">{{sub.name}}</span>
                                 <span class="sub-heading__name">r/{{sub.name}}</span>
                             </div>
-                            <button class="ms-3 mb-auto mt-3 btn btn-primary btn-sm">Подписаться</button>
+                            <button class="ms-3 mb-auto mt-2 btn btn-primary btn-sm rounded-pill">Подписаться</button>
                         </div>
-                        <div class="mt-2 sub-description">
-                            {{sub.description}}
-                        </div>
-                        <div class="sub-users">3562 подписчиков</div>
                 </div>   
     </div>
     <div class="row">
@@ -32,8 +28,7 @@
         </div>
         <div class="col-4 my-2">
             <app-sidebar>
-                <app-top-subs slotStart></app-top-subs>
-                <app-sidebar-buttons [subName]="sub.name" slotButtons></app-sidebar-buttons>
+                <app-sub-info slotStart ></app-sub-info>    
             </app-sidebar>
         </div>
     </div>
