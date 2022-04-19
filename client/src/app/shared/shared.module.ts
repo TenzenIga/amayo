@@ -6,6 +6,7 @@ import { PostFooterComponent } from './components/post-footer/post-footer.compon
 import { LoaderComponent } from './components/loader/loader.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { CreatePostButtonComponent } from './components/create-post-button/create-post-button.component';
+import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 
 
 
@@ -17,11 +18,12 @@ import { CreatePostButtonComponent } from './components/create-post-button/creat
     DateAgoPipe,
     PostFooterComponent,
     CreatePostButtonComponent,
+    SuggestionsComponent,
   ],
   imports: [
     CommonModule,
     FontAwesomeModule,
   ],
-  exports: [LoaderComponent, DateAgoPipe, PostFooterComponent, CreatePostButtonComponent]
+  exports: [LoaderComponent, DateAgoPipe, PostFooterComponent, CreatePostButtonComponent, SuggestionsComponent]
 })
 export class SharedModule { }

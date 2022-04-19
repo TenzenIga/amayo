@@ -44,7 +44,7 @@ export class PostsService {
     return this.http.post<PostComment>(`${this.url}/posts/${identifier}/${slug}/comments`, {body}, this.httpOptions);
   }
 
-  public createPost(postData: postPayload): Observable<any>{
-    return this.http.post(`${this.url}/posts`, postData, this.httpOptions);
+  public createPost(postData: postPayload): Observable<Post>{
+    return this.http.post<Post>(`${this.url}/posts`, postData, this.httpOptions);
   }
 }

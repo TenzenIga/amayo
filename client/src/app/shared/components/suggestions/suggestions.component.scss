@@ -1,0 +1,19 @@
+.suggestions {
+    position: absolute;
+    width: 40%;
+    z-index: 1;
+    cursor: pointer;
+}
+.sub {
+    display: flex;
+    align-items: center;
+    cursor:pointer;
+
+    &-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: cover;
+        border: 4px solid #fff;
+    }
+}
