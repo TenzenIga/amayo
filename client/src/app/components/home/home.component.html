@@ -1,7 +1,7 @@
 <div class="row">
-    <div class="col-8" *ngIf="posts$ | async as posts; else loader" >
+    <div class="col-8" >
         <div class="posts-list">
-            <app-post *ngFor="let post of posts; trackBy: trackByFn" [post]="post" class="my-2">
+            <app-post *ngFor="let post of posts$ | ngrxPush; trackBy: trackByFn" [post]="post" class="my-2">
                     <a [routerLink]="['r/', post.subName]" class="py-1 pr-1 sub">r/{{post.subName}}</a>
                     <a [routerLink]="['/u', post.username]" class="p-1 ms-2 username">{{post.username}}</a>
                     <a [routerLink]="[post.url]" class="p-1 ms-2 text-muted date">{{post.createdAt | dateAgo}}</a>

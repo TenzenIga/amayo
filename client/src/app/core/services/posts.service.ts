@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Post, PostComment, postPayload } from '@shared/interfaces/interfaces';
+import {  PostComment, postPayload } from '@shared/interfaces/interfaces';
+import { Post } from 'app/store/state/post.state';
 
 
 @Injectable({

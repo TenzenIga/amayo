@@ -5,7 +5,7 @@
             </ng-content>
         </div>
         <h4 [routerLink]="[post.url]" class="card-title">{{post.title}}</h4>
-        <p class="card-text">{{post.body}}</p>
+        <p class="card-text" [innerHtml] = "post.body"></p>
         <app-post-footer [post]="post"></app-post-footer>
     </div>
   </div>

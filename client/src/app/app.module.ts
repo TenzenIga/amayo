@@ -3,8 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { StoreModule } from '@ngrx/store';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { QuillModule } from 'ngx-quill';
+import { EffectsModule } from '@ngrx/effects';
 
 import { CoreModule } from '@core/core.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,7 +21,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { AuthGuard } from './auth.guard';
-import { TokenInterceptorService } from '@core/services/token-interceptor.service';
+import { TokenInterceptorService } from '@core/interceptors/token-interceptor.service';
 import { UserpageComponent } from './components/userpage/userpage.component';
 import { PostComponent } from './components/post/post.component';
 import { SharedModule } from '@shared/shared.module';
@@ -30,9 +36,9 @@ import { TopSubsComponent } from './components/top-subs/top-subs.component';
 import { SubInfoComponent } from './components/sub-info/sub-info.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
-import { StoreModule } from '@ngrx/store';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { QuillModule } from 'ngx-quill';
+import { PostEffects } from './store/effects/post.effects';
+import { postReducer } from './store/reducers/post.reducer';
+import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -65,15 +71,29 @@ import { QuillModule } from 'ngx-quill';
     ToastrModule.forRoot(),
     FontAwesomeModule,
     AppRoutingModule,
-    StoreModule.forRoot({}, {}),
+    ReactiveComponentModule,
+    StoreModule.forRoot({posts : postReducer}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+    }),
+    EffectsModule.forRoot([PostEffects]),
     QuillModule.forRoot(),
     NgbModule,
+    HttpClientModule
   ],
   providers: [AuthGuard, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true
-  }],
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpErrorInterceptor,
+    multi: true
+  }
+
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

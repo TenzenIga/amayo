@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Post } from '@shared/interfaces/interfaces';
 
 
@@ -15,4 +16,6 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  
 }

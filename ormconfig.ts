@@ -1,4 +1,9 @@
 import { ConnectionOptions } from "typeorm";
+import Comment from "./src/entity/Comment";
+import Post from "./src/entity/Post";
+import Sub from "./src/entity/Sub";
+import User from "./src/entity/User";
+import Vote from "./src/entity/Vote";
 
 const rootDir = process.env.NODE_ENV === 'development' ? 'src' : 'build';
 
@@ -11,10 +16,16 @@ const conn: ConnectionOptions = {
   database: process.env.TYPEORM_DATABASE,
   synchronize: true,
   logging: true,
-  entities: [rootDir + '/entity/**/*{.ts,.js}'],
+  entities: [
+    Post,
+    User,
+    Sub,
+    Comment,
+    Vote
+  ],
   migrations: [rootDir + '/migration/**/*{.ts,.js}'],
   cli: {
-    entitiesDir: rootDir + '/entitiy',
+    entitiesDir: rootDir + '/entity',
     migrationsDir: rootDir + '/migration',
   },
 } 
