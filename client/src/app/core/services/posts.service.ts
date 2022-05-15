@@ -23,9 +23,7 @@ export class PostsService {
     return this.http.get<Post[]>(`${this.url}/posts`);
   }
 
-  public getPost(identifier: string, slug: string): Observable<Post>{
-    console.log('get post');
-    
+  public getPost(identifier: string, slug: string): Observable<Post>{    
     return this.http.get<Post>(`${this.url}/posts/${identifier}/${slug}`);
   }
 

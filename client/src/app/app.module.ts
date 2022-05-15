@@ -39,6 +39,7 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { PostEffects } from './store/effects/post.effects';
 import { postReducer } from './store/reducers/post.reducer';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
+import { appReducers } from './store/reducers/app.reducer';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,7 @@ import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.
     FontAwesomeModule,
     AppRoutingModule,
     ReactiveComponentModule,
-    StoreModule.forRoot({posts : postReducer}),
+    StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open

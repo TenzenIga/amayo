@@ -1,31 +1,29 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+import { Observable, of, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-
 
 @Injectable({
     providedIn: 'root'
 })
 export class HttpErrorInterceptor implements HttpInterceptor{
-    constructor(){}
-    intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    constructor(  private toastr: ToastrService){}
+
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(
             map(res => {
-                console.log("Response is ok");
                 return res;
             }),
             catchError((error: HttpErrorResponse) => {
-                let errorMsg = '';
+                let errorMsg = '';                
                     if (error.error instanceof ErrorEvent) {
-                        console.log('This is client side error');
                         errorMsg = `Error: ${error.error.message}`;
                     } else {
-                        console.log('This is server side error');
                         errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
                     }
-                    console.log(errorMsg);
-                    return throwError(errorMsg);
+                    this.toastr.error( errorMsg, "Ошибка")
+                    return of(error.error);
             })  
         )
     }
