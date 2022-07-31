@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Sub, subPayload, ValdiateSubInput } from '@shared/interfaces/interfaces';
+import { subPayload, ValdiateSubInput } from '@shared/interfaces/interfaces';
+import { Sub } from 'app/store/state/sub.state';
 
 
 @Injectable({
@@ -11,11 +12,7 @@ import { Sub, subPayload, ValdiateSubInput } from '@shared/interfaces/interfaces
 export class SubService {
   private url = 'http://localhost:5000/api';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-    })
-  };
+
   constructor(private http: HttpClient) { }
 
   public getSub(subName: string): Observable<Sub>{
@@ -27,11 +24,11 @@ export class SubService {
   }
 
   public createSub(subPayload: subPayload): Observable<Sub>{
-    return this.http.post<Sub>(`${this.url}/subs`, subPayload, this.httpOptions);
+    return this.http.post<Sub>(`${this.url}/subs`, subPayload);
   }
 
   public validateSub(subPayload: subPayload): Observable<ValdiateSubInput>{
-    return this.http.post<ValdiateSubInput>(`${this.url}/subs/validateSub`, subPayload, this.httpOptions);
+    return this.http.post<ValdiateSubInput>(`${this.url}/subs/validateSub`, subPayload);
   }
   
   public searchSubs(subName: string): Observable<Sub[]>{

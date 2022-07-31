@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 
 import { PostsService } from '@core/services/posts.service';
 import { Post, PostComment } from '@shared/interfaces/interfaces';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'app/store/state/app.state';
+import { selectPost } from 'app/store/selectors/post.selector';
+import { getPost } from 'app/store/actions/post.action';
 
 
 
@@ -16,17 +20,17 @@ export class PostPageComponent implements OnInit {
  
   public identifier:string;
   public slug:string;
-  public post$: Observable<Post>;
+  public post$: Observable<Post> = this.store.select(selectPost);
   public comments$: Observable<PostComment[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private postService: PostsService) {
+  constructor(private activatedRoute: ActivatedRoute, private postService: PostsService, private store: Store<IAppState> ) {
    }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params: ParamMap)=> {
         this.identifier = params.get('identifier');
         this.slug = params.get('slug');
-        this.post$ =  this.postService.getPost(this.identifier, this.slug);
+        this.store.dispatch(getPost({identifier: this.identifier, slug: this.slug}));
         this.comments$ = this.postService.getPostCommets(this.identifier, this.slug);
       })
 

@@ -7,6 +7,8 @@ import { initialPostState } from "../state/post.state";
 export const postReducer = createReducer(
     initialPostState,
     on(PostActions.getPosts, (state) => ({...state, loading: true})),
-    on(PostActions.getPostsSuccess, (state, payload) => ({...state, posts: payload.posts, loading: false}))
+    on(PostActions.getPostsSuccess, (state, payload) => ({...state, posts: payload.posts, loading: false})),
+    on(PostActions.getPost, (state) => ({...state, loading: true })),
+    on(PostActions.getPostSuccess, (state) => ({...state, post: state.post, loading: false}))
 )
 

@@ -26,6 +26,4 @@ export class HomeComponent implements OnInit {
   public trackByFn(index: string, post: Post): string {
     return post.identifier;
   }
-
-
 }

@@ -12,19 +12,13 @@ export class AuthService {
   private token = null;
   constructor(private http: HttpClient) { }
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-    })
-  };
-
   public signUp(signupData: signupPayload): Observable<any> {
-    return this.http.post('http://localhost:5000/api/auth/register', signupData, this.httpOptions);
+    return this.http.post('http://localhost:5000/api/auth/register', signupData, );
 
   }
 
   public login(loginData: loginPayload): Observable<any> {
-    return this.http.post('http://localhost:5000/api/auth/login', loginData, this.httpOptions)
+    return this.http.post('http://localhost:5000/api/auth/login', loginData, )
       .pipe(
         tap(
           ({token}) => {

@@ -21,10 +21,12 @@ export interface Post {
   }
 
   export interface IPostState {
+      post:Post,
       posts: Post[]
       loading: boolean
   }  
   export const initialPostState: IPostState = {
-      posts: [],
-      loading: false
+    post: null,  
+    posts: [],
+    loading: false
   } 

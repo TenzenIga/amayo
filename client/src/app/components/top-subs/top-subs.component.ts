@@ -24,5 +24,4 @@ export class TopSubsComponent implements OnInit {
     this.router.navigate([`/r/${subname}`]);
   }
 
-
 }

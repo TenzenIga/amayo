@@ -16,8 +16,17 @@ export class PostEffects {
        return this.actions$.pipe(
             ofType(postActions.getPosts),
             exhaustMap( _ => this.postsService.getPosts().pipe(
-                map(posts => {
-                    return postActions.getPostsSuccess({posts})
-                })))
-    )})
+                map(posts =>  postActions.getPostsSuccess({posts}))
+            ))
+        )
+    })
+
+    getPost$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(postActions.getPost),
+            exhaustMap(action => this.postsService.getPost(action.identifier, action.slug).pipe(
+                map(post => postActions.getPostSuccess({post}))
+            ))
+        )
+    })
 }

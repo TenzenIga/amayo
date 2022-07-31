@@ -12,11 +12,7 @@ import { Post } from 'app/store/state/post.state';
 export class PostsService {
   private url = 'http://localhost:5000/api';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type':  'application/json',
-    })
-  };
+
   constructor(private http: HttpClient) { }
 
   public getPosts(): Observable<Post[]>{
@@ -40,10 +36,10 @@ export class PostsService {
   }
 
   public sendComment(identifier: string, slug: string, body: string): Observable<PostComment>{
-    return this.http.post<PostComment>(`${this.url}/posts/${identifier}/${slug}/comments`, {body}, this.httpOptions);
+    return this.http.post<PostComment>(`${this.url}/posts/${identifier}/${slug}/comments`, {body});
   }
 
   public createPost(postData: postPayload): Observable<Post>{
-    return this.http.post<Post>(`${this.url}/posts`, postData, this.httpOptions);
+    return this.http.post<Post>(`${this.url}/posts`, postData);
   }
 }

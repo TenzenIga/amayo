@@ -37,7 +37,6 @@ import { SubInfoComponent } from './components/sub-info/sub-info.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { PostEffects } from './store/effects/post.effects';
-import { postReducer } from './store/reducers/post.reducer';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { appReducers } from './store/reducers/app.reducer';
 
