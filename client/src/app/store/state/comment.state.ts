@@ -1,16 +1,8 @@
-export interface PostComment {
-    createdAt: Date;
-    updatedAt: Date;
-    identifier: string;
-    body: string;
-    username: string;
-    userVote: number;
-    voteScore: number;
-  }
-  
-  export interface IPostCommentState {
-    comments: PostComment[]
-}  
+import { Comment } from "@shared/interfaces/interfaces"
+
+export interface IPostCommentState {
+  comments: Comment[]
+}
 export const initialCommentState: IPostCommentState = {
-    comments: null
+  comments: []
 } 

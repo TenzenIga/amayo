@@ -14,7 +14,7 @@
                 <app-post-footer [post]="post"></app-post-footer>
                 <hr />
                <app-comment-form (commentEvent)="sendComment($event)" ></app-comment-form>
-                <div class="comments-list" *ngIf='comments$ | async as comments; else loader' >
+                <div class="comments-list" *ngIf='comments$ | ngrxPush as comments; else loader' >
                     <app-comment  *ngFor='let comment of comments; trackBy: trackByFn' [comment]="comment" [post]="post"></app-comment>
                 </div> 
             </div>

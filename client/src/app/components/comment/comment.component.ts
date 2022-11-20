@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { PostsService } from '@core/services/posts.service';
-import {faCommentAlt, faBookmark} from '@fortawesome/free-regular-svg-icons';
-import { faThumbsDown, faThumbsUp} from '@fortawesome/free-solid-svg-icons';
-import { Post, PostComment } from '@shared/interfaces/interfaces';
+import { faCommentAlt, faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { Post, Comment } from '@shared/interfaces/interfaces';
 
 
 @Component({
@@ -22,21 +22,21 @@ export class CommentComponent implements OnInit {
   post: Post;
 
   @Input()
-  comment: PostComment;
+  comment: Comment;
 
-  constructor(private authService: AuthService, private router: Router, private postsService: PostsService ) { }
+  constructor(private authService: AuthService, private router: Router, private postsService: PostsService) { }
 
   ngOnInit(): void {
   }
 
-  public vote(value: number): void{
-    if (!this.authService.loggedIn()){
+  public vote(value: number): void {
+    if (!this.authService.loggedIn()) {
       this.router.navigate(['/login']);
-    }else{
-      if (value === this.comment.userVote){
+    } else {
+      if (value === this.comment.userVote) {
         value = 0;
       }
-      this.postsService.voteOnComment(this.comment.identifier, this.post.slug, value ).subscribe(res => this.comment = res);
+      this.postsService.voteOnComment(this.comment.identifier, this.post.slug, value).subscribe(res => this.comment = res);
+    }
   }
-}
 }

@@ -39,6 +39,7 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { PostEffects } from './store/effects/post.effects';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { appReducers } from './store/reducers/app.reducer';
+import { CommentEffects } from './store/effects/comment.effects';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,7 @@ import { appReducers } from './store/reducers/app.reducer';
       maxAge: 25, // Retains last 25 states
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
     }),
-    EffectsModule.forRoot([PostEffects]),
+    EffectsModule.forRoot([PostEffects, CommentEffects]),
     QuillModule.forRoot(),
     NgbModule,
     HttpClientModule,

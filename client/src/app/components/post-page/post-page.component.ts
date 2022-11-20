@@ -3,11 +3,13 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { PostsService } from '@core/services/posts.service';
-import { Post, PostComment } from '@shared/interfaces/interfaces';
+import { Post, Comment } from '@shared/interfaces/interfaces';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
 import { selectPost } from 'app/store/selectors/post.selector';
 import { getPost } from 'app/store/actions/post.action';
+import { getComments } from 'app/store/actions/comment.action';
+import { selectComments } from 'app/store/selectors/comment.selector';
 
 
 
@@ -21,7 +23,7 @@ export class PostPageComponent implements OnInit {
   public identifier: string;
   public slug: string;
   public post$: Observable<Post> = this.store.select(selectPost);
-  public comments$: Observable<PostComment[]>;
+  public comments$: Observable<Comment[]> = this.store.select(selectComments);
 
   constructor(private activatedRoute: ActivatedRoute, private postService: PostsService, private store: Store<IAppState>) {
   }
@@ -31,7 +33,8 @@ export class PostPageComponent implements OnInit {
       this.identifier = params.get('identifier');
       this.slug = params.get('slug');
       this.store.dispatch(getPost({ identifier: this.identifier, slug: this.slug }));
-      this.comments$ = this.postService.getPostCommets(this.identifier, this.slug);
+      this.store.dispatch(getComments({ identifier: this.identifier, slug: this.slug }));
+
     })
 
   }
@@ -42,13 +45,12 @@ export class PostPageComponent implements OnInit {
 
     this.postService.sendComment(identifier, slug, commentBody).subscribe(data => {
       this.post$ = this.postService.getPost(identifier, slug);
-      this.comments$ = this.postService.getPostCommets(identifier, slug);
     }, error => {
       console.log(error);
     });
   }
 
-  public trackByFn(comment: PostComment): string {
+  public trackByFn(comment: Comment): string {
     return comment.identifier;
   }
 }

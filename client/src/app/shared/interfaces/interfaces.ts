@@ -19,38 +19,38 @@ export type subPayload = {
   name: string;
 };
 export interface Post {
-    id?: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-    index?: string;
-    identifier?: string;
-    title: string;
-    slug?: string;
-    body: string;
-    subName?: string;
-    sub?: Sub;
-    user?: string;
-    url?: string;
-    username?: string;
-    voteScore: number;
-    commentCount: number;
-    userVote?: number;
-  }
-
-export interface Sub {
-    id?: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-    title: string;
-    description: string;
-    imageUrn?: string;
-    bannerUrn?: string;
-    posts: Post[];
-    imageUrl?: string;
-    bannerUrl?: string;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  index?: string;
+  identifier?: string;
+  title: string;
+  slug?: string;
+  body: string;
+  subName?: string;
+  sub?: Sub;
+  user?: string;
+  url?: string;
+  username?: string;
+  voteScore: number;
+  commentCount: number;
+  userVote?: number;
 }
 
-export interface PostComment {
+export interface Sub {
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  title: string;
+  description: string;
+  imageUrn?: string;
+  bannerUrn?: string;
+  posts: Post[];
+  imageUrl?: string;
+  bannerUrl?: string;
+}
+
+export interface Comment {
   createdAt: Date;
   updatedAt: Date;
   identifier: string;
