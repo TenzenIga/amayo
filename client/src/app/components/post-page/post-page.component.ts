@@ -17,26 +17,26 @@ import { getPost } from 'app/store/actions/post.action';
   styleUrls: ['./post-page.component.scss']
 })
 export class PostPageComponent implements OnInit {
- 
-  public identifier:string;
-  public slug:string;
+
+  public identifier: string;
+  public slug: string;
   public post$: Observable<Post> = this.store.select(selectPost);
   public comments$: Observable<PostComment[]>;
 
-  constructor(private activatedRoute: ActivatedRoute, private postService: PostsService, private store: Store<IAppState> ) {
-   }
+  constructor(private activatedRoute: ActivatedRoute, private postService: PostsService, private store: Store<IAppState>) {
+  }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params: ParamMap)=> {
-        this.identifier = params.get('identifier');
-        this.slug = params.get('slug');
-        this.store.dispatch(getPost({identifier: this.identifier, slug: this.slug}));
-        this.comments$ = this.postService.getPostCommets(this.identifier, this.slug);
-      })
+    this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
+      this.identifier = params.get('identifier');
+      this.slug = params.get('slug');
+      this.store.dispatch(getPost({ identifier: this.identifier, slug: this.slug }));
+      this.comments$ = this.postService.getPostCommets(this.identifier, this.slug);
+    })
 
   }
 
-  public sendComment(commentBody: string): void{
+  public sendComment(commentBody: string): void {
     const identifier = this.activatedRoute.snapshot.paramMap.get('identifier');
     const slug = this.activatedRoute.snapshot.paramMap.get('slug');
 
@@ -48,7 +48,7 @@ export class PostPageComponent implements OnInit {
     });
   }
 
-  public trackByFn( comment: PostComment): string {
+  public trackByFn(comment: PostComment): string {
     return comment.identifier;
   }
 }

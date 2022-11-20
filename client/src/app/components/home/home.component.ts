@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { getPosts } from 'app/store/actions/post.action';
 import { Post } from 'app/store/state/post.state';
-import { IAppState} from 'app/store/state/app.state';
+import { IAppState } from 'app/store/state/app.state';
 import { selectPosts } from 'app/store/selectors/post.selector';
 
 @Component({
@@ -16,7 +16,7 @@ import { selectPosts } from 'app/store/selectors/post.selector';
 export class HomeComponent implements OnInit {
 
   public posts$: Observable<Post[]> = this.store.select(selectPosts);
-  constructor(private store: Store<IAppState> ) { 
+  constructor(private store: Store<IAppState>) {
   }
 
   ngOnInit(): void {

@@ -80,20 +80,21 @@ import { appReducers } from './store/reducers/app.reducer';
     EffectsModule.forRoot([PostEffects]),
     QuillModule.forRoot(),
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [AuthGuard, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true
   },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: HttpErrorInterceptor,
-    multi: true
-  }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
 
-],
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

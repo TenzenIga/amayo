@@ -5,7 +5,7 @@ export type postPayload = {
     sub: string;
     title: string;
     body: string;
-  };
+};
 
 export enum PostActions {
     GetPosts = '[Post] Get Posts',
@@ -21,25 +21,25 @@ export const getPosts = createAction(
 )
 export const getPostsSuccess = createAction(
     PostActions.GetPostsSuccess,
-    props<{posts:Post[]}>()
+    props<{ posts: Post[] }>()
 )
 
 export const getPost = createAction(
     PostActions.GetPost,
-    props<{identifier: string, slug: string }>()
+    props<{ identifier: string, slug: string }>()
 )
 
 export const getPostSuccess = createAction(
     PostActions.GetPostSuccess,
-    props<{post:Post}>()
+    props<{ post: Post }>()
 )
 
 export const createPost = createAction(
     PostActions.CreatePost,
-    props<{postdData: postPayload}>()
+    props<{ postdData: postPayload }>()
 )
 
 export const createPostSuccess = createAction(
     PostActions.CreatePostSuccess,
-    props<{post: Post}>()
+    props<{ post: Post }>()
 )

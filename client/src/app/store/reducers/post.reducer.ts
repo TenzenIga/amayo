@@ -1,14 +1,14 @@
 import { Action, createReducer, on } from "@ngrx/store";
-import * as PostActions  from "../actions/post.action";
+import * as PostActions from "../actions/post.action";
 import { initialPostState } from "../state/post.state";
 
 
 
 export const postReducer = createReducer(
     initialPostState,
-    on(PostActions.getPosts, (state) => ({...state, loading: true})),
-    on(PostActions.getPostsSuccess, (state, payload) => ({...state, posts: payload.posts, loading: false})),
-    on(PostActions.getPost, (state) => ({...state, loading: true })),
-    on(PostActions.getPostSuccess, (state) => ({...state, post: state.post, loading: false}))
+    on(PostActions.getPosts, (state) => ({ ...state, loading: true })),
+    on(PostActions.getPostsSuccess, (state, payload) => ({ ...state, posts: payload.posts, loading: false })),
+    on(PostActions.getPost, (state) => ({ ...state, loading: true })),
+    on(PostActions.getPostSuccess, (state, payload) => ({ ...state, post: payload.post, loading: false }))
 )
 
