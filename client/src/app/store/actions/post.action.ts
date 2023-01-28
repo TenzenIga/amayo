@@ -14,6 +14,8 @@ export enum PostActions {
     GetPostSuccess = '[Post] Get Post Success',
     CreatePost = '[Post] Create Post',
     CreatePostSuccess = '[Post] Create Post Success',
+    VotePost = '[Post] Vote Post',
+    VotePostSuccess = '[Post] Vote Post Success'
 };
 
 export const getPosts = createAction(
@@ -41,5 +43,15 @@ export const createPost = createAction(
 
 export const createPostSuccess = createAction(
     PostActions.CreatePostSuccess,
+    props<{ post: Post }>()
+)
+
+export const votePost = createAction(
+    PostActions.VotePost,
+    props<{ identifier: string, slug: string, value: number }>()
+)
+
+export const votePostSuccess = createAction(
+    PostActions.VotePostSuccess,
     props<{ post: Post }>()
 )

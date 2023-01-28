@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { PostsService } from "@core/services/posts.service";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map } from "rxjs/operators";
+import { exhaustMap, map, switchMap } from "rxjs/operators";
 import * as PostActions from '../actions/post.action';
 
 
@@ -26,6 +26,15 @@ export class PostEffects {
             ofType(PostActions.getPost),
             exhaustMap(action => this.postsService.getPost(action.identifier, action.slug).pipe(
                 map(post => PostActions.getPostSuccess({ post }))
+            ))
+        )
+    })
+
+    votePost$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(PostActions.votePost),
+            switchMap(action => this.postsService.voteOnPost(action.identifier, action.slug, action.value).pipe(
+                map(post => PostActions.votePostSuccess({ post }))
             ))
         )
     })

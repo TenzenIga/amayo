@@ -11,7 +11,7 @@
                 <div class="mt-2 post-page__body">
                     <p [innerHtml] = "post.body"></p> 
                 </div>
-                <app-post-footer [post]="post"></app-post-footer>
+                <app-post-footer [post]="post" (vote)="onVotePost($event)"></app-post-footer>
                 <hr />
                <app-comment-form (commentEvent)="sendComment($event)" ></app-comment-form>
                 <div class="comments-list" *ngIf='comments$ | ngrxPush as comments; else loader' >

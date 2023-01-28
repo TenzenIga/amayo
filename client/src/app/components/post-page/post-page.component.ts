@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { Post, Comment } from '@shared/interfaces/interfaces';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
 import { selectPost } from 'app/store/selectors/post.selector';
-import { getPost } from 'app/store/actions/post.action';
+import { getPost, votePost } from 'app/store/actions/post.action';
 import { getComments } from 'app/store/actions/comment.action';
 import { selectComments } from 'app/store/selectors/comment.selector';
 
@@ -16,7 +16,8 @@ import { selectComments } from 'app/store/selectors/comment.selector';
 @Component({
   selector: 'app-post-page',
   templateUrl: './post-page.component.html',
-  styleUrls: ['./post-page.component.scss']
+  styleUrls: ['./post-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostPageComponent implements OnInit {
 
@@ -52,5 +53,11 @@ export class PostPageComponent implements OnInit {
 
   public trackByFn(comment: Comment): string {
     return comment.identifier;
+  }
+
+  public onVotePost(value: number) {
+    const identifier = this.activatedRoute.snapshot.paramMap.get('identifier');
+    const slug = this.activatedRoute.snapshot.paramMap.get('slug');
+    this.store.dispatch(votePost({ identifier, slug, value }));
   }
 }

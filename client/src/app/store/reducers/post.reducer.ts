@@ -9,6 +9,7 @@ export const postReducer = createReducer(
     on(PostActions.getPosts, (state) => ({ ...state, loading: true })),
     on(PostActions.getPostsSuccess, (state, payload) => ({ ...state, posts: payload.posts, loading: false })),
     on(PostActions.getPost, (state) => ({ ...state, loading: true })),
-    on(PostActions.getPostSuccess, (state, payload) => ({ ...state, post: payload.post, loading: false }))
+    on(PostActions.getPostSuccess, (state, payload) => ({ ...state, post: payload.post, loading: false })),
+    on(PostActions.votePostSuccess, (state, payload) => ({ ...state, post: payload.post }))
 )
 
