@@ -1,18 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
-import { PostsService } from '@core/services/posts.service';
 import { faCommentAlt, faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Post, Comment } from '@shared/interfaces/interfaces';
 
-
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+  styleUrls: ['./comment.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommentComponent implements OnInit {
+export class CommentComponent {
   faCommentAlt = faCommentAlt;
   faBookmark = faBookmark;
   faThumbsUp = faThumbsUp;
@@ -24,19 +30,18 @@ export class CommentComponent implements OnInit {
   @Input()
   comment: Comment;
 
-  constructor(private authService: AuthService, private router: Router, private postsService: PostsService) { }
+  @Output() vote = new EventEmitter<{ identifier: string; value: number }>();
 
-  ngOnInit(): void {
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  public vote(value: number): void {
+  public onVote(value: number): void {
     if (!this.authService.loggedIn()) {
       this.router.navigate(['/login']);
     } else {
       if (value === this.comment.userVote) {
         value = 0;
       }
-      this.postsService.voteOnComment(this.comment.identifier, this.post.slug, value).subscribe(res => this.comment = res);
+      this.vote.emit({ identifier: this.comment.identifier, value });
     }
   }
 }

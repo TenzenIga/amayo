@@ -40,6 +40,7 @@ import { PostEffects } from './store/effects/post.effects';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { appReducers } from './store/reducers/app.reducer';
 import { CommentEffects } from './store/effects/comment.effects';
+import { SubEffect } from './store/effects/sub.effects';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,7 @@ import { CommentEffects } from './store/effects/comment.effects';
     TopSubsComponent,
     SubInfoComponent,
     CreatePostPageComponent,
-    SearchInputComponent,
+    SearchInputComponent
   ],
   imports: [
     BrowserModule,
@@ -76,26 +77,26 @@ import { CommentEffects } from './store/effects/comment.effects';
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
-      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+      autoPause: true // Pauses recording actions and state changes when the extension window is not open
     }),
-    EffectsModule.forRoot([PostEffects, CommentEffects]),
+    EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect]),
     QuillModule.forRoot(),
     NgbModule,
-    HttpClientModule,
-
+    HttpClientModule
   ],
-  providers: [AuthGuard, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptorService,
-    multi: true
-  },
+  providers: [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
     }
-
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -6,6 +6,6 @@
         </div>
         <h4 [routerLink]="[post.url]" class="card-title">{{post.title}}</h4>
         <p class="card-text" [innerHtml] = "post.body"></p>
-        <app-post-footer [post]="post"></app-post-footer>
+        <app-post-footer (vote)="onVotePost($event)" [post]="post"></app-post-footer>
     </div>
   </div>

@@ -1,22 +1,26 @@
-import { Post } from "./post.state";
-
+import { Status } from '../models/status';
+import { Post } from './post.state';
 
 export interface Sub {
-    id?: number;
-    createdAt?: Date;
-    updatedAt?: Date;
-    title: string;
-    description: string;
-    imageUrn?: string;
-    bannerUrn?: string;
-    posts: Post[];
-    imageUrl?: string;
-    bannerUrl?: string;
+  id?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  title: string;
+  description: string;
+  imageUrn?: string;
+  bannerUrn?: string;
+  posts: Post[];
+  imageUrl?: string;
+  bannerUrl?: string;
 }
 
 export interface ISubState {
-    subs: Sub[]
-}  
+  subs: Sub[];
+  sub: Sub;
+  status: Status;
+}
 export const initialSubState: ISubState = {
-    subs: null
-} 
+  subs: null,
+  sub: null,
+  status: Status.Idle
+};

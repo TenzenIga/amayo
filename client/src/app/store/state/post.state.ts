@@ -1,11 +1,6 @@
-import { Sub } from "./sub.state";
+import { Status } from '../models/status';
+import { Sub } from './sub.state';
 
-enum Status {
-  Idle = 'idle',
-  Loading = 'loading',
-  Succeeded = 'succeeded',
-  Failed = 'failed'
-}
 export interface Post {
   id: number;
   createdAt: Date;
@@ -26,12 +21,14 @@ export interface Post {
 }
 
 export interface IPostState {
-  post: Post,
-  posts: Post[]
-  status: Status
+  post: Post;
+  posts: Post[];
+  loading: boolean;
+  error: any;
 }
 export const initialPostState: IPostState = {
   post: null,
   posts: [],
-  status: Status.Idle
-} 
+  loading: false,
+  error: null
+};

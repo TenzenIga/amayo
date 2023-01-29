@@ -8,22 +8,21 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { CreatePostButtonComponent } from './components/create-post-button/create-post-button.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 
-
-
-
-
 @NgModule({
   declarations: [
     LoaderComponent,
     DateAgoPipe,
     PostFooterComponent,
     CreatePostButtonComponent,
-    SuggestionsComponent,
+    SuggestionsComponent
   ],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
-  ],
-  exports: [LoaderComponent, DateAgoPipe, PostFooterComponent, CreatePostButtonComponent, SuggestionsComponent]
+  imports: [CommonModule, FontAwesomeModule],
+  exports: [
+    LoaderComponent,
+    DateAgoPipe,
+    PostFooterComponent,
+    CreatePostButtonComponent,
+    SuggestionsComponent
+  ]
 })
-export class SharedModule { }
+export class SharedModule {}

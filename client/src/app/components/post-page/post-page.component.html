@@ -1,33 +1,52 @@
-<div class="row" *ngIf='post$ | ngrxPush as post; else loader'>
-    <div class="my-2 col-8" >
-        <div class="card post-page">
-            <div class="card-body">     
-                <div class="post-page__header">
-                    <div class="avatar" ></div>
-                    <a [routerLink]="['/u', post.username]" class="py-1 pr-1 username">{{post.username}}</a>
-                    <a [routerLink]="[post.url]" class="p-1 ms-2 text-muted date">{{post.createdAt | dateAgo}}</a>
-                </div>
-                <h3 class="post-page__title">{{post.title}}</h3>
-                <div class="mt-2 post-page__body">
-                    <p [innerHtml] = "post.body"></p> 
-                </div>
-                <app-post-footer [post]="post" (vote)="onVotePost($event)"></app-post-footer>
-                <hr />
-               <app-comment-form (commentEvent)="sendComment($event)" ></app-comment-form>
-                <div class="comments-list" *ngIf='comments$ | ngrxPush as comments; else loader' >
-                    <app-comment  *ngFor='let comment of comments; trackBy: trackByFn' [comment]="comment" [post]="post"></app-comment>
-                </div> 
-            </div>
+<div
+  class="row"
+  *ngIf="post$ | ngrxPush as post; else loader">
+  <div class="my-2 col-8">
+    <div class="card post-page">
+      <div class="card-body">
+        <div class="post-page__header">
+          <div class="avatar"></div>
+          <a
+            [routerLink]="['/u', post.username]"
+            class="py-1 pr-1 username">
+            {{ post.username }}
+          </a>
+          <a
+            [routerLink]="[post.url]"
+            class="p-1 ms-2 text-muted date">
+            {{ post.createdAt | dateAgo }}
+          </a>
         </div>
+        <h3 class="post-page__title">{{ post.title }}</h3>
+        <div class="mt-2 post-page__body">
+          <p [innerHtml]="post.body"></p>
+        </div>
+        <app-post-footer
+          [post]="post"
+          (vote)="onVotePost($event)"></app-post-footer>
+        <hr />
+        <app-comment-form
+          (commentEvent)="sendComment($event)"></app-comment-form>
+        <div
+          class="comments-list"
+          *ngIf="comments$ | ngrxPush as comments; else loader">
+          <app-comment
+            *ngFor="let comment of comments; trackBy: trackByFn"
+            [comment]="comment"
+            (vote)="onVoteComment($event)"
+            [post]="post"></app-comment>
+        </div>
+      </div>
     </div>
-    <div class="my-2 col-4">
-        <app-sidebar>
-            <app-sub-info slotStart></app-sub-info>
-            <app-top-subs slotEnd></app-top-subs>
-        </app-sidebar>
-    </div>
+  </div>
+  <div class="my-2 col-4">
+    <app-sidebar>
+      <app-sub-info slotStart></app-sub-info>
+      <app-top-subs slotEnd></app-top-subs>
+    </app-sidebar>
+  </div>
 </div>
 
 <ng-template #loader>
-    <app-loader class="loader"></app-loader>
+  <app-loader class="loader"></app-loader>
 </ng-template>
