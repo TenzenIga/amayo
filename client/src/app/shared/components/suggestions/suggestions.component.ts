@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { Sub } from '@shared/interfaces/interfaces';
 
 @Component({
@@ -7,17 +13,12 @@ import { Sub } from '@shared/interfaces/interfaces';
   styleUrls: ['./suggestions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SuggestionsComponent implements OnInit {
+export class SuggestionsComponent {
   @Output() clickSub = new EventEmitter<string>();
   @Input()
   subs: Sub[];
-  
-  constructor() { }
 
-  ngOnInit(): void {
-  }
-
-  public trackByFn(index, sub){
+  public trackByFn(index, sub) {
     return index;
   }
 

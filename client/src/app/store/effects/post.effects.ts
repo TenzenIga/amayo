@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { PostsService } from '@core/services/posts.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map, switchMap } from 'rxjs/operators';
+import slugify from 'slugify';
 import * as PostActions from '../actions/post.action';
 
 @Injectable()
 export class PostEffects {
-  constructor(private actions$: Actions, private postsService: PostsService) {}
+  constructor(
+    private actions$: Actions,
+    private postsService: PostsService,
+    private router: Router
+  ) {}
 
   getPosts$ = createEffect(() => {
     return this.actions$.pipe(
@@ -40,4 +46,28 @@ export class PostEffects {
       )
     );
   });
+
+  public readonly createPost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.createPost),
+      switchMap((action) =>
+        this.postsService
+          .createPost(action.postdData)
+          .pipe(map((post) => PostActions.createPostSuccess({ post })))
+      )
+    );
+  });
+
+  public readonly newPostRedirect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PostActions.createPostSuccess),
+        map(({ post }) =>
+          this.router.navigate([
+            `/r/${post.subName}/${post.identifier}/${slugify(post.title, '_')}`
+          ])
+        )
+      ),
+    { dispatch: false }
+  );
 }

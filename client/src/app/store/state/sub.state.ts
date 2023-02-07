@@ -17,10 +17,14 @@ export interface Sub {
 export interface ISubState {
   subs: Sub[];
   sub: Sub;
+  topSubs: Sub[];
   status: Status;
+  suggestions: Sub[];
 }
 export const initialSubState: ISubState = {
   subs: null,
   sub: null,
+  topSubs: [],
+  suggestions: [],
   status: Status.Idle
 };

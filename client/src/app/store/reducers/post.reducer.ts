@@ -22,5 +22,7 @@ export const postReducer = createReducer(
     posts: state.posts.map((p) =>
       p.identifier === payload.post.identifier ? payload.post : p
     )
-  }))
+  })),
+  on(PostActions.createPost, (state) => ({ ...state, loading: true })),
+  on(PostActions.createPostSuccess, (state) => ({ ...state, loading: false }))
 );

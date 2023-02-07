@@ -14,7 +14,6 @@ import {
   faThumbsUp
 } from '@fortawesome/free-solid-svg-icons';
 
-import { PostsService } from '@core/services/posts.service';
 import { Post } from '@shared/interfaces/interfaces';
 import { AuthService } from '@core/services/auth.service';
 

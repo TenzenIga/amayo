@@ -8,5 +8,14 @@ export const subReducer = createReducer(
   on(SubActions.getSubSuccess, (state, payload) => ({
     ...state,
     sub: payload.sub
-  }))
+  })),
+  on(SubActions.getTopSubsSuccess, (state, payload) => ({
+    ...state,
+    topSubs: payload.topSubs
+  })),
+  on(SubActions.searchSubsSuccess, (state, payload) => ({
+    ...state,
+    suggestions: payload.suggestions
+  })),
+  on(SubActions.searchSubsClear, (state) => ({ ...state, suggestions: [] }))
 );
