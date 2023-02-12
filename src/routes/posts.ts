@@ -35,8 +35,6 @@ const deletePost = async (req: Request, res: Response) => {
   try {
     const post = await Post.findOneOrFail({ identifier, slug });
 
-    console.log(post);
-
     if (post.username !== user.username) {
       return res.status(403).json({ error: 'You dont own this post' });
     }
@@ -87,6 +85,28 @@ const getPost = async (req: Request, res: Response) => {
   }
 };
 
+const updatePost = async (req: Request, res: Response) => {
+  const { identifier, slug } = req.params;
+  const { body } = req.body;
+
+  const user = res.locals.user;
+
+  try {
+    const post = await Post.findOneOrFail({ identifier, slug });
+
+    if (post.username !== user.username) {
+      return res.status(403).json({ error: 'You dont own this post' });
+    }
+
+    post.body = body;
+    await post.save();
+    return res.json(post);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
 const commentOnPost = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params;
   const body = req.body.body;
@@ -132,10 +152,10 @@ const getPostComments = async (req: Request, res: Response) => {
 const router = Router();
 
 router.post('/', user, auth, createPost);
-router.delete('/:identifier', user, auth, deletePost);
 router.get('/', user, getPosts);
+router.delete('/:identifier/:slug', user, auth, deletePost);
 router.get('/:identifier/:slug', user, getPost);
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost);
 router.get('/:identifier/:slug/comments', user, getPostComments);
-
+router.put('/:identifier/:slug', user, auth, updatePost);
 export default router;

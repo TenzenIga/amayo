@@ -14,13 +14,15 @@ import { getSub } from 'app/store/actions/sub.action';
   styleUrls: ['./subpage.component.scss']
 })
 export class SubpageComponent implements OnInit {
-  public sub$: Observable<Sub> = this.store.select(selectSub);
+  public readonly sub$: Observable<Sub>;
   public subName: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private store: Store<IAppState>
-  ) {}
+  ) {
+    this.sub$ = this.store.select(selectSub);
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((routeParams) => {

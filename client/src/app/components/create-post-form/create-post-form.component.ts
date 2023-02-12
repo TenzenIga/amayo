@@ -37,20 +37,20 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
     body: new FormControl('', [Validators.required])
   });
 
-  private destroy$ = new Subject();
-  public readonly suggestions$: Observable<Sub[]> =
-    this.store.select(suggestedSubs);
+  private readonly destroy$: Subject<void>;
+  public readonly suggestions$: Observable<Sub[]>;
+  public readonly inputSubscription$: Observable<string>;
 
-  public readonly inputSubscription$: Observable<string> = this.postForm
-    .get('sub')
-    .valueChanges.pipe(
+  constructor(private store: Store<IAppState>) {
+    this.suggestions$ = this.store.select(suggestedSubs);
+    this.destroy$ = new Subject();
+    this.inputSubscription$ = this.postForm.get('sub').valueChanges.pipe(
       filter((text) => text.length > 2 || text.length === 0),
       debounceTime(200),
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     );
-
-  constructor(private store: Store<IAppState>) {}
+  }
 
   public ngOnInit(): void {
     this.inputSubscription$.subscribe((text) => {

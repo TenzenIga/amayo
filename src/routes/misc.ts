@@ -9,6 +9,25 @@ import user from '../middleware/user';
 import { getConnection } from 'typeorm';
 import Sub from '../entity/Sub';
 
+const subscribeToSub = async (req: Request, res: Response) => {
+  const { name } = req.body;
+
+  try {
+    const sub = await Sub.findOneOrFail(
+      { name },
+      { relations: ['subscribers'] }
+    );
+    const user: User = res.locals.user;
+
+    sub.subscribers.push(user);
+    await sub.save();
+    return res.json(sub);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
 const voteOnPost = async (req: Request, res: Response) => {
   const { identifier, slug, value } = req.body;
 
@@ -44,7 +63,6 @@ const voteOnPost = async (req: Request, res: Response) => {
       { identifier, slug },
       { relations: ['comments', 'comments.votes', 'sub', 'votes'] }
     );
-    console.log(post);
 
     post.setUserVote(user);
     post.comments.forEach((c) => c.setUserVote(user));
@@ -89,10 +107,8 @@ const voteOnComment = async (req: Request, res: Response) => {
       { identifier },
       { relations: ['votes'] }
     );
-    console.log(comment);
 
     comment.setUserVote(user);
-    console.log(comment);
 
     return res.json(comment);
   } catch (error) {
@@ -134,6 +150,7 @@ const topSubs = async (_: Request, res: Response) => {
 
 const router = Router();
 
+router.post('/subscribe', user, auth, subscribeToSub);
 router.post('/vote-post', user, auth, voteOnPost);
 router.post('/vote-comment', user, auth, voteOnComment);
 router.get('/top-subs', topSubs);

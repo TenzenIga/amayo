@@ -7,13 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-post-button.component.scss']
 })
 export class CreatePostButtonComponent implements OnInit {
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) { }
-
-  ngOnInit(): void {
-  }
-
-  public goToCreatePostPage(): void {
-    this.router.navigate(['/submit']);
-  }
+  ngOnInit(): void {}
 }

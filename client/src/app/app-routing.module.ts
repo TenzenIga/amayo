@@ -11,21 +11,24 @@ import { SubpageComponent } from './components/subpage/subpage.component';
 import { PostPageComponent } from './components/post-page/post-page.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
 
-
-
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'userpage', component: UserpageComponent, canActivate: [AuthGuard]},
-  {path: 'submit', component: CreatePostPageComponent, canActivate: [AuthGuard]},
-  {path: 'r/:subName', component: SubpageComponent},
-  {path: 'r/:subName/:identifier/:slug', component: PostPageComponent},
-  {path: '**', component: NotFoundPageComponent}
+  { path: '', component: HomeComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'userpage', component: UserpageComponent, canActivate: [AuthGuard] },
+  {
+    path: 'submit',
+    component: CreatePostPageComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'r/:subName', component: SubpageComponent },
+  { path: 'r/:subName/submit', component: CreatePostPageComponent },
+  { path: 'r/:subName/:identifier/:slug', component: PostPageComponent },
+  { path: '**', component: NotFoundPageComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

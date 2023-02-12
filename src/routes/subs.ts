@@ -36,7 +36,7 @@ const createSub = async (req: Request, res: Response) => {
   }
 
   try {
-    const sub = new Sub({ name, user });
+    const sub = new Sub({ name, user, subscribers: [user] });
     await sub.save();
 
     return res.json(sub);
@@ -73,16 +73,21 @@ const getSub = async (req: Request, res: Response) => {
   const name = req.params.name;
 
   try {
-    const sub = await Sub.findOneOrFail({ name });
+    const sub = await Sub.findOneOrFail(
+      { name },
+      {
+        relations: ['subscribers']
+      }
+    );
     const posts = await Post.find({
       where: { sub },
       order: { createdAt: 'DESC' },
       relations: ['comments', 'votes']
     });
-
     sub.posts = posts;
     if (res.locals.user) {
       sub.posts.forEach((p) => p.setUserVote(res.locals.user));
+      sub.setStatus(res.locals.user);
     }
 
     return res.json(sub);

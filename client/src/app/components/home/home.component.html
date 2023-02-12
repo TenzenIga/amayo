@@ -44,7 +44,11 @@
         class="card"
         slotMid>
         <div class="card-body">
-          <app-create-post-button></app-create-post-button>
+          <button
+            class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill"
+            (click)="goToCreatePostPage()">
+            Новый пост
+          </button>
           <app-create-sub-form></app-create-sub-form>
         </div>
       </div>
