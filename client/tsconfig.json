@@ -4,8 +4,12 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@shared/*": ["app/shared/*"],
-      "@core/*": ["app/core/*"]
+      "@shared/*": [
+        "app/shared/*"
+      ],
+      "@core/*": [
+        "app/core/*"
+      ]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -14,12 +18,13 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "module": "amd",
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false
