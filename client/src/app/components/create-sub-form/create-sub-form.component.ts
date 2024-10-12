@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -17,8 +17,8 @@ export class CreateSubFormComponent implements OnInit {
   public closeModal: string;
   public subPayload: subPayload;
   public remainingChars: number = 21;
-  public subForm = new FormGroup({
-    name: new FormControl('', [Validators.required] ),
+  public subForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required] ),
   });
   
   constructor( private router: Router, private modalService: NgbModal, private subService:SubService ) {}

@@ -41,6 +41,7 @@
       "client": "cd client && ng serve",
       "dev": "concurrently \"npm run server\" \"npm run client\" --names server,client",
       "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-      "seed":"ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
-   }
+      "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
+   },
+   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

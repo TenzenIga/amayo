@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
@@ -31,10 +31,10 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
   public subName?: string;
   public postPayload: postPayload;
   public quilConfig = quillConfiguration;
-  public postForm = new FormGroup({
-    sub: new FormControl('', [Validators.required]),
-    title: new FormControl('', [Validators.required]),
-    body: new FormControl('', [Validators.required])
+  public postForm = new UntypedFormGroup({
+    sub: new UntypedFormControl('', [Validators.required]),
+    title: new UntypedFormControl('', [Validators.required]),
+    body: new UntypedFormControl('', [Validators.required])
   });
 
   private readonly destroy$: Subject<void>;

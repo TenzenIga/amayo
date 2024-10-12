@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 
@@ -23,10 +23,10 @@ export class RegisterComponent implements OnInit {
  };
 
  public signupData: signupPayload;
- public registerForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email] ),
-    login: new FormControl('', [Validators.required, Validators.minLength(3) ]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)])
+ public registerForm = new UntypedFormGroup({
+    email: new UntypedFormControl('', [Validators.required, Validators.email] ),
+    login: new UntypedFormControl('', [Validators.required, Validators.minLength(3) ]),
+    password: new UntypedFormControl('', [Validators.required, Validators.minLength(6)])
   });
 
   constructor(private authService: AuthService, private router: Router) {

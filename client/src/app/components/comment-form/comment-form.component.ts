@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { notEmptyValidator } from './comment.validator';
 
@@ -11,8 +11,8 @@ import { notEmptyValidator } from './comment.validator';
 export class CommentFormComponent implements OnInit {
   
   public commentBody: string;
-  public commentForm = new FormGroup({
-    body: new FormControl('', [Validators.required, notEmptyValidator] )
+  public commentForm = new UntypedFormGroup({
+    body: new UntypedFormControl('', [Validators.required, notEmptyValidator] )
   });
 
 
