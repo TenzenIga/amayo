@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ReactiveComponentModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { QuillModule } from 'ngx-quill';
 import { EffectsModule } from '@ngrx/effects';
 
 import { CoreModule } from '@core/core.module';
@@ -41,62 +39,59 @@ import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.
 import { appReducers } from './store/reducers/app.reducer';
 import { CommentEffects } from './store/effects/comment.effects';
 import { SubEffect } from './store/effects/sub.effects';
+import { PushPipe } from '@ngrx/component';
+import { QuillModule } from 'ngx-quill';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    RegisterComponent,
-    HomeComponent,
-    LoginComponent,
-    NavbarComponent,
-    NotFoundPageComponent,
-    UserpageComponent,
-    PostComponent,
-    SubpageComponent,
-    SidebarComponent,
-    PostPageComponent,
-    CommentComponent,
-    CommentFormComponent,
-    CreatePostFormComponent,
-    CreateSubFormComponent,
-    TopSubsComponent,
-    SubInfoComponent,
-    CreatePostPageComponent,
-    SearchInputComponent
-  ],
-  imports: [
-    BrowserModule,
-    CoreModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    ToastrModule.forRoot(),
-    FontAwesomeModule,
-    AppRoutingModule,
-    ReactiveComponentModule,
-    StoreModule.forRoot(appReducers),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      autoPause: true // Pauses recording actions and state changes when the extension window is not open
-    }),
-    EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect]),
-    QuillModule.forRoot(),
-    NgbModule,
-    HttpClientModule
-  ],
-  providers: [
-    AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        RegisterComponent,
+        HomeComponent,
+        LoginComponent,
+        NavbarComponent,
+        NotFoundPageComponent,
+        UserpageComponent,
+        PostComponent,
+        SubpageComponent,
+        SidebarComponent,
+        PostPageComponent,
+        CommentComponent,
+        CommentFormComponent,
+        CreatePostFormComponent,
+        CreateSubFormComponent,
+        TopSubsComponent,
+        SubInfoComponent,
+        CreatePostPageComponent,
+        SearchInputComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        CoreModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        SharedModule,
+        ToastrModule.forRoot(),
+        FontAwesomeModule,
+        AppRoutingModule,
+        PushPipe,
+        StoreModule.forRoot(appReducers),
+        QuillModule.forRoot(),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            autoPause: true // Pauses recording actions and state changes when the extension window is not open
+        }),
+        EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect, ]),
+        NgbModule,
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })], providers: [
+        AuthGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptorService,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpErrorInterceptor,
+            multi: true
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {}

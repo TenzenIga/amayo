@@ -9,10 +9,11 @@ input.ng-invalid.ng-touched{
 }
 
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
 @import '~quill/dist/quill.snow.css';
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
 
 body {
   background: #DAE0E6;
 }
+
