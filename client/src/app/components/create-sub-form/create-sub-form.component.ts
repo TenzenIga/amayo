@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SubService } from '@core/services/sub.service';
 import { subPayload } from '@shared/interfaces/interfaces';
+import { AuthService } from '@core/services/auth.service';
 
 
 @Component({
   selector: 'app-create-sub-form',
   templateUrl: './create-sub-form.component.html',
-  styleUrls: ['./create-sub-form.component.scss']
+  styleUrls: ['./create-sub-form.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush,
 })
 export class CreateSubFormComponent implements OnInit {
   public error:string | null;
@@ -21,7 +23,7 @@ export class CreateSubFormComponent implements OnInit {
     name: new UntypedFormControl('', [Validators.required] ),
   });
   
-  constructor( private router: Router, private modalService: NgbModal, private subService:SubService ) {}
+  constructor( private router: Router, private modalService: NgbModal, private subService:SubService, private authService:AuthService ) {}
 
   ngOnInit(): void {
     this.subForm.get('name').valueChanges.subscribe(v => {
@@ -45,25 +47,31 @@ export class CreateSubFormComponent implements OnInit {
   }
 
   public createSub(): void {
+
     this.subPayload = {
       name: this.subForm.get('name').value
     }
-    this.subService.createSub(this.subPayload).subscribe(data => {      
-      this.modalService.dismissAll();
-      this.router.navigate([`/r/${this.subForm.get('name').value}`]);
-    }, error => {
-      console.log(error);
-      // this.errors = error.error.errors;
-    });
+
+  this.subService.createSub(this.subPayload).subscribe({
+    next: () =>  {
+      this.modalService.dismissAll(),
+      this.router.navigate([`/r/${this.subForm.get('name').value}`])
+    },
+    error: (e) => console.error(e)
+  }) 
   }
 
 
-  public triggerModal(content): void {
+  public triggerModal<T>(content: TemplateRef<T>): void {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.modalService.open(content)
   }
 
   
-  public get value() : string {
+  public get value(): string {
     return this.subForm.get('name').value
   }
   

@@ -3,7 +3,7 @@
       <a class="navbar-brand" routerLink="/">Reddit</a>
     
             <div class="ms-auto">
-                    <button *ngIf="loggedIn(); else logout"  class="btn btn-primary rounded-pill mx-2" (click)="logOut()" >Выйти</button>
+                    <button *ngIf="isloggedIn(); else logout"  class="btn btn-primary rounded-pill mx-2" (click)="logOut()" >Выйти</button>
                   
             </div>
     </div>

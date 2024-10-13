@@ -11,7 +11,7 @@ export class AuthGuard  {
   constructor(private authservice: AuthService, private router: Router){}
 
   canActivate(): Observable<boolean> {
-    if(this.authservice.loggedIn()){
+    if(this.authservice.isLoggedIn()){
       return of(true);
     } else {
       this.router.navigate(['/login']);

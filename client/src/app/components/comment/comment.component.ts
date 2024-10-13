@@ -35,7 +35,7 @@ export class CommentComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   public onVote(value: number): void {
-    if (!this.authService.loggedIn()) {
+    if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
     } else {
       if (value === this.comment.userVote) {

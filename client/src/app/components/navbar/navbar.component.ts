@@ -10,8 +10,8 @@ import { AuthService } from '@core/services/auth.service';
 export class NavbarComponent {
   constructor(private authService: AuthService) {}
 
-  public loggedIn(): boolean {
-    return this.authService.loggedIn();
+  public isloggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
   public logOut(): void {

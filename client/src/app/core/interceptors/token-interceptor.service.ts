@@ -11,8 +11,8 @@ export class TokenInterceptorService implements HttpInterceptor{
 
   constructor( private authService: AuthService) { }
 
-  public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authService.loggedIn()){
+  public intercept<T>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
+    if (this.authService.isLoggedIn()){
       const tokenizedReq = req.clone({
       setHeaders: {
         Accept: 'application/json',

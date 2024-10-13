@@ -38,7 +38,7 @@ export class PostFooterComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   public onVote(value: number): void {
-    if (!this.authService.loggedIn()) {
+    if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
     } else {
       if (value === this.post.userVote) {
