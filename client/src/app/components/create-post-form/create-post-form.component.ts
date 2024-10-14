@@ -45,7 +45,7 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
     this.suggestions$ = this.store.select(suggestedSubs);
     this.destroy$ = new Subject();
     this.inputSubscription$ = this.postForm.get('sub').valueChanges.pipe(
-      filter((text) => text.length > 2 || text.length === 0),
+      // filter((text) => text.length > 2 || text.length === 0),
       debounceTime(200),
       distinctUntilChanged(),
       takeUntil(this.destroy$)

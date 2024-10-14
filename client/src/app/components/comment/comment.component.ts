@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output
@@ -19,10 +20,13 @@ import { Post, Comment } from '@shared/interfaces/interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommentComponent {
-  faCommentAlt = faCommentAlt;
-  faBookmark = faBookmark;
-  faThumbsUp = faThumbsUp;
-  faThumbsDown = faThumbsDown;
+  private authService = inject(AuthService);
+  private router = inject(Router)
+  
+  public faCommentAlt = faCommentAlt;
+  public faBookmark = faBookmark;
+  public faThumbsUp = faThumbsUp;
+  public faThumbsDown = faThumbsDown;
 
   @Input()
   post: Post;
@@ -31,8 +35,7 @@ export class CommentComponent {
   comment: Comment;
 
   @Output() vote = new EventEmitter<{ identifier: string; value: number }>();
-
-  constructor(private authService: AuthService, private router: Router) {}
+  
 
   public onVote(value: number): void {
     if (!this.authService.isLoggedIn()) {

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-post-page',
@@ -7,7 +8,21 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreatePostPageComponent implements OnInit {
-  constructor() {}
+  public subName: string | null  = null;
+  constructor(
+  
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.activatedRoute.params.subscribe((routeParams) => {
+      if (routeParams['subName'] === undefined) return false;
+      this.subName = routeParams['subName'];
+    });
+  }
+  ngOnInit(): void {
+    console.log(this.subName);
+  }
 
-  ngOnInit(): void {}
+  get hasActiveSub(){
+    return this.subName !== null;
+  }
 }
