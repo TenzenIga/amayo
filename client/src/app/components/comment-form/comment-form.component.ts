@@ -15,8 +15,6 @@ export class CommentFormComponent implements OnInit {
     body: new UntypedFormControl('', [Validators.required, notEmptyValidator] )
   });
 
-
-
   @Output() commentEvent = new EventEmitter();
 
   constructor() {

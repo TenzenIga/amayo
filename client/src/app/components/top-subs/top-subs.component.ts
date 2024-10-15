@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -15,10 +15,9 @@ import { selectTopSubs } from 'app/store/selectors/sub.selector';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopSubsComponent implements OnInit {
-  public readonly topSubs$: Observable<Sub[]> =
-    this.store.select(selectTopSubs);
-
-  constructor(private store: Store<IAppState>, private router: Router) {}
+  protected readonly store:Store<IAppState> = inject(Store);
+  protected readonly router: Router = inject(Router);
+  public readonly topSubs$: Observable<Sub[]> = this.store.select(selectTopSubs);
 
   ngOnInit(): void {
     this.store.dispatch(getTopSubs());
@@ -26,5 +25,9 @@ export class TopSubsComponent implements OnInit {
 
   public goToSub(subname: string): void {
     this.router.navigate([`/r/${subname}`]);
+  }
+
+  public trackByFn(index: string, sub: Sub): number {
+    return sub.id;
   }
 }

@@ -1,41 +1,51 @@
 <div class="register-section">
-    <div class="register">
-            <div>
-                <h1 class="h3">Регистрация</h1>
-                <p class="small-text">Авторизуясь, вы соглашаетесь с правилами пользования сайтом и даёте согласие на обработку персональных данных.</p>
-            </div>
-            <form [formGroup]="registerForm" (ngSubmit)="signUp()">
-                <div class="form-group mb-4">
-                    <input class="form-control" type="email" formControlName="email" id="email" placeholder="Email" required>
-                    <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched" class="text-danger small-text" >
-                            Введите правильный email
-                    </span>       
-                    <span *ngIf="errors.email" class="text-danger small-text" >
-                            Email занят
-                    </span>       
-                </div>
-                <div class="form-group mb-4">
-                    <input class="form-control" type="text" formControlName="login" id="login" placeholder="Логин" required>
-                    <span *ngIf="!registerForm.get('login').valid && registerForm.get('login').touched" class="text-danger small-text">
-                            Логин не может быть меньше 3 символов
-                        </span>   
-                        <span *ngIf="errors.username" class="text-danger small-text" >
-                            Логин занят
-                    </span>      
-                </div>
-                <div class="form-group mb-4">
-                    <input class="form-control" type="password" formControlName="password" id="password" placeholder="Пароль" required> 
-                    <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched"class="text-danger small-text" >
-                            Пароль не может быть меньше 6 символов
-                        </span>    
-                </div>
-                <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary rounded-pill w-100 mt-2">Создать аккаунт</button>
-            </form>
-            <p class="small-text">Уже с нами? <a routerLink="/login" routerLinkActive="active" >Войти</a></p>
+  <div class="register">
+    <div>
+      <h1 class="h3">Регистрация</h1>
+      <p class="small-text">Авторизуясь, вы соглашаетесь с правилами пользования сайтом и даёте согласие на обработку персональных данных.</p>
     </div>
+    <form [formGroup]="registerForm" (ngSubmit)="signUp()">
+      <div class="form-group mb-4">
+        <input class="form-control" type="email" formControlName="email" id="email" placeholder="Email" required>
+        @if (!registerForm.get('email').valid && registerForm.get('email').touched) {
+          <span class="text-danger small-text" >
+            Введите правильный email
+          </span>
+        }
+        @if (errors.email) {
+          <span class="text-danger small-text" >
+            Email занят
+          </span>
+        }
+      </div>
+      <div class="form-group mb-4">
+        <input class="form-control" type="text" formControlName="login" id="login" placeholder="Логин" required>
+        @if (!registerForm.get('login').valid && registerForm.get('login').touched) {
+          <span class="text-danger small-text">
+            Логин не может быть меньше 3 символов
+          </span>
+        }
+        @if (errors.username) {
+          <span class="text-danger small-text" >
+            Логин занят
+          </span>
+        }
+      </div>
+      <div class="form-group mb-4">
+        <input class="form-control" type="password" formControlName="password" id="password" placeholder="Пароль" required>
+        @if (!registerForm.get('password').valid && registerForm.get('password').touched) {
+          <span class="text-danger small-text" >
+            Пароль не может быть меньше 6 символов
+          </span>
+        }
+      </div>
+      <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary rounded-pill w-100 mt-2">Создать аккаунт</button>
+    </form>
+    <p class="small-text">Уже с нами? <a routerLink="/login" routerLinkActive="active" >Войти</a></p>
+  </div>
 </div>
 
 
 <ng-template #errorTemp>
-    <div class="error">Поле обязательно для заполения</div>
+  <div class="error">Поле обязательно для заполения</div>
 </ng-template>

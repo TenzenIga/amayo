@@ -1,15 +1,16 @@
 <nav class="navbar fixed-top navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" routerLink="/">Reddit</a>
-    
-            <div class="ms-auto">
-                    <button *ngIf="isloggedIn(); else logout"  class="btn btn-primary rounded-pill mx-2" (click)="logOut()" >Выйти</button>
-                  
-            </div>
-    </div>
-  </nav>
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">Reddit</a>
 
-  <ng-template #logout>
+    <div class="ms-auto">
+      @if (isloggedIn()) {
+        <button  class="btn btn-primary rounded-pill mx-2" (click)="logOut()" >Выйти</button>
+      } @else {
         <a routerLink="/login" class="btn btn-primary rounded-pill mx-2" role="button" routerLinkActive="active">Войти</a>
         <a routerLink="/register" class="btn btn-primary rounded-pill mx-2" role="button" routerLinkActive="active">Регистрация</a>
-  </ng-template>
+      }
+
+    </div>
+  </div>
+</nav>
+

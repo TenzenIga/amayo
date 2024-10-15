@@ -1,17 +1,19 @@
 <div class="post-footer">
-    <div class="comments">
-        <fa-icon [icon]="faCommentAlt" class="comments-icon" ></fa-icon>
-        <span *ngIf="post.commentCount > 0" >{{post.commentCount}}</span>
-    </div>
-    <div class="book ms-4">
-        <fa-icon [icon]="faBookmark"></fa-icon>
-    </div>
-    <div class="share ms-4">
-        <fa-icon [icon]="faShare"></fa-icon>
-    </div>
-    <div class="votes ms-auto">
-        <fa-icon [icon]="faThumbsUp" class="thumb-up mx-1" (click)="onVote(1)" [ngClass]="post.userVote === 1 ? 'text-success' : ''" ></fa-icon>
-        <span class="text-success">{{post.voteScore}}</span>
-        <fa-icon [icon]="faThumbsDown" class="thumb-down mx-1" (click)="onVote(-1)" [ngClass]="post.userVote === -1 ? 'text-danger' : ''" ></fa-icon>
-    </div>
+  <div class="comments">
+    <fa-icon [icon]="faCommentAlt" class="comments-icon" ></fa-icon>
+    @if (post.commentCount > 0) {
+      <span >{{post.commentCount}}</span>
+    }
+  </div>
+  <div class="book ms-4">
+    <fa-icon [icon]="faBookmark"></fa-icon>
+  </div>
+  <div class="share ms-4">
+    <fa-icon [icon]="faShare"></fa-icon>
+  </div>
+  <div class="votes ms-auto">
+    <fa-icon [icon]="faThumbsUp" class="thumb-up mx-1" (click)="onVote(1)" [ngClass]="post.userVote === 1 ? 'text-success' : ''" ></fa-icon>
+    <span class="text-success">{{post.voteScore}}</span>
+    <fa-icon [icon]="faThumbsDown" class="thumb-down mx-1" (click)="onVote(-1)" [ngClass]="post.userVote === -1 ? 'text-danger' : ''" ></fa-icon>
+  </div>
 </div>

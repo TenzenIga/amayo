@@ -37,7 +37,6 @@ export class SubInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.subName);
     if(this.subName){
       this.store.dispatch(getSub({ subName: this.subName }));
     }

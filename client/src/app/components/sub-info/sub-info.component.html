@@ -1,36 +1,39 @@
-<div
-  *ngIf="sub$ | ngrxPush as sub; else loader"
-  class="card">
-  <div class="card-header">О сообществе</div>
-  <div class="card-body">
-    <div class="sub-desc">
-      {{ sub.description }}
-    </div>
-    <div class="users mt-2">
-      <div class="all">
-        <div class="number">435k</div>
-        <div class="type">Участников</div>
+@if (sub$ | ngrxPush; as sub) {
+  <div
+    class="card">
+    <div class="card-header">О сообществе</div>
+    <div class="card-body">
+      <div class="sub-desc">
+        {{ sub.description }}
       </div>
-      <div class="online">
-        <div class="number">144</div>
-        <div class="type">Online</div>
+      <div class="users mt-2">
+        <div class="all">
+          <div class="number">435k</div>
+          <div class="type">Участников</div>
+        </div>
+        <div class="online">
+          <div class="number">144</div>
+          <div class="type">Online</div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="card-body">
-    <div class="sub-date">
-      <fa-icon
-        [icon]="faBirthdayCake"
+    <div class="card-body">
+      <div class="sub-date">
+        <fa-icon
+          [icon]="faBirthdayCake"
         class="mx-1"></fa-icon>
-      создан {{ sub.createdAt | date : "mediumDate" }}
+        создан {{ sub.createdAt | date : "mediumDate" }}
+      </div>
+      <button
+        (click)="goToCreatePostPage()"
+        class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill">
+        Новый пост
+      </button>
     </div>
-    <button
-      (click)="goToCreatePostPage()"
-      class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill">
-      Новый пост
-    </button>
   </div>
-</div>
+} @else {
+  <app-loader class="loader"></app-loader>
+}
 
 <ng-template #loader>
   <app-loader class="loader"></app-loader>

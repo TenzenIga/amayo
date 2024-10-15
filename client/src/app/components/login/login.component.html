@@ -1,25 +1,29 @@
 <div class="register-section">
-    <div class="register">
-            <div>
-                <h1 class="h3">Войти</h1>
-                <p class="small-text">Авторизуясь, вы соглашаетесь с правилами пользования сайтом и даёте согласие на обработку персональных данных.</p>
-            </div>
-            <form [formGroup]="loginForm" (ngSubmit)="logIn()">
-                <div class="form-group mb-4">
-                    <input class="form-control" type="text" formControlName="login" id="login" placeholder="Логин" required>
-                    <span *ngIf="errors.username" class="text-danger small-text" >
-                        Неправильный логин
-                    </span>      
-                </div>
-                <div class="form-group mb-4">
-                    <input class="form-control" type="password" formControlName="password" id="password" placeholder="Пароль" required>  
-                    <span *ngIf="errors.password" class="text-danger small-text" >
-                        Неправильный пароль
-                    </span>    
-                </div>
-                <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary rounded-pill w-100 mt-2">Войти</button>
-            </form>
-            <p class="small-text">Забыли логин или пароль?</p>
-            <p class="small-text">Впервые у нас? <a routerLink="/register" routerLinkActive="active" >Зарегестрируйтесь</a></p>
+  <div class="register">
+    <div>
+      <h1 class="h3">Войти</h1>
+      <p class="small-text">Авторизуясь, вы соглашаетесь с правилами пользования сайтом и даёте согласие на обработку персональных данных.</p>
     </div>
+    <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+      <div class="form-group mb-4">
+        <input class="form-control" type="text" formControlName="login" id="login" placeholder="Логин" required>
+        @if (errors.username) {
+          <span class="text-danger small-text" >
+            Неправильный логин
+          </span>
+        }
+      </div>
+      <div class="form-group mb-4">
+        <input class="form-control" type="password" formControlName="password" id="password" placeholder="Пароль" required>
+        @if (errors.password) {
+          <span class="text-danger small-text" >
+            Неправильный пароль
+          </span>
+        }
+      </div>
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary rounded-pill w-100 mt-2">Войти</button>
+    </form>
+    <p class="small-text">Забыли логин или пароль?</p>
+    <p class="small-text">Впервые у нас? <a routerLink="/register" routerLinkActive="active" >Зарегестрируйтесь</a></p>
+  </div>
 </div>

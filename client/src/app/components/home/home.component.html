@@ -1,57 +1,68 @@
-<div
-  class="row"
-  *ngIf="{
-    posts: posts$ | ngrxPush,
-    loading: loading$ | ngrxPush
-  } as state">
-  <div class="col-8">
-    <app-loader
-      *ngIf="state.loading"
-      class="loader col-8"></app-loader>
-    <div *ngIf="state.status === 'failed'">Something went wrong</div>
-    <ng-container *ngIf="state.posts !== null">
-      <div
-        class="posts-list"
-        *ngIf="state.loading === false">
-        <app-post
-          *ngFor="let post of state.posts; trackBy: trackByFn"
-          [post]="post"
-          class="my-2">
-          <a
-            [routerLink]="['r/', post.subName]"
-            class="py-1 pr-1 sub">
-            r/{{ post.subName }}
-          </a>
-          <a
-            [routerLink]="['/u', post.username]"
-            class="p-1 ms-2 username">
-            {{ post.username }}
-          </a>
-          <a
-            [routerLink]="[post.url]"
-            class="p-1 ms-2 text-muted date">
-            {{ post.createdAt | dateAgo }}
-          </a>
-          <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
-        </app-post>
-      </div>
-    </ng-container>
-  </div>
-  <div class="my-2 col-4">
-    <app-sidebar>
-      <app-top-subs slotStart></app-top-subs>
-      <div
-        class="card"
-        slotMid>
-        <div class="card-body">
-          <button
-            class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill"
-            (click)="goToCreatePostPage()">
-            Новый пост
-          </button>
-          <app-create-sub-form></app-create-sub-form>
+@if ({
+  posts: posts$ | ngrxPush,
+  loading: loading$ | ngrxPush
+  }; as state) {
+  <div
+    class="row"
+    >
+    <div class="col-8">
+      @if (state.loading) {
+        <app-loader
+        class="loader col-8"></app-loader>
+      }
+      @if (state.status === 'failed') {
+        <div>Something went wrong</div>
+      }
+      @if (state.posts !== null) {
+        @if (state.loading === false) {
+          <div
+            class="posts-list"
+            >
+            @for (post of state.posts; track trackByFn($index, post)) {
+              <app-post
+                [post]="post"
+                class="my-2">
+                <a
+                  [routerLink]="['r/', post.subName]"
+                  class="py-1 pr-1 sub">
+                  r/{{ post.subName }}
+                </a>
+                <a
+                  [routerLink]="['/u', post.username]"
+                  class="p-1 ms-2 username">
+                  {{ post.username }}
+                </a>
+                <a
+                  [routerLink]="[post.url]"
+                  class="p-1 ms-2 text-muted date">
+                  {{ post.createdAt | dateAgo }}
+                </a>
+                <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
+              </app-post>
+            }
+          </div>
+        }
+      }
+    </div>
+    <div class="my-2 col-4">
+      <app-sidebar>
+        <app-top-subs slotStart></app-top-subs>
+        @if(isLoggedIn){
+          <div
+          class="card"
+          slotMid>
+          <div class="card-body">
+            <button
+              class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill"
+              (click)="goToCreatePostPage()">
+              Новый пост
+            </button>
+            <app-create-sub-form></app-create-sub-form>
+          </div>
         </div>
-      </div>
-    </app-sidebar>
+        }
+ 
+      </app-sidebar>
+    </div>
   </div>
-</div>
+}

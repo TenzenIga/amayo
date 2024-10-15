@@ -1,63 +1,68 @@
-<div
-  class="sub-wrapper"
-  *ngIf="sub$ | ngrxPush as sub; else loader">
-  <div class="card sub">
-    <div class="sub-bg">
-      <div
-        *ngIf="sub.bannerUrl; else defaultBanner"
-        class="banner"
-        [ngStyle]="{ 'background-image': 'url(' + sub.bannerUrl + ')' }"></div>
-    </div>
-    <div class="sub-content">
-      <div class="sub-header">
-        <div class="avatar-wrapper">
+@if (sub$ | ngrxPush; as sub) {
+  <div
+    class="sub-wrapper"
+    >
+    <div class="card sub">
+      <div class="sub-bg">
+        @if (sub.bannerUrl) {
           <div
-            class="avatar"
+            class="banner"
+          [ngStyle]="{ 'background-image': 'url(' + sub.bannerUrl + ')' }"></div>
+        } @else {
+          <div class="banner banner-default"></div>
+        }
+      </div>
+      <div class="sub-content">
+        <div class="sub-header">
+          <div class="avatar-wrapper">
+            <div
+              class="avatar"
             [ngStyle]="{
               'background-image': 'url(' + sub.imageUrl + ')'
             }"></div>
+          </div>
+          <div class="ms-3 mt-2 sub-heading">
+            <span class="sub-heading__title">{{ sub.name }}</span>
+            <span class="sub-heading__name">r/{{ sub.name }}</span>
+          </div>
+          <button class="ms-3 mb-auto mt-2 btn btn-primary btn-sm rounded-pill">
+            Подписаться
+          </button>
         </div>
-        <div class="ms-3 mt-2 sub-heading">
-          <span class="sub-heading__title">{{ sub.name }}</span>
-          <span class="sub-heading__name">r/{{ sub.name }}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8">
+        <div class="posts-list">
+          @for (post of sub.posts; track trackByFn($index, post)) {
+            <app-post
+              [post]="post"
+              class="my-2">
+              <a
+                [routerLink]="['/u', post.username]"
+                class="py-1 pr-1 username">
+                {{ post.username }}
+              </a>
+              <a
+                [routerLink]="[post.url]"
+                class="p-1 ml-2 text-muted date">
+                {{ post.createdAt | dateAgo }}
+              </a>
+            </app-post>
+          }
         </div>
-        <button class="ms-3 mb-auto mt-2 btn btn-primary btn-sm rounded-pill">
-          Подписаться
-        </button>
+      </div>
+      <div class="col-4 my-2">
+        <app-sidebar>
+          <app-sub-info slotStart></app-sub-info>
+        </app-sidebar>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-8">
-      <div class="posts-list">
-        <app-post
-          *ngFor="let post of sub.posts; trackBy: trackByFn"
-          [post]="post"
-          class="my-2">
-          <a
-            [routerLink]="['/u', post.username]"
-            class="py-1 pr-1 username">
-            {{ post.username }}
-          </a>
-          <a
-            [routerLink]="[post.url]"
-            class="p-1 ml-2 text-muted date">
-            {{ post.createdAt | dateAgo }}
-          </a>
-        </app-post>
-      </div>
-    </div>
-    <div class="col-4 my-2">
-      <app-sidebar>
-        <app-sub-info slotStart></app-sub-info>
-      </app-sidebar>
-    </div>
-  </div>
-</div>
+} @else {
+  <app-loader class="loader"></app-loader>
+}
 
-<ng-template #defaultBanner>
-  <div class="banner banner-default"></div>
-</ng-template>
 
 <ng-template #loader>
   <app-loader class="loader"></app-loader>

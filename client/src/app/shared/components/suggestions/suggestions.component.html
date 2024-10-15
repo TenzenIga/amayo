@@ -1,6 +1,8 @@
 <ul class="list-group suggestions">
-    <li *ngFor="let sub of subs; trackBy:trackByFn" class="list-group-item sub p-2" (click)="handleClick(sub.name)">
+  @for (sub of subs; track trackByFn($index, sub)) {
+    <li class="list-group-item sub p-2" (click)="handleClick(sub.name)">
       <span class="sub-avatar"  [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}" ></span>
       <span>r/{{sub.name}}</span>
     </li>
-  </ul>
+  }
+</ul>
