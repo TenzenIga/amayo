@@ -22,6 +22,11 @@
               <app-post
                 [post]="post"
                 class="my-2">
+                <div
+                class="mr-2 sub-avatar"
+                [ngStyle]="{
+                  'background-image': 'url(' + post.sub.imageUrl + ')'
+                }"></div>
                 <a
                   [routerLink]="['r/', post.subName]"
                   class="py-1 pr-1 sub">

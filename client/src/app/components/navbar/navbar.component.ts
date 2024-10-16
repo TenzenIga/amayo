@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +9,8 @@ import { AuthService } from '@core/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
-  constructor(private authService: AuthService) {}
+  private authService:AuthService = inject(AuthService);
+  public faUser = faUser;
 
   public isloggedIn(): boolean {
     return this.authService.isLoggedIn();

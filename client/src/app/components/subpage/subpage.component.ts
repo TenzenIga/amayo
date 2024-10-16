@@ -30,4 +30,7 @@ export class SubpageComponent implements OnInit {
       this.store.dispatch(getSub({ subName: this.subName }));
     });
   }
+  public trackByFn(index: string, sub: Sub): number {
+    return sub.id;
+  }
 }
