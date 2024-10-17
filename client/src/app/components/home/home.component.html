@@ -21,16 +21,19 @@
             @for (post of state.posts; track trackByFn($index, post)) {
               <app-post
                 [post]="post"
-                class="my-2">
-                <div
-                class="mr-2 sub-avatar"
-                [ngStyle]="{
-                  'background-image': 'url(' + post.sub.imageUrl + ')'
-                }"></div>
+                class="d-flex"
+               >
                 <a
                   [routerLink]="['r/', post.subName]"
-                  class="py-1 pr-1 sub">
-                  r/{{ post.subName }}
+                  class=" d-flex">
+                  <div
+                    class="sub-avatar"
+                    [ngStyle]="{
+                      'background-image': 'url(' + post.sub.imageUrl + ')'
+                    }"></div>
+                    <div class="py-1 pr-1 sub">
+                      r/{{ post.subName }}
+                    </div>
                 </a>
                 <a
                   [routerLink]="['/u', post.username]"
