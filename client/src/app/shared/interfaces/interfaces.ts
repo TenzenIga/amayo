@@ -48,6 +48,8 @@ export interface Sub {
   posts: Post[];
   imageUrl?: string;
   bannerUrl?: string;
+  subscribersCount?:number
+  subscriptionStatus?: boolean
 }
 
 export interface Comment {
