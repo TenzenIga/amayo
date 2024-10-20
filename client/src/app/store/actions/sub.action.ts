@@ -8,7 +8,9 @@ export enum SubActions {
   GetTopSubsSuccess = '[Sub] Get Top Subs Success',
   SearchSubs = '[Sub] Search Subs',
   SearchSubsSuccess = '[Sub] Search Subs Success',
-  SearchSubsClear = '[Sub] Search Subs Clear'
+  SearchSubsClear = '[Sub] Search Subs Clear',
+  SubscribeToSub = '[Sub] Subscribe to Sub',
+  SubscribeToSubSuccess = '[Sub] Subscribe to Sub Success',
 }
 
 export const getSub = createAction(

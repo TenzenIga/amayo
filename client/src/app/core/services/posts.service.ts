@@ -23,14 +23,6 @@ export class PostsService {
     return this.http.get<Post>(`${this.url}/posts/${identifier}/${slug}`);
   }
 
-  public voteOnPost(identifier: string, slug: string, value: number): Observable<any> {
-    return this.http.post(`${this.url}/misc/vote-post`, { identifier, slug, value });
-  }
-
-  public voteOnComment(identifier: string, slug: string, value: number): Observable<any> {
-    return this.http.post(`${this.url}/misc/vote-comment`, { identifier, slug, value });
-  }
-
   public getPostComments(identifier: string, slug: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.url}/posts/${identifier}/${slug}/comments`);
   }

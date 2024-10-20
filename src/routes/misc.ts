@@ -133,11 +133,11 @@ const topSubs = async (_: Request, res: Response) => {
     const subs = await getConnection()
       .createQueryBuilder()
       .select(
-        `s.title, s.name, ${imageUrlExp} as "imageUrl", count(p.id) as "postCount"`
+        `s.id, s.title, s.name, ${imageUrlExp} as "imageUrl", count(p.id) as "postCount"`
       )
       .from(Sub, 's')
       .leftJoin(Post, 'p', `s.name = p."subName"`)
-      .groupBy('s.title, s.name, "imageUrl"')
+      .groupBy('s.id, s.title, s.name, "imageUrl"')
       .orderBy(`"postCount"`, 'DESC')
       .limit(10)
       .execute();

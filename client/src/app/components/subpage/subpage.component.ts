@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -11,18 +11,14 @@ import { getSub } from 'app/store/actions/sub.action';
 @Component({
   selector: 'app-subpage',
   templateUrl: './subpage.component.html',
-  styleUrls: ['./subpage.component.scss']
+  styleUrls: ['./subpage.component.scss'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class SubpageComponent implements OnInit {
-  public readonly sub$: Observable<Sub>;
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private store: Store<IAppState> = inject(Store);
+  public readonly sub$: Observable<Sub>= this.store.select(selectSub);
   public subName: string;
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private store: Store<IAppState>
-  ) {
-    this.sub$ = this.store.select(selectSub);
-  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((routeParams) => {
@@ -32,5 +28,9 @@ export class SubpageComponent implements OnInit {
   }
   public trackByFn(index: string, sub: Sub): number {
     return sub.id;
+  }
+
+  public onSubscribe() {
+    
   }
 }
