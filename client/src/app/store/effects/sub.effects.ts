@@ -42,4 +42,16 @@ export class SubEffect {
       )
     )
   );
+  public readonly subscribeToSub$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SubActions.subscribeToSub),
+      switchMap((action) =>
+        this.subService
+          .subscribeToSub(action.name)
+          .pipe(
+            map((sub) => SubActions.subscribeToSubSuccess({ sub }))
+          )
+      )
+    )
+  );
 }

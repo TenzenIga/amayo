@@ -39,4 +39,14 @@ export const searchSubsSuccess = createAction(
   props<{ suggestions: Sub[] }>()
 );
 
+export const subscribeToSub = createAction(
+  SubActions.SubscribeToSub,
+  props<{ name: string }>()
+);
+
+export const subscribeToSubSuccess = createAction(
+  SubActions.SubscribeToSubSuccess,
+  props<{sub: Sub }>()
+);
+
 export const searchSubsClear = createAction(SubActions.SearchSubsClear);

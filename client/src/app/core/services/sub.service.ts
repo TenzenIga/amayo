@@ -31,8 +31,12 @@ export class SubService {
       subPayload
     );
   }
-
   public searchSubs(subName: string): Observable<Sub[]> {
     return this.http.get<Sub[]>(`${this.url}/subs/search/${subName}`);
   }
+
+  public subscribeToSub(name:string): Observable<any> {
+    return this.http.post(`${this.url}/misc/subscribe`, { name });
+  }
+
 }

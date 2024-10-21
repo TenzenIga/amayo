@@ -34,4 +34,12 @@ export class PostsService {
   public createPost(postData: postPayload): Observable<Post> {
     return this.http.post<Post>(`${this.url}/posts`, postData);
   }
+
+  public voteOnPost(identifier: string, slug: string, value: number): Observable<any> {
+    return this.http.post(`${this.url}/misc/vote-post`, { identifier, slug, value });
+  }
+
+  public voteOnComment(identifier: string, slug: string, value: number): Observable<any> {
+    return this.http.post(`${this.url}/misc/vote-comment`, { identifier, slug, value });
+  }
 }

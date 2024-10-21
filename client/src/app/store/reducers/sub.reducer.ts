@@ -9,6 +9,10 @@ export const subReducer = createReducer(
     ...state,
     sub: payload.sub
   })),
+  // on(SubActions.subscribeToSubSuccess, (state, payload) => ({
+  //   ...state,
+  //   subs: state.subs.map(s => s.id === payload.sub.id ? )
+  // })),
   on(SubActions.getTopSubsSuccess, (state, payload) => ({
     ...state,
     topSubs: payload.topSubs
