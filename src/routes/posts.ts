@@ -51,17 +51,23 @@ const getPosts = async (_: Request, res: Response) => {
   try {
     const posts = await Post.find({
       order: { createdAt: 'DESC' },
-      relations: ['comments', 'votes', 'sub']
+      relations: ['comments', 'votes']
     });
-
-    if (res.locals.user) {
-      posts.forEach((p) => {
+    await Promise.all(posts.map(async p => {
+      let sub = await Sub.findOneOrFail(
+        { name: p.subName },
+        {
+          relations: ['subscribers']
+        }
+      );
+      p.sub = sub;
+      if (res.locals.user){
         p.setUserVote(res.locals.user)
-        p.sub.setStatus(res.locals.user)
-      })
-    }
-    
+        p.sub.setStatus(res.locals.user);
 
+      }
+    }));
+  
     return res.json(posts);
   } catch (err) {
     console.log(err);
