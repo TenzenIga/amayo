@@ -5,12 +5,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map, switchMap } from 'rxjs/operators';
 import slugify from 'slugify';
 import * as PostActions from '../actions/post.action';
+import { SubService } from '@core/services/sub.service';
 
 @Injectable()
 export class PostEffects {
   constructor(
     private actions$: Actions,
     private postsService: PostsService,
+    private subService: SubService,
     private router: Router
   ) {}
 
@@ -43,6 +45,17 @@ export class PostEffects {
         this.postsService
           .voteOnPost(action.identifier, action.slug, action.value)
           .pipe(map((post) => PostActions.votePostSuccess({ post })))
+      )
+    );
+  });
+
+  subscribeToSub$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.subscribeToSub),
+      switchMap((action) =>
+        this.subService
+          .subscribeToSub(action.name)
+          .pipe(map((sub) => PostActions.subscribeToSubSuccess({ sub })))
       )
     );
   });

@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { Post } from "../state/post.state";
+import { Sub } from "@shared/interfaces/interfaces";
 
 export type postPayload = {
     sub: string;
@@ -15,7 +16,9 @@ export enum PostActions {
     CreatePost = '[Post] Create Post',
     CreatePostSuccess = '[Post] Create Post Success',
     VotePost = '[Post] Vote Post',
-    VotePostSuccess = '[Post] Vote Post Success'
+    VotePostSuccess = '[Post] Vote Post Success',
+    SubscribeToSub = '[Post] Subscribe To Sub',
+    SubscribeToSubSuccess = '[Post] Subscribe To Sub Success'
 };
 
 export const getPosts = createAction(
@@ -55,3 +58,13 @@ export const votePostSuccess = createAction(
     PostActions.VotePostSuccess,
     props<{ post: Post }>()
 )
+
+export const subscribeToSub = createAction(
+    PostActions.SubscribeToSub,
+    props<{ name: string }>()
+  );
+
+export const subscribeToSubSuccess= createAction(
+    PostActions.SubscribeToSubSuccess,
+    props<{ sub: Sub }>()
+  );

@@ -3,11 +3,12 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { getPosts } from 'app/store/actions/post.action';
+import { getPosts, subscribeToSub } from 'app/store/actions/post.action';
 import { Post } from 'app/store/state/post.state';
 import { IAppState } from 'app/store/state/app.state';
 import { selectLoading, selectPosts } from 'app/store/selectors/post.selector';
 import { AuthService } from '@core/services/auth.service';
+import { Sub } from '@shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-home',
@@ -38,5 +39,7 @@ export class HomeComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  
+  public subscribeToSub(subName: string) {
+    this.store.dispatch(subscribeToSub({name: subName }));
+  }
 }

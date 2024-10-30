@@ -24,5 +24,8 @@ export const postReducer = createReducer(
     )
   })),
   on(PostActions.createPost, (state) => ({ ...state, loading: true })),
-  on(PostActions.createPostSuccess, (state) => ({ ...state, loading: false }))
+  on(PostActions.createPostSuccess, (state) => ({ ...state, loading: false })),
+  on(PostActions.subscribeToSub, (state) =>({...state, subscribeToSubLoading: true})),
+  on(PostActions.subscribeToSubSuccess, (state, payload) =>({...state, posts: state.posts.map(p => { if(p.subName === payload.sub.title){ p.sub.subscriptionStatus = true} return p }), subscribeToSubLoading: false})),
+
 );

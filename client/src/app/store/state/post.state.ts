@@ -24,11 +24,13 @@ export interface IPostState {
   post: Post;
   posts: Post[];
   loading: boolean;
+  subscribeToSubLoading: boolean; 
   error: any;
 }
 export const initialPostState: IPostState = {
   post: null,
   posts: [],
   loading: false,
+  subscribeToSubLoading: false,
   error: null
 };
