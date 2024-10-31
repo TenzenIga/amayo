@@ -18,3 +18,8 @@ export const selectLoading = createSelector(
   postState,
   (state: IPostState) => state.loading
 );
+
+export const selectSubscribeToSubLoading = createSelector(
+  postState,
+  (state: IPostState) => state.subscribeToSubLoading
+);

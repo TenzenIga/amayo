@@ -46,7 +46,7 @@
                   {{ post.createdAt | dateAgo }}
                 </a>
               @if (post.sub.subscriptionStatus) {
-                  <button class="ms-auto btn btn-light btn-sm">Подписаны</button>
+                  <button  (click)="unsubscribeSub(post.subName)" class="ms-auto btn btn-light btn-sm">Подписаны</button>
                 } @else {<button (click)="subscribeToSub(post.subName)" class="ms-auto btn btn-primary btn-sm">Подписаться</button>}
               </app-post>
             }

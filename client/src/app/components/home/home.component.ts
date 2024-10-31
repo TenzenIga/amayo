@@ -6,9 +6,8 @@ import { Store } from '@ngrx/store';
 import { getPosts, subscribeToSub } from 'app/store/actions/post.action';
 import { Post } from 'app/store/state/post.state';
 import { IAppState } from 'app/store/state/app.state';
-import { selectLoading, selectPosts } from 'app/store/selectors/post.selector';
+import { selectLoading, selectPosts, selectSubscribeToSubLoading } from 'app/store/selectors/post.selector';
 import { AuthService } from '@core/services/auth.service';
-import { Sub } from '@shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +21,7 @@ export class HomeComponent implements OnInit {
   protected readonly authService: AuthService = inject(AuthService);
   public readonly posts$: Observable<Post[]> = this.store.select(selectPosts);
   public readonly loading$: Observable<boolean> = this.store.select(selectLoading);
+  public readonly subscribeToSubLoading$: Observable<boolean> = this.store.select(selectSubscribeToSubLoading);
 
   ngOnInit(): void {
     this.store.dispatch(getPosts());
@@ -42,4 +42,8 @@ export class HomeComponent implements OnInit {
   public subscribeToSub(subName: string) {
     this.store.dispatch(subscribeToSub({name: subName }));
   }
+
+  public unsubscribeSub(subName: string){
+    
+  } 
 }

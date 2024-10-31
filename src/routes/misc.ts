@@ -27,6 +27,24 @@ const subscribeToSub = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Something went wrong' });
   }
 };
+const unsubscribeSub = async (req: Request, res: Response) => {
+  const { name } = req.body;
+
+  try {
+    const sub = await Sub.findOneOrFail(
+      { name },
+      { relations: ['subscribers'] }
+    );
+    const user: User = res.locals.user;
+
+    sub.subscribers = sub.subscribers.filter(u => u.id !== user.id);
+    await sub.save();
+    return res.json(sub);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
 
 const voteOnPost = async (req: Request, res: Response) => {
   const { identifier, slug, value } = req.body;
@@ -151,6 +169,7 @@ const topSubs = async (_: Request, res: Response) => {
 const router = Router();
 
 router.post('/subscribe', user, auth, subscribeToSub);
+router.post('/unsubscribe', user, auth, unsubscribeSub);
 router.post('/vote-post', user, auth, voteOnPost);
 router.post('/vote-comment', user, auth, voteOnComment);
 router.get('/top-subs', topSubs);

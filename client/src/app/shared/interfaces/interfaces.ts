@@ -42,6 +42,7 @@ export interface Sub {
   createdAt?: Date;
   updatedAt?: Date;
   title: string;
+  name?: string;
   description: string;
   imageUrn?: string;
   bannerUrn?: string;
