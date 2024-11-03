@@ -6,6 +6,11 @@ import Sub from '../entity/Sub';
 import Comment from '../entity/Comment';
 import user from '../middleware/user';
 
+interface PostExtended extends Post {
+  subscriptionStatus?:boolean,
+  imageUrl?: string
+}
+
 const createPost = async (req: Request, res: Response) => {
   const { title, body, sub } = req.body;
   const user = res.locals.user;
@@ -48,8 +53,9 @@ const deletePost = async (req: Request, res: Response) => {
 };
 
 const getPosts = async (_: Request, res: Response) => {
+
   try {
-    const posts = await Post.find({
+    const posts:PostExtended[] = await Post.find({
       order: { createdAt: 'DESC' },
       relations: ['comments', 'votes']
     });
@@ -60,12 +66,13 @@ const getPosts = async (_: Request, res: Response) => {
           relations: ['subscribers']
         }
       );
-      p.sub = sub;
       if (res.locals.user){
         p.setUserVote(res.locals.user)
-        p.sub.setStatus(res.locals.user);
+        sub.setStatus(res.locals.user);
 
       }
+      p.subscriptionStatus = sub.subscriptionStatus;
+      p.imageUrl = sub.imageUrl;
     }));
   
     return res.json(posts);

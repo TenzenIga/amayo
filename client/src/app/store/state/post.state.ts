@@ -11,13 +11,14 @@ export interface Post {
   slug?: string;
   body: string;
   subName?: string;
-  sub?: Sub;
   user?: string;
   url?: string;
   username?: string;
   voteScore: number;
   commentCount: number;
   userVote?: number;
+  subscriptionStatus: boolean;
+  imageUrl?: string;
 }
 
 export interface IPostState {
