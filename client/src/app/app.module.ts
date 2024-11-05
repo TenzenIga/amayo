@@ -41,6 +41,7 @@ import { CommentEffects } from './store/effects/comment.effects';
 import { SubEffect } from './store/effects/sub.effects';
 import { PushPipe } from '@ngrx/component';
 import { QuillModule } from 'ngx-quill';
+import { SubscribeButtonComponent } from "./components/subscribe-button/subscribe-button.component";
 
 @NgModule({ declarations: [
         AppComponent,
@@ -64,23 +65,23 @@ import { QuillModule } from 'ngx-quill';
         SearchInputComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
-        CoreModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        SharedModule,
-        ToastrModule.forRoot(),
-        FontAwesomeModule,
-        AppRoutingModule,
-        PushPipe,
-        StoreModule.forRoot(appReducers),
-        QuillModule.forRoot(),
-        StoreDevtoolsModule.instrument({
-            maxAge: 25, // Retains last 25 states
-            autoPause: true // Pauses recording actions and state changes when the extension window is not open
-        }),
-        EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect, ]),
-        NgbModule,
-        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })], providers: [
+    CoreModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    SharedModule,
+    ToastrModule.forRoot(),
+    FontAwesomeModule,
+    AppRoutingModule,
+    PushPipe,
+    StoreModule.forRoot(appReducers),
+    QuillModule.forRoot(),
+    StoreDevtoolsModule.instrument({
+        maxAge: 25, // Retains last 25 states
+        autoPause: true // Pauses recording actions and state changes when the extension window is not open
+    }),
+    EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect,]),
+    NgbModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }), SubscribeButtonComponent], providers: [
         AuthGuard,
         {
             provide: HTTP_INTERCEPTORS,
