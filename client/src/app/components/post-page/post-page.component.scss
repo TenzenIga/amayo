@@ -3,14 +3,30 @@
     
     &__header {
         cursor: pointer;
-        display: flex;
         & > *{
             font-weight: 500;
         } 
     }
+    .sub{
+        font-size: 14px;
+    }
+    .username {
+        font-size: 12px;
+        font-weight: 400;
+    }
+    .sub-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: cover;
+    }
     a {
         color: #212529;
         text-decoration: none;
+    }
+    .date {
+        font-size: 12px;
+
     }
 }
 

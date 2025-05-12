@@ -8,7 +8,7 @@
         <a
         [routerLink]="[post.url]"
         >
-        <p class="card-text" [innerHtml] = "post.body"></p>
+        <p class="card-text" [innerHtml]="post.body"></p>
         </a>
         
         <app-post-footer (vote)="onVotePost($event)" [post]="post"></app-post-footer>

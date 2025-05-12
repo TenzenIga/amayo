@@ -7,6 +7,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { CreatePostButtonComponent } from './components/create-post-button/create-post-button.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
+import { AppRoutingModule } from 'app/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
     CreatePostButtonComponent,
     SuggestionsComponent
   ],
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule,AppRoutingModule ],
   exports: [
     LoaderComponent,
     DateAgoPipe,

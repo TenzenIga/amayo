@@ -1,6 +1,6 @@
 <div class="post-footer">
-  <div class="comments">
-    <fa-icon [icon]="faCommentAlt" class="comments-icon" ></fa-icon>
+  <div  [routerLink]="[post.url]" class="comments">
+    <fa-icon [icon]="faCommentAlt"  class="comments-icon" ></fa-icon>
     @if (post.commentCount > 0) {
       <span >{{post.commentCount}}</span>
     }

@@ -8,7 +8,7 @@ import user from '../middleware/user';
 
 interface PostExtended extends Post {
   subscriptionStatus?:boolean,
-  imageUrl?: string
+  subImageUrl?: string
 }
 
 const createPost = async (req: Request, res: Response) => {
@@ -72,7 +72,7 @@ const getPosts = async (_: Request, res: Response) => {
 
       }
       p.subscriptionStatus = sub.subscriptionStatus;
-      p.imageUrl = sub.imageUrl;
+      p.subImageUrl = sub.imageUrl;
     }));
   
     return res.json(posts);

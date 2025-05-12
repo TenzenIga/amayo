@@ -5,18 +5,26 @@
     <div class="my-2 col-8">
       <div class="card post-page">
         <div class="card-body">
-          <div class="post-page__header">
-            <div class="avatar"></div>
-            <a
-              [routerLink]="['/u', post.username]"
-              class="py-1 pr-1 username">
-              {{ post.username }}
-            </a>
-            <a
-              [routerLink]="[post.url]"
-              class="p-1 ms-2 text-muted date">
+          <div class="post-page__header d-flex align-items-center">
+            <div
+            class="sub-avatar"
+            [ngStyle]="{
+              'background-image': 'url(' + post.sub.imageUrl + ')'
+            }"></div>
+            <div class="d-flex flex-column  ms-2">
+              <a (click)="goToSub()" class="sub">
+                r/{{ post.subName }}
+              </a>
+              <a
+                [routerLink]="['/u', post.username]"
+                class="username text-muted ">
+                {{ post.username }}
+              </a>
+            </div>
+            <span
+              class="ms-2 text-muted date align-self-start">
               {{ post.createdAt | dateAgo }}
-            </a>
+          </span>
           </div>
           <h3 class="post-page__title">{{ post.title }}</h3>
           <div class="mt-2 post-page__body">

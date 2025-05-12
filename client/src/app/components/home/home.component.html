@@ -29,7 +29,7 @@
                   <div
                     class="sub-avatar"
                     [ngStyle]="{
-                      'background-image': 'url(' + post.imageUrl + ')'
+                      'background-image': 'url(' + post.subImageUrl + ')'
                     }"></div>
                     <div class="py-1 pr-1 sub">
                       r/{{ post.subName }}
@@ -45,7 +45,11 @@
                   class="p-1 ms-2 text-muted date">
                   {{ post.createdAt | dateAgo }}
                 </a>
-                <app-subscribe-button class="ms-auto" [subscriptionStatus]="post.subscriptionStatus" [subName]="post.subName" (subscribeEvent)="subscribeToSub($event)" (unsubscribeEvent)="unsubscribeSub($event)" ></app-subscribe-button>
+                <app-subscribe-button class="ms-auto"
+                  [subscriptionStatus]="post.subscriptionStatus"
+                  [subName]="post.subName" 
+                  (subscribeEvent)="subscribeToSub($event)" 
+                  (unsubscribeEvent)="unsubscribeSub($event)" ></app-subscribe-button>
               </app-post>
             }
           </div>

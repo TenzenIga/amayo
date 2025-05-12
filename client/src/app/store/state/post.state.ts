@@ -18,7 +18,7 @@ export interface Post {
   commentCount: number;
   userVote?: number;
   subscriptionStatus: boolean;
-  imageUrl?: string;
+  subImageUrl?: string;
 }
 
 export interface IPostState {
