@@ -35,6 +35,9 @@ export default class Sub extends Entity {
 
   @Column({ nullable: true })
   bannerUrn: string;
+   
+  @Column({ nullable: true })
+  rules: string
 
   @Column()
   username: string;
