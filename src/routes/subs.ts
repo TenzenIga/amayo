@@ -1,8 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { isEmpty } from 'class-validator';
 import { getRepository } from 'typeorm';
-import multer, { FileFilterCallback } from 'multer';
-import path from 'path';
 import fs from 'fs';
 
 import auth from '../middleware/auth';
@@ -10,7 +8,7 @@ import User from '../entity/User';
 import Sub from '../entity/Sub';
 import user from '../middleware/user';
 import Post from '../entity/Post';
-import { makeId, validateSubName } from '../utils/helpers';
+import { upload, validateSubName } from '../utils/helpers';
 
 const createSub = async (req: Request, res: Response) => {
   const { name } = req.body;
@@ -112,22 +110,7 @@ const subOwner = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: 'public/images',
-    filename: (_, file, cb) => {
-      const name = makeId(15);
-      cb(null, name + path.extname(file.originalname)); // ex. adwdwqeq + .png
-    }
-  }),
-  fileFilter: (_, file: any, cb: FileFilterCallback) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype == 'image/png') {
-      cb(null, true);
-    } else {
-      cb(new Error('File is not an image'));
-    }
-  }
-});
+
 
 const uploadSubImage = async (req: Request, res: Response) => {
   const sub: Sub = res.locals.sub;

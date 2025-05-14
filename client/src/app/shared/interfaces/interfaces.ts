@@ -13,6 +13,7 @@ export type postPayload = {
   sub: string;
   title: string;
   body: string;
+  file:File;
 };
 
 export type subPayload = {

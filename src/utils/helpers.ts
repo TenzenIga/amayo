@@ -1,3 +1,6 @@
+import multer, { FileFilterCallback } from 'multer';
+import path from 'path';
+
 export function makeId(length:number):string {
     let result = [];
     const characters  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -14,3 +17,20 @@ export function validateSubName(name: string): boolean {
   return !!name.match(allowedChars);
 
 }
+
+export const upload = multer({
+  storage: multer.diskStorage({
+    destination: 'public/images',
+    filename: (_, file, cb) => {
+      const name = makeId(15);
+      cb(null, name + path.extname(file.originalname)); // ex. adwdwqeq + .png
+    }
+  }),
+  fileFilter: (_, file: any, cb: FileFilterCallback) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype == 'image/png') {
+      cb(null, true);
+    } else {
+      cb(new Error('File is not an image'));
+    }
+  }
+});

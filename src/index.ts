@@ -24,7 +24,11 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(trim);
 app.use(cookieParser());
-app.use(cors());
+// Enable CORS for your Angular app's origin
+app.use(cors({
+  origin: 'http://localhost:4200'
+}));
+
 
 app.use(express.static('public'))
 app.get('/', (_, res) => res.send("Hello world"));

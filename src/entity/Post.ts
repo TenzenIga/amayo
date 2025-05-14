@@ -29,6 +29,9 @@ export default class Post extends Entity{
 
     @Column({nullable:true, type: 'text'})
     body: string
+     
+    @Column({ nullable: true })
+    postImage: string;
 
     @Column()
     subName: string
@@ -63,6 +66,11 @@ export default class Post extends Entity{
     @Expose() get voteScore(): number {
         return this.votes ?  this.votes.reduce((prev, curr)=> prev + (curr.value || 0), 0) : 0;
     }  
+
+    @Expose()
+    get postImageUrl(): string | undefined {
+           return this.postImage ? `${process.env.APP_URL}/images/${this.postImage}` : undefined;
+    }
 
     protected userVote: number
     setUserVote(user: User) {

@@ -17,7 +17,7 @@ import {
 import { postPayload, Sub } from '@shared/interfaces/interfaces';
 import { createPost } from 'app/store/actions/post.action';
 import { searchSubs, searchSubsClear } from 'app/store/actions/sub.action';
-import { suggestedSubs } from 'app/store/selectors/sub.selector';
+import { selectSub, suggestedSubs } from 'app/store/selectors/sub.selector';
 import { IAppState } from 'app/store/state/app.state';
 import { quillConfiguration } from './quilConfig';
 
@@ -34,15 +34,17 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
   public postForm = new UntypedFormGroup({
     sub: new UntypedFormControl('', [Validators.required]),
     title: new UntypedFormControl('', [Validators.required]),
-    body: new UntypedFormControl('', [Validators.required])
+    body: new UntypedFormControl('', [Validators.required]),
   });
 
   private readonly destroy$: Subject<void>;
   public readonly suggestions$: Observable<Sub[]>;
+  public readonly activeSub$: Observable<Sub>;
   public readonly inputSubscription$: Observable<string>;
 
   constructor(private store: Store<IAppState>) {
     this.suggestions$ = this.store.select(suggestedSubs);
+   this.activeSub$ =this.store.select(selectSub);
     this.destroy$ = new Subject();
     this.inputSubscription$ = this.postForm.get('sub').valueChanges.pipe(
       // filter((text) => text.length > 2 || text.length === 0),
@@ -53,11 +55,15 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.inputSubscription$.subscribe((text) => {
+    this.inputSubscription$.pipe(takeUntil(this.destroy$)).subscribe((text) => {
       text.length === 0
         ? this.store.dispatch(searchSubsClear())
         : this.store.dispatch(searchSubs({ subName: text }));
     });
+    
+    this.activeSub$.pipe(takeUntil(this.destroy$)).subscribe(sub => {
+      this.setSub(sub.name);
+    })
   }
 
   public createPost(): void {

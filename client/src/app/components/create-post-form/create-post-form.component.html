@@ -10,18 +10,17 @@
   <app-suggestions
     [subs]="suggestions$ | ngrxPush"
     (clickSub)="setSub($event)"></app-suggestions>
-
-  <!-- <ul class="list-group suggestions">
-    <li *ngFor="let sub of [{name:'test'},{name:'fffffffff'}, {name:'angular'}];" class="list-group-item">
-      {{sub.name}}
-    </li>
-  </ul> -->
   <div class="card p-3 mt-2">
     <input
       type="text"
       formControlName="title"
       class="form-control my-2"
       placeholder="Заголовок" />
+    <input
+      type="file"
+      formControlName="file"
+      class="form-control my-2"
+       />
     <quill-editor
       [styles]="{ 'min-height': '320px' }"
       [placeholder]="'Текст'"

@@ -5,6 +5,7 @@ import Post from '../entity/Post';
 import Sub from '../entity/Sub';
 import Comment from '../entity/Comment';
 import user from '../middleware/user';
+import { upload } from '../utils/helpers';
 
 interface PostExtended extends Post {
   subscriptionStatus?:boolean,
@@ -23,7 +24,7 @@ const createPost = async (req: Request, res: Response) => {
     // find sub
     const subRecord = await Sub.findOneOrFail({ name: sub });
 
-    const post = new Post({ title, body, user, sub: subRecord });
+    const post = new Post({ title, body, user, sub: subRecord, postImage: req.file.filename });
     await post.save();
 
     return res.json(post);
@@ -168,7 +169,7 @@ const getPostComments = async (req: Request, res: Response) => {
 
 const router = Router();
 
-router.post('/', user, auth, createPost);
+router.post('/', user, auth,   upload.single('file'), createPost);
 router.get('/', user, getPosts);
 router.delete('/:identifier/:slug', user, auth, deletePost);
 router.get('/:identifier/:slug', user, getPost);

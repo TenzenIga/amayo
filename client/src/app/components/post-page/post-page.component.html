@@ -27,6 +27,11 @@
           </span>
           </div>
           <h3 class="post-page__title">{{ post.title }}</h3>
+
+          @if(post.postImageUrl) {
+              <img [src]="post.postImageUrl"  class="card-img-top w-50 mx-auto d-block" />
+          }
+         
           <div class="mt-2 post-page__body">
             <p [innerHtml]="post.body"></p>
           </div>

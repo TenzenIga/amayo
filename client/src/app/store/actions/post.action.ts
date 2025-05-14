@@ -6,6 +6,7 @@ export type postPayload = {
     sub: string;
     title: string;
     body: string;
+    file:File;
 };
 
 export enum PostActions {
