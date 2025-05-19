@@ -9,7 +9,7 @@ import { Sub } from 'app/store/state/sub.state';
   providedIn: 'root'
 })
 export class SubService {
-  private url = 'http://localhost:5000/api';
+  private url = '/api';
 
   constructor(private http: HttpClient) {}
 

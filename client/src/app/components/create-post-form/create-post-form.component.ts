@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
@@ -13,6 +15,9 @@ import {
   filter,
   takeUntil
 } from 'rxjs/operators';
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 
 import { postPayload, Sub } from '@shared/interfaces/interfaces';
 import { createPost } from 'app/store/actions/post.action';
@@ -20,6 +25,7 @@ import { searchSubs, searchSubsClear } from 'app/store/actions/sub.action';
 import { selectSub, suggestedSubs } from 'app/store/selectors/sub.selector';
 import { IAppState } from 'app/store/state/app.state';
 import { quillConfiguration } from './quilConfig';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-post-form',
@@ -28,24 +34,30 @@ import { quillConfiguration } from './quilConfig';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreatePostFormComponent implements OnInit, OnDestroy {
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+
   public subName?: string;
   public postPayload: postPayload;
   public quilConfig = quillConfiguration;
-  public postForm = new UntypedFormGroup({
-    sub: new UntypedFormControl('', [Validators.required]),
-    title: new UntypedFormControl('', [Validators.required]),
-    body: new UntypedFormControl('', [Validators.required]),
-  });
-
+  public postForm: UntypedFormGroup;
+  public selectedFile: File | null = null;
+  public imgUrl:string | null = null;
   private readonly destroy$: Subject<void>;
   public readonly suggestions$: Observable<Sub[]>;
   public readonly activeSub$: Observable<Sub>;
   public readonly inputSubscription$: Observable<string>;
-
-  constructor(private store: Store<IAppState>) {
+  public faXmark = faTimes;
+  constructor(private http: HttpClient, private store: Store<IAppState>, private fb: FormBuilder) {
+    this.postForm = this.fb.group({
+      sub: ['', [Validators.required]],
+      title: ['', [Validators.required]],
+      body: [''],
+      file: [null]
+    });
     this.suggestions$ = this.store.select(suggestedSubs);
-   this.activeSub$ =this.store.select(selectSub);
+    this.activeSub$ =this.store.select(selectSub);
     this.destroy$ = new Subject();
+
     this.inputSubscription$ = this.postForm.get('sub').valueChanges.pipe(
       // filter((text) => text.length > 2 || text.length === 0),
       debounceTime(200),
@@ -61,14 +73,49 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
         : this.store.dispatch(searchSubs({ subName: text }));
     });
     
-    this.activeSub$.pipe(takeUntil(this.destroy$)).subscribe(sub => {
-      this.setSub(sub.name);
-    })
+    // this.activeSub$.pipe(takeUntil(this.destroy$)).subscribe(sub => {
+    //   this.setSub(sub.name);
+    // })
+  }
+    cancelUpload(){
+      this.imgUrl = null;
+      this.selectedFile = null;
+      this.fileInput.nativeElement.value = null;
+    }
+    onFileSelected(event: any) {
+      console.log(event.target.files);
+      
+    const file = event.target.files[0];
+    this.imgUrl = URL.createObjectURL(file)
+    console.log(this.imgUrl);
+      
+    if (file) {
+      this.selectedFile = file;
+      
+    
+      
+      // Update form control
+      this.postForm.patchValue({
+        image: file
+      });
+      this.postForm.get('file')?.updateValueAndValidity();
+    }
   }
 
   public createPost(): void {
-    this.postPayload = this.postForm.value;
-    this.store.dispatch(createPost({ postdData: this.postPayload }));
+
+    let formData = new FormData();
+      formData.append('sub', this.postForm.get('sub')?.value);
+      formData.append('title', this.postForm.get('title')?.value);
+      if(this.selectedFile){
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+      }
+    // this.store.dispatch(createPost({ postdData: formData }));
+    
+    this.http.post(`/api/posts`, formData).subscribe(res=>{
+      console.log(res);
+      
+    })
   }
 
   public setSub(name: string): void {

@@ -36,6 +36,7 @@ export interface Post {
   voteScore: number;
   commentCount: number;
   userVote?: number;
+  postImageUrl?:string;
 }
 
 export interface Sub {

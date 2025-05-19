@@ -42,7 +42,7 @@ export const getPostSuccess = createAction(
 
 export const createPost = createAction(
     PostActions.CreatePost,
-    props<{ postdData: postPayload }>()
+    props<{ postdData: FormData }>()
 )
 
 export const createPostSuccess = createAction(

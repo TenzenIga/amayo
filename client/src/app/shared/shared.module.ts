@@ -5,7 +5,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PostFooterComponent } from './components/post-footer/post-footer.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
-import { CreatePostButtonComponent } from './components/create-post-button/create-post-button.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { AppRoutingModule } from 'app/app-routing.module';
 
@@ -14,7 +13,6 @@ import { AppRoutingModule } from 'app/app-routing.module';
     LoaderComponent,
     DateAgoPipe,
     PostFooterComponent,
-    CreatePostButtonComponent,
     SuggestionsComponent
   ],
   imports: [CommonModule, FontAwesomeModule,AppRoutingModule ],
@@ -22,7 +20,6 @@ import { AppRoutingModule } from 'app/app-routing.module';
     LoaderComponent,
     DateAgoPipe,
     PostFooterComponent,
-    CreatePostButtonComponent,
     SuggestionsComponent
   ]
 })

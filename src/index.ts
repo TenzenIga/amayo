@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
-
 dotenv.config()
 
 
@@ -19,6 +18,8 @@ import trim from "./middleware/trim";
 
 const app = express();
 
+
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
 
 app.use(morgan('dev'));
@@ -26,7 +27,9 @@ app.use(trim);
 app.use(cookieParser());
 // Enable CORS for your Angular app's origin
 app.use(cors({
-  origin: 'http://localhost:4200'
+  origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 

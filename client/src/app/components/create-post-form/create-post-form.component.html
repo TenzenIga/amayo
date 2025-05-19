@@ -16,10 +16,16 @@
       formControlName="title"
       class="form-control my-2"
       placeholder="Заголовок" />
-    <input
-      type="file"
-      formControlName="file"
-      class="form-control my-2"
+    @if(imgUrl){
+      <div class="image-card">
+        <img [src]="imgUrl"  class="card-img-top w-50 mx-auto d-block" />
+        <fa-icon class="close-icon" (click)="cancelUpload()" [icon]="faXmark" size="lg"></fa-icon>
+      </div>
+    }@else {
+      <button class="file-upload__button" (click)="fileInput.click()">Загрузить изображение</button>
+    }
+   
+    <input type="file" accept="image/png" (change)="onFileSelected($event)" class="file-upload__input" #fileInput
        />
     <quill-editor
       [styles]="{ 'min-height': '320px' }"

@@ -24,7 +24,10 @@ const createPost = async (req: Request, res: Response) => {
     // find sub
     const subRecord = await Sub.findOneOrFail({ name: sub });
 
-    const post = new Post({ title, body, user, sub: subRecord, postImage: req.file.filename });
+    const post = new Post({ title, body, user, sub: subRecord });
+    if(req.file){
+      post.postImage = req.file.filename
+    }
     await post.save();
 
     return res.json(post);
@@ -169,7 +172,7 @@ const getPostComments = async (req: Request, res: Response) => {
 
 const router = Router();
 
-router.post('/', user, auth,   upload.single('file'), createPost);
+router.post('/', user, auth, upload.single('file'), createPost);
 router.get('/', user, getPosts);
 router.delete('/:identifier/:slug', user, auth, deletePost);
 router.get('/:identifier/:slug', user, getPost);

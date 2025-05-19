@@ -16,7 +16,7 @@ export class PostEffects {
     private router: Router
   ) {}
 
-  getPosts$ = createEffect(() => {
+  public readonly getPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.getPosts),
       exhaustMap((_) =>
@@ -27,7 +27,7 @@ export class PostEffects {
     );
   });
 
-  getPost$ = createEffect(() => {
+  public readonly getPost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.getPost),
       exhaustMap((action) =>
@@ -38,7 +38,7 @@ export class PostEffects {
     );
   });
 
-  votePost$ = createEffect(() => {
+  public readonly votePost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.votePost),
       switchMap((action) =>
@@ -49,7 +49,7 @@ export class PostEffects {
     );
   });
 
-  subscribeToSub$ = createEffect(() => {
+  public readonly subscribeToSub$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.subscribeToSub),
       switchMap((action) =>

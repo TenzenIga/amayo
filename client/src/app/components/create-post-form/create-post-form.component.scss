@@ -1,3 +1,4 @@
+
 .form {
     position: relative;
     margin-top: 20px;
@@ -5,4 +6,26 @@
 
 .search-input {
     width: 40%;
+}
+
+.file-upload__input {
+    visibility: hidden;
+}
+
+.file-upload__button {
+    height: 150px;
+    border:dashed 0.06rem #dee2e6;
+    border-radius: 1.25rem;
+    background: transparent;
+}
+
+.image-card {
+    position: relative;
+}
+
+.close-icon {
+    position: absolute;
+    top:0;
+    right: 20px;
+    cursor: pointer;
 }

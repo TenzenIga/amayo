@@ -10,7 +10,7 @@ import { Post } from 'app/store/state/post.state';
   providedIn: 'root'
 })
 export class PostsService {
-  private url = 'http://localhost:5000/api';
+  private url = '/api';
 
 
   constructor(private http: HttpClient) { }
@@ -31,7 +31,7 @@ export class PostsService {
     return this.http.post<Comment>(`${this.url}/posts/${identifier}/${slug}/comments`, { body });
   }
 
-  public createPost(postData: postPayload): Observable<Post> {
+  public createPost(postData: FormData): Observable<Post> {
     return this.http.post<Post>(`${this.url}/posts`, postData);
   }
 

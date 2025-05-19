@@ -8,6 +8,9 @@
         <a
         [routerLink]="[post.url]"
         >
+         @if(post.postImageUrl) {
+              <img [src]="post.postImageUrl"  class="card-img-top w-50 mx-auto d-block" />
+          }
         <p class="card-text" [innerHtml]="post.body"></p>
         </a>
         
