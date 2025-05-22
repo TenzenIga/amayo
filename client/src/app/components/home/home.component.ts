@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { getPosts, subscribeToSub } from 'app/store/actions/post.action';
+
 import { Post } from 'app/store/state/post.state';
 import { IAppState } from 'app/store/state/app.state';
 import { selectLoading, selectPosts, selectSubscribeToSubLoading } from 'app/store/selectors/post.selector';
 import { AuthService } from '@core/services/auth.service';
+import { clearSub } from 'app/store/actions/sub.action';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +27,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(getPosts());
+    this.store.dispatch(clearSub())
   }
 
   public trackByFn(index: string, post: Post): string {
@@ -43,7 +46,6 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(subscribeToSub({name: subName }));
   }
 
-  public unsubscribeSub(subName: string){
-    
-  } 
 }
+
+

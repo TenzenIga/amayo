@@ -4,8 +4,9 @@
 
     <div class="ms-auto d-flex align-items-baseline">
       @if (isloggedIn()) {
-        <a routerLink="/userpage" class="link-primary"><fa-icon [icon]="faUser" size="lg"></fa-icon></a>
-        <button  class="btn btn-primary rounded-pill mx-2" (click)="logOut()" >Выйти</button>
+        <app-dropdown></app-dropdown>
+       
+      
       } @else {
         <a routerLink="/login" class="btn btn-primary rounded-pill mx-2" role="button" routerLinkActive="active">Войти</a>
         <a routerLink="/register" class="btn btn-primary rounded-pill mx-2" role="button" routerLinkActive="active">Регистрация</a>

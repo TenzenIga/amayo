@@ -21,5 +21,6 @@ export const subReducer = createReducer(
     ...state,
     suggestions: payload.suggestions
   })),
-  on(SubActions.searchSubsClear, (state) => ({ ...state, suggestions: [] }))
+  on(SubActions.searchSubsClear, (state) => ({ ...state, suggestions: [] })),
+  on(SubActions.clearSub, (state) => ({ ...state, sub: null }))
 );

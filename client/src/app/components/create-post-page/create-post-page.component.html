@@ -4,7 +4,7 @@
     <app-create-post-form></app-create-post-form>
   </div>
   <div class="my-5 col-4">
-    @if(hasActiveSub){
+    @if(activeSub$ | ngrxPush){
     <app-sidebar>
       <app-sub-info slotStart></app-sub-info>
     </app-sidebar>

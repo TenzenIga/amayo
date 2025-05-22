@@ -16,13 +16,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'userpage', component: UserpageComponent, canActivate: [AuthGuard] },
-  {
-    path: 'submit',
-    component: CreatePostPageComponent,
-    canActivate: [AuthGuard]
-  },
+  { path: 'submit',component: CreatePostPageComponent,canActivate: [AuthGuard]},
   { path: 'r/:subName', component: SubpageComponent },
-  { path: 'r/:subName/submit', component: CreatePostPageComponent },
   { path: 'r/:subName/:identifier/:slug', component: PostPageComponent },
   { path: '**', component: NotFoundPageComponent }
 ];

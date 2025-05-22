@@ -27,6 +27,6 @@ export class SubInfoComponent {
   public readonly sub$: Observable<Sub> = this.store.select(selectSub);
 
   public goToCreatePostPage(): void {
-    this.router.navigate([`r/${this.subName}/submit`]);
+    this.router.navigate([`submit`]);
   }
 }

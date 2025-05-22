@@ -25,8 +25,6 @@ import { searchSubs, searchSubsClear } from 'app/store/actions/sub.action';
 import { selectSub, suggestedSubs } from 'app/store/selectors/sub.selector';
 import { IAppState } from 'app/store/state/app.state';
 import { quillConfiguration } from './quilConfig';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 @Component({
   selector: 'app-create-post-form',
   templateUrl: './create-post-form.component.html',
@@ -42,12 +40,13 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
   public postForm: UntypedFormGroup;
   public selectedFile: File | null = null;
   public imgUrl:string | null = null;
-  private readonly destroy$: Subject<void>;
-  public readonly suggestions$: Observable<Sub[]>;
-  public readonly activeSub$: Observable<Sub>;
   public readonly inputSubscription$: Observable<string>;
-  public faXmark = faTimes;
-  constructor(private http: HttpClient, private store: Store<IAppState>, private fb: FormBuilder) {
+  public readonly faXmark = faTimes;
+  public readonly activeSub$: Observable<Sub>;
+  public readonly suggestions$: Observable<Sub[]>;
+  private readonly destroy$: Subject<void>;
+
+  constructor(private store: Store<IAppState>, private fb: FormBuilder) {
     this.postForm = this.fb.group({
       sub: ['', [Validators.required]],
       title: ['', [Validators.required]],
@@ -73,49 +72,39 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
         : this.store.dispatch(searchSubs({ subName: text }));
     });
     
-    // this.activeSub$.pipe(takeUntil(this.destroy$)).subscribe(sub => {
-    //   this.setSub(sub.name);
-    // })
+    this.activeSub$.pipe(takeUntil(this.destroy$)).subscribe(sub => {
+      this.setSub(sub.name);
+    })
   }
-    cancelUpload(){
+
+  public cancelUpload(): void {
       this.imgUrl = null;
       this.selectedFile = null;
       this.fileInput.nativeElement.value = null;
-    }
-    onFileSelected(event: any) {
-      console.log(event.target.files);
-      
-    const file = event.target.files[0];
+  }
+
+  public onFileSelected(event: Event): void {
+    const file = (<HTMLInputElement>event.target).files[0];
     this.imgUrl = URL.createObjectURL(file)
-    console.log(this.imgUrl);
       
-    if (file) {
-      this.selectedFile = file;
-      
-    
-      
-      // Update form control
-      this.postForm.patchValue({
-        image: file
-      });
-      this.postForm.get('file')?.updateValueAndValidity();
-    }
+      if (file) {
+        this.selectedFile = file;
+        this.postForm.patchValue({ 
+          image: file
+        });
+        this.postForm.get('file')?.updateValueAndValidity();
+      }
   }
 
   public createPost(): void {
-
     let formData = new FormData();
       formData.append('sub', this.postForm.get('sub')?.value);
       formData.append('title', this.postForm.get('title')?.value);
       if(this.selectedFile){
         formData.append('file', this.selectedFile, this.selectedFile.name);
       }
-    // this.store.dispatch(createPost({ postdData: formData }));
+    this.store.dispatch(createPost({ postdData: formData }));
     
-    this.http.post(`/api/posts`, formData).subscribe(res=>{
-      console.log(res);
-      
-    })
   }
 
   public setSub(name: string): void {

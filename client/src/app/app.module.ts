@@ -42,6 +42,7 @@ import { SubEffect } from './store/effects/sub.effects';
 import { PushPipe } from '@ngrx/component';
 import { QuillModule } from 'ngx-quill';
 import { SubscribeButtonComponent } from "./components/subscribe-button/subscribe-button.component";
+import { DropdownComponent } from "./components/navbar/dropdown/dropdown.component";
 
 @NgModule({ declarations: [
         AppComponent,
@@ -81,7 +82,7 @@ import { SubscribeButtonComponent } from "./components/subscribe-button/subscrib
     }),
     EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect,]),
     NgbModule,
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }), SubscribeButtonComponent], providers: [
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }), SubscribeButtonComponent, DropdownComponent], providers: [
         AuthGuard,
         {
             provide: HTTP_INTERCEPTORS,
