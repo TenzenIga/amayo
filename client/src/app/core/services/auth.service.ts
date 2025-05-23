@@ -30,6 +30,11 @@ export class AuthService {
 
   }
 
+  public me():Observable<any> {
+    return this.http.get('/api/auth/me')
+
+  }
+
   public isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }

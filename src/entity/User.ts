@@ -9,7 +9,7 @@ import {
   JoinTable
 } from 'typeorm';
 import bcrypt from 'bcrypt';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 import Entity from './Entity';
 import Post from './Post';
@@ -33,6 +33,9 @@ export default class User extends Entity {
   @Column({ unique: true })
   username: string;
 
+  @Column({ nullable: true })
+  userImage: string;
+
   @Exclude()
   @Column()
   @Length(6, 255, { message: 'Password must be at least 6 characters long' })
@@ -52,4 +55,11 @@ export default class User extends Entity {
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 6);
   }
+
+    @Expose()
+      get userImageUrl(): string {
+        return this.userImage
+          ? `${process.env.APP_URL}/images/${this.userImage}`
+          : `https://ui-avatars.com/api/?length=1&name=${this.username}`;
+    }
 }

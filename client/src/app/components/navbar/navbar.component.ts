@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
-import { DropdownComponent } from './dropdown/dropdown.component';
 
 @Component({
   selector: 'app-navbar',
@@ -17,7 +16,4 @@ export class NavbarComponent {
     return this.authService.isLoggedIn();
   }
 
-  public logOut(): void {
-    this.authService.logout();
-  }
 }

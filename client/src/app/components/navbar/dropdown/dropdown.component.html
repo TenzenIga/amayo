@@ -1,11 +1,21 @@
 
+@if( userInfo$  | async; as userInfo){
 <div ngbDropdown class="d-inline-block">
-    <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-        Toggle dropdown
+<button type="button" class="btn btn-link p-0 me-3" id="dropdownBasic1"  ngbDropdownToggle>
+    <img class="user-image" [src]="userInfo.userImageUrl"/>
     </button>
-    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem><a  routerLink="/userpage" class="dropdown-item" href="#"><fa-icon [icon]="faUser" size="lg"></fa-icon></a></button>
-        <button ngbDropdownItem>Настройки</button>
-        <button ngbDropdownItem>Выйти</button>
+    <div ngbDropdownMenu class="dropdown-content" aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem class="dropdown-btn">
+            <a  routerLink="/userpage" class="item" href="#">
+                <fa-icon [icon]="faUser" size="lg"></fa-icon>
+                <span class="ms-2">Профиль</span>
+            </a>
+        </button>
+        <button ngbDropdownItem class="dropdown-btn">
+            <fa-icon [icon]="faCog" size="lg"></fa-icon>
+            <span class="ms-2">Настройки</span>
+        </button>
+        <button (click)="logOut()" ngbDropdownItem class="dropdown-btn"> <fa-icon [icon]="faArrowRight" size="lg"></fa-icon><span class="ms-2">Выйти</span></button>
     </div>
 </div>
+}
