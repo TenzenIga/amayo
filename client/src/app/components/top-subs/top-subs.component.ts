@@ -7,12 +7,17 @@ import { Sub } from '@shared/interfaces/interfaces';
 import { getTopSubs } from 'app/store/actions/sub.action';
 import { IAppState } from 'app/store/state/app.state';
 import { selectTopSubs } from 'app/store/selectors/sub.selector';
+import { NgStyle } from '@angular/common';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { PushPipe } from '@ngrx/component';
 
 @Component({
-  selector: 'app-top-subs',
-  templateUrl: './top-subs.component.html',
-  styleUrls: ['./top-subs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-top-subs',
+    templateUrl: './top-subs.component.html',
+    styleUrls: ['./top-subs.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgStyle, LoaderComponent, PushPipe]
 })
 export class TopSubsComponent implements OnInit {
   protected readonly store:Store<IAppState> = inject(Store);

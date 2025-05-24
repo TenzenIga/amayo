@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, TemplateRef } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,10 +9,12 @@ import { AuthService } from '@core/services/auth.service';
 
 
 @Component({
-  selector: 'app-create-sub-form',
-  templateUrl: './create-sub-form.component.html',
-  styleUrls: ['./create-sub-form.component.scss'],
-  changeDetection:ChangeDetectionStrategy.OnPush,
+    selector: 'app-create-sub-form',
+    templateUrl: './create-sub-form.component.html',
+    styleUrls: ['./create-sub-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ReactiveFormsModule],
 })
 export class CreateSubFormComponent implements OnInit {
   public error:string | null;

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { PostsService } from '@core/services/posts.service';
@@ -11,12 +11,24 @@ import { getPost, votePost } from 'app/store/actions/post.action';
 import { getComments, voteComment } from 'app/store/actions/comment.action';
 import { selectComments } from 'app/store/selectors/comment.selector';
 import { getSub } from 'app/store/actions/sub.action';
+import { NgStyle } from '@angular/common';
+import { PostFooterComponent } from '../../shared/components/post-footer/post-footer.component';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
+import { CommentComponent } from '../comment/comment.component';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { SubInfoComponent } from '../sub-info/sub-info.component';
+import { TopSubsComponent } from '../top-subs/top-subs.component';
+import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
+import { PushPipe } from '@ngrx/component';
 
 @Component({
-  selector: 'app-post-page',
-  templateUrl: './post-page.component.html',
-  styleUrls: ['./post-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-post-page',
+    templateUrl: './post-page.component.html',
+    styleUrls: ['./post-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgStyle, RouterLink, PostFooterComponent, CommentFormComponent, CommentComponent, LoaderComponent, SidebarComponent, SubInfoComponent, TopSubsComponent, DateAgoPipe, PushPipe]
 })
 export class PostPageComponent implements OnInit {
   public identifier: string;

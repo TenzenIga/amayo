@@ -4,20 +4,24 @@ import {
   EventEmitter,
   inject,
   Input,
-  OnInit,
   Output
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { faCommentAlt, faBookmark } from '@fortawesome/free-regular-svg-icons';
 import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { Post, Comment } from '@shared/interfaces/interfaces';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
+import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [RouterLink, FontAwesomeModule, NgClass, DateAgoPipe]
 })
 export class CommentComponent {
   private authService = inject(AuthService);

@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { notEmptyValidator } from './comment.validator';
 
 @Component({
-  selector: 'app-comment-form',
-  templateUrl: './comment-form.component.html',
-  styleUrls: ['./comment-form.component.scss']
+    selector: 'app-comment-form',
+    templateUrl: './comment-form.component.html',
+    styleUrls: ['./comment-form.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule]
 })
 export class CommentFormComponent implements OnInit {
   

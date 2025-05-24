@@ -6,7 +6,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { faCommentAlt, faBookmark } from '@fortawesome/free-regular-svg-icons';
 import {
   faShare,
@@ -16,12 +16,16 @@ import {
 
 import { Post } from '@shared/interfaces/interfaces';
 import { AuthService } from '@core/services/auth.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-post-footer',
-  templateUrl: './post-footer.component.html',
-  styleUrls: ['./post-footer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-post-footer',
+    templateUrl: './post-footer.component.html',
+    styleUrls: ['./post-footer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [RouterLink, FontAwesomeModule, NgClass]
 })
 export class PostFooterComponent {
   faCommentAlt = faCommentAlt;

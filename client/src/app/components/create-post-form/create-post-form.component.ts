@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
@@ -25,11 +25,17 @@ import { searchSubs, searchSubsClear } from 'app/store/actions/sub.action';
 import { selectSub, suggestedSubs } from 'app/store/selectors/sub.selector';
 import { IAppState } from 'app/store/state/app.state';
 import { quillConfiguration } from './quilConfig';
+import { SuggestionsComponent } from '../../shared/components/suggestions/suggestions.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { QuillEditorComponent } from 'ngx-quill';
+import { PushPipe } from '@ngrx/component';
 @Component({
-  selector: 'app-create-post-form',
-  templateUrl: './create-post-form.component.html',
-  styleUrls: ['./create-post-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-create-post-form',
+    templateUrl: './create-post-form.component.html',
+    styleUrls: ['./create-post-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [ReactiveFormsModule, SuggestionsComponent, FontAwesomeModule, QuillEditorComponent, PushPipe]
 })
 export class CreatePostFormComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;

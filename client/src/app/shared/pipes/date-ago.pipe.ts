@@ -7,7 +7,8 @@ enum Seconds  {
 }
 
 @Pipe({
-  name: 'dateAgo'
+    name: 'dateAgo',
+    standalone: true
 })
 export class DateAgoPipe implements PipeTransform {
 

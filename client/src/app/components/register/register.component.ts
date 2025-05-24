@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { UntypedFormGroup, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 
 import { AuthService } from '@core/services/auth.service';
@@ -12,9 +12,11 @@ type errors = {
 };
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, RouterLink, RouterLinkActive]
 })
 export class RegisterComponent implements OnInit {
  public errors: errors = {

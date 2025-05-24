@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthService } from '@core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { loginPayload } from '@shared/interfaces/interfaces';
 
 type errors = {
@@ -11,9 +11,11 @@ type errors = {
 };
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, RouterLink, RouterLinkActive]
 })
 export class LoginComponent implements OnInit {
   public errors: errors = {

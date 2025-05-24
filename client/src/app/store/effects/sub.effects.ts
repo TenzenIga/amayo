@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SubService } from '@core/services/sub.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, pluck, switchMap } from 'rxjs/operators';
+import { exhaustMap, map, switchMap } from 'rxjs/operators';
 import * as SubActions from '../actions/sub.action';
 
 @Injectable()
