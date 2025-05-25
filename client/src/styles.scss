@@ -15,3 +15,6 @@ input.ng-invalid.ng-touched{
 
 
 
+.ql-editor.ql-blank::before {
+    color: unset;
+}

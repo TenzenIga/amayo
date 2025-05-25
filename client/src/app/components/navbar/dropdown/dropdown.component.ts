@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
@@ -17,11 +17,24 @@ import {faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 export class DropdownComponent {
   public faUser = faUser;
   private authService = inject(AuthService);
+  private renderer = inject(Renderer2);
   public userInfo$ = this.authService.me()
   public faCog = faCog
   public faArrowRight = faSignOutAlt
+  public isDarkTheme = true;
   
   public logOut(): void {
     this.authService.logout();
+  }
+
+  public toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    const htmlTag = document.documentElement;
+    
+    if (this.isDarkTheme) {
+      this.renderer.setAttribute(htmlTag, 'data-bs-theme', 'dark');
+    } else {
+      this.renderer.removeAttribute(htmlTag, 'data-bs-theme');
+    }
   }
 }

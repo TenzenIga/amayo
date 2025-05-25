@@ -11,13 +11,13 @@
                 class="list-group-item sub"
                 >
                 <a (click)="goToSub(sub.name)" class="d-flex align-items-center">
-                  <span class="pe-2">{{ i + 1 }}</span>
-                  <div class="mr-2 sub-avatar" [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}"></div>
+                  <span>{{ i + 1 }}</span>
+                  <div class="mx-2 sub-avatar" [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}"></div>
                   <span class="sub-title">
                     r/{{ sub.name }}
                  </span>
                 </a>
-                <button class="ms-auto btn btn-primary btn-sm">Подписаться</button>
+                <button class="ms-auto btn btn-outline-primary btn-sm">Подписаться</button>
               </li>
             }
           </ul>
