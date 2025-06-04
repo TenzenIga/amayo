@@ -2,10 +2,17 @@
   posts: posts$ | ngrxPush,
   loading: loading$ | ngrxPush
   }; as state) {
+   
   <div
     class="row"
     >
-    <div class="col-8">
+    <div [class.visible]="sidebarService.isVisible()" class="d-md-none bg-primary-subtle sidebar-mobile ">
+      <app-sidebar-left></app-sidebar-left>
+    </div>
+    <div class="d-none d-md-block col-3">
+      <app-sidebar-left></app-sidebar-left>
+    </div>
+    <div class="col-md-6">
       @if (state.loading) {
         <app-loader
         class="loader col-8"></app-loader>
@@ -53,10 +60,11 @@
               </app-post>
             }
           </div>
+          <button class="button-mobile text-bg-primary d-md-none" (click)="goToCreatePostPage()"><fa-icon [icon]="faPen" size="lg"></fa-icon></button>
         }
       }
     </div>
-    <div class="col-4">
+    <div class="d-none d-md-block col-3">
       <app-sidebar>
         <app-top-subs slotStart></app-top-subs>
         @if(isLoggedIn){

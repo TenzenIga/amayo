@@ -19,8 +19,8 @@ export class DropdownComponent {
   private authService = inject(AuthService);
   private renderer = inject(Renderer2);
   public userInfo$ = this.authService.me()
-  public faCog = faCog
-  public faArrowRight = faSignOutAlt
+  public faCog = faCog;
+  public faArrowRight = faSignOutAlt;
   public isDarkTheme = true;
   
   public logOut(): void {
