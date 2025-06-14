@@ -27,15 +27,3 @@ a {
     right: 30px;
     box-shadow: rgba(255, 255, 255, 0.02) 0px 0px 0px 1px inset;
 }
-.sidebar-mobile {
-    width: 300px;
-    left: -300px;
-    position: fixed;
-    z-index: 1;
-    top: 63px;
-    height: 100vh;
-    transition: left 0.3s ease;
-}
-.sidebar-mobile.visible {
-      left: 0;
- }

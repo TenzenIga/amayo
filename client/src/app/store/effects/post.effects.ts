@@ -9,12 +9,10 @@ import { SubService } from '@core/services/sub.service';
 
 @Injectable()
 export class PostEffects {
-  constructor(
-    private actions$: Actions,
-    private postsService: PostsService,
-    private subService: SubService,
-    private router: Router
-  ) {}
+  private actions$: Actions = inject(Actions);
+  private postsService: PostsService = inject(PostsService);
+  private subService: SubService = inject(SubService);
+  private router: Router = inject(Router);
 
   public readonly getPosts$ = createEffect(() => {
     return this.actions$.pipe(

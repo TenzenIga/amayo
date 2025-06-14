@@ -1,4 +1,16 @@
 <app-navbar></app-navbar>
+
 <div class="container main">
-    <router-outlet></router-outlet>
+    <div class="row">
+     <div [class.visible]="sidebarService.isVisible()" class="d-md-none bg-primary-subtle sidebar-mobile ">
+      <app-sidebar-left></app-sidebar-left>
+    </div>
+    <div class="d-none d-md-block col-3">
+      <app-sidebar-left></app-sidebar-left>
+    </div>
+    <div class="col-md-9">
+        <router-outlet></router-outlet>
+    </div>
+    </div>
+
 </div>

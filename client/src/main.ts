@@ -27,6 +27,7 @@ import { CommentEffects } from './app/store/effects/comment.effects';
 import { SubEffect } from './app/store/effects/sub.effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app/app.component';
+import { UserEffect } from 'app/store/effects/user.effects';
 
 if (environment.production) {
   enableProdMode();
@@ -38,7 +39,7 @@ bootstrapApplication(AppComponent, {
             maxAge: 25, // Retains last 25 states
             autoPause: true // Pauses recording actions and state changes when the extension window is not open
         }),
-         EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect,]), NgbModule, StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })),
+         EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect, UserEffect]), NgbModule, StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })),
         AuthGuard,
         {
             provide: HTTP_INTERCEPTORS,

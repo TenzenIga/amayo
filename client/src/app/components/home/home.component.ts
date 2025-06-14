@@ -21,21 +21,19 @@ import { CreateSubFormComponent } from '../create-sub-form/create-sub-form.compo
 import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
 import { PushPipe } from '@ngrx/component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { SidebarLeftComponent } from "../sidebar-left/sidebar-left.component";
-import { SidebarService } from '@core/services/sidebar.service';
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [FontAwesomeModule, LoaderComponent, PostComponent, RouterLink, NgStyle, SubscribeButtonComponent, SidebarComponent, TopSubsComponent, CreateSubFormComponent, DateAgoPipe, PushPipe, SidebarLeftComponent]
+    imports: [FontAwesomeModule, LoaderComponent, PostComponent, RouterLink, NgStyle, SubscribeButtonComponent, SidebarComponent, TopSubsComponent, CreateSubFormComponent, DateAgoPipe, PushPipe, ]
 })
 export class HomeComponent implements OnInit {
   protected readonly store:Store<IAppState> = inject(Store);
   protected readonly router: Router = inject(Router);
   protected readonly authService: AuthService = inject(AuthService);
-  protected readonly sidebarService: SidebarService = inject(SidebarService);
 
   public readonly posts$: Observable<Post[]> = this.store.select(selectPosts);
   public readonly loading$: Observable<boolean> = this.store.select(selectLoading);

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Comment, postPayload } from '@shared/interfaces/interfaces';
@@ -11,9 +11,7 @@ import { Post } from 'app/store/state/post.state';
 })
 export class PostsService {
   private url = '/api';
-
-
-  constructor(private http: HttpClient) { }
+  private http:HttpClient = inject(HttpClient)
 
   public getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.url}/posts`);
