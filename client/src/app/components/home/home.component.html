@@ -22,7 +22,7 @@
             @for (post of state.posts; track trackByFn($index, post)) {
               <app-post
                 [post]="post"
-                class="d-flex"
+                class="d-flex my-2"
                >
                 <a
                   [routerLink]="['r/', post.subName]"
@@ -32,7 +32,7 @@
                     [ngStyle]="{
                       'background-image': 'url(' + post.subImageUrl + ')'
                     }"></div>
-                    <div class="py-1 pr-1 sub">
+                    <div class="py-1 ps-1 sub">
                       r/{{ post.subName }}
                     </div>
                 </a>
@@ -65,14 +65,6 @@
           <div
           class="card"
           slotMid>
-          <div class="card-body">
-            <button
-              class="my-3 btn btn-primary btn-sm d-block w-100 rounded-pill"
-              (click)="goToCreatePostPage()">
-              Новый пост
-            </button>
-            <app-create-sub-form></app-create-sub-form>
-          </div>
         </div>
         }
  

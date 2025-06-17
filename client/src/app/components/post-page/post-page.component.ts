@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
 import { selectPost } from 'app/store/selectors/post.selector';
 import { getPost, votePost } from 'app/store/actions/post.action';
-import { getComments, voteComment } from 'app/store/actions/comment.action';
+import { getComments, voteComment, createComment } from 'app/store/actions/comment.action';
 import { selectComments } from 'app/store/selectors/comment.selector';
 import { getSub } from 'app/store/actions/sub.action';
 import { NgStyle } from '@angular/common';
@@ -39,7 +39,6 @@ export class PostPageComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private postService: PostsService,
     private store: Store<IAppState>,
     private router: Router = inject(Router)
     
@@ -65,13 +64,7 @@ export class PostPageComponent implements OnInit {
   public sendComment(commentBody: string): void {
     const identifier = this.activatedRoute.snapshot.paramMap.get('identifier');
     const slug = this.activatedRoute.snapshot.paramMap.get('slug');
-    this.postService.sendComment(identifier, slug, commentBody).subscribe(
-      {
-        next:   (data) => this.post$ = this.postService.getPost(identifier, slug),
-        error:(error) => console.log(error)
-      }
-  
-    );
+    this.store.dispatch(createComment({identifier, slug, value:commentBody}))
   }
 
   public trackByFn(comment: Comment): string {

@@ -3,6 +3,11 @@
     <fa-icon (click)="toggleSidebar()" class="px-2 d-md-none" [icon]="faBars" size="lg"></fa-icon>
     <a class="navbar-brand" routerLink="/">Reddit</a>
     <div class="ms-auto d-flex align-items-baseline">
+          <button
+              class="mx-3 px-4 btn btn-primary btn-sm d-none d-md-block w-100 rounded-pill"
+              (click)="goToCreatePostPage()">
+              Новый пост
+            </button>
       @if (isloggedIn()) {
         <app-dropdown></app-dropdown>
       } @else {

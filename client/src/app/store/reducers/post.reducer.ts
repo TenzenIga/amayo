@@ -19,8 +19,12 @@ export const postReducer = createReducer(
   on(PostActions.votePostSuccess, (state, payload) => ({
     ...state,
     post: payload.post,
-    posts: state.posts.map((p) =>
-      p.identifier === payload.post.identifier ? payload.post : p
+    posts: state.posts.map((p) =>{
+      if(p.identifier === payload.post.identifier){
+        return {...p, userVote: payload.post.userVote, voteScore: payload.post.voteScore}
+      }
+      return p
+    }
     )
   })),
   on(PostActions.createPost, (state) => ({ ...state, loading: true })),

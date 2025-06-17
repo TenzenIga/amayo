@@ -37,4 +37,17 @@ export class CommentEffects {
       )
     );
   });
+
+  createComment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CommentActions.createComment),
+      switchMap((action) =>
+        this.postsService
+          .sendComment(action.identifier, action.slug, action.value)
+          .pipe(
+            map((comment) => CommentActions.createCommentSuccess({ comment }))
+          )
+      )
+    );
+  });
 }

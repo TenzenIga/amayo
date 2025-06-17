@@ -15,5 +15,9 @@ export const commentReducer = createReducer(
     comments: state.comments.map((c) =>
       c.identifier === payload.comment.identifier ? payload.comment : c
     )
+  })),
+  on(CommentActions.createCommentSuccess, (state, payload) => ({
+    ...state,
+    comments: [...state.comments, payload.comment]
   }))
 );

@@ -32,7 +32,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class HomeComponent implements OnInit {
   protected readonly store:Store<IAppState> = inject(Store);
-  protected readonly router: Router = inject(Router);
   protected readonly authService: AuthService = inject(AuthService);
 
   public readonly posts$: Observable<Post[]> = this.store.select(selectPosts);
@@ -47,10 +46,6 @@ export class HomeComponent implements OnInit {
 
   public trackByFn(index: string, post: Post): string {
     return post.identifier;
-  }
-
-  public goToCreatePostPage(): void {
-    this.router.navigate(['/submit']);
   }
 
   get isLoggedIn(): boolean {

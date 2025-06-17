@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -16,12 +16,13 @@ import { SidebarService } from '@core/services/sidebar.service';
         DropdownComponent,
         RouterLinkActive, 
         FontAwesomeModule
-      
+        
     ],
 })
 export class NavbarComponent {
   private authService:AuthService = inject(AuthService);
   private sidebarService:SidebarService = inject(SidebarService);
+  protected readonly router: Router = inject(Router);
   public faBars = faBars;
 
   public isloggedIn(): boolean {
@@ -30,5 +31,9 @@ export class NavbarComponent {
 
   public toggleSidebar():void {
     this.sidebarService.toggle();
+  }
+
+    public goToCreatePostPage(): void {
+    this.router.navigate(['/submit']);
   }
 }

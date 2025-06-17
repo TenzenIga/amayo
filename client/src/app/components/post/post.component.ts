@@ -17,6 +17,7 @@ import { PostFooterComponent } from '../../shared/components/post-footer/post-fo
 export class PostComponent {
   @Input() post: Post;
   constructor(private store: Store<IAppState>) {}
+  
   public onVotePost(value: number) {
     const { identifier, slug } = this.post;
     this.store.dispatch(votePost({ identifier, slug, value }));
