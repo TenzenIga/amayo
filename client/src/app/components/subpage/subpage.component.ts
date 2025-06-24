@@ -6,7 +6,7 @@ import { Sub } from '@shared/interfaces/interfaces';
 import { selectSub } from 'app/store/selectors/sub.selector';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
-import { getSub } from 'app/store/actions/sub.action';
+import { getSub, subscribeToSub, unsubscribeSub } from 'app/store/actions/sub.action';
 import { NgStyle } from '@angular/common';
 import { PostComponent } from '../post/post.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -14,6 +14,7 @@ import { SubInfoComponent } from '../sub-info/sub-info.component';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
 import { PushPipe } from '@ngrx/component';
+import { SubscribeButtonComponent } from '../subscribe-button/subscribe-button.component';
 
 @Component({
     selector: 'app-subpage',
@@ -21,7 +22,7 @@ import { PushPipe } from '@ngrx/component';
     styleUrls: ['./subpage.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgStyle, PostComponent, RouterLink, SidebarComponent, SubInfoComponent, LoaderComponent, DateAgoPipe, PushPipe]
+    imports: [NgStyle, PostComponent, RouterLink, SidebarComponent, SubInfoComponent, LoaderComponent, DateAgoPipe, PushPipe, SubscribeButtonComponent]
 })
 export class SubpageComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -39,7 +40,11 @@ export class SubpageComponent implements OnInit {
     return sub.id;
   }
 
-  public onSubscribe() {
-    
-  }
+ public subscribeToSub(subName: string) {
+     this.store.dispatch(subscribeToSub({name: subName }));
+   }
+ 
+   public unsubscribeSub(subName: string) {
+     this.store.dispatch(unsubscribeSub({name: subName }));
+   }
 }

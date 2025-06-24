@@ -11,6 +11,8 @@ export enum SubActions {
   SearchSubsClear = '[Sub] Search Subs Clear',
   SubscribeToSub = '[Sub] Subscribe to Sub',
   SubscribeToSubSuccess = '[Sub] Subscribe to Sub Success',
+  UnsubscribeSub = '[Sub] Unsubscribe to Sub',
+  UnsubscribeSubSuccess = '[Sub] Unsubscribe to Sub Success',
   ClearSub = '[Sub] Clear Sub',
 }
 
@@ -40,17 +42,28 @@ export const searchSubsSuccess = createAction(
   props<{ suggestions: Sub[] }>()
 );
 
-export const subscribeToSub = createAction(
-  SubActions.SubscribeToSub,
-  props<{ name: string }>()
-);
 
-export const subscribeToSubSuccess = createAction(
-  SubActions.SubscribeToSubSuccess,
-  props<{sub: Sub }>()
-);
 export const clearSub = createAction(
   SubActions.ClearSub
 );
 
+export const subscribeToSub = createAction(
+    SubActions.SubscribeToSub,
+    props<{ name: string }>()
+  );
+
+export const subscribeToSubSuccess= createAction(
+    SubActions.SubscribeToSubSuccess,
+    props<{ sub: Sub }>()
+  );
+
+export const unsubscribeSub = createAction(
+    SubActions.UnsubscribeSub,
+    props<{ name: string }>()
+  );
+
+export const unsubscribeSubSuccess= createAction(
+    SubActions.UnsubscribeSubSuccess,
+    props<{ sub: Sub }>()
+  );
 export const searchSubsClear = createAction(SubActions.SearchSubsClear);

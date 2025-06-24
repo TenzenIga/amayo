@@ -19,7 +19,9 @@ export enum PostActions {
     VotePost = '[Post] Vote Post',
     VotePostSuccess = '[Post] Vote Post Success',
     SubscribeToSub = '[Post] Subscribe To Sub',
-    SubscribeToSubSuccess = '[Post] Subscribe To Sub Success'
+    SubscribeToSubSuccess = '[Post] Subscribe To Sub Success',
+    UnsubscribeSub = '[Post] Unsubscribe To Sub',
+    UnsubscribeSubSuccess = '[Post] Unsubscribe To Sub Success'
 };
 
 export const getPosts = createAction(
@@ -67,5 +69,15 @@ export const subscribeToSub = createAction(
 
 export const subscribeToSubSuccess= createAction(
     PostActions.SubscribeToSubSuccess,
+    props<{ sub: Sub }>()
+  );
+
+export const unsubscribeSub = createAction(
+    PostActions.UnsubscribeSub,
+    props<{ name: string }>()
+  );
+
+export const unsubscribeSubSuccess= createAction(
+    PostActions.UnsubscribeSubSuccess,
     props<{ sub: Sub }>()
   );

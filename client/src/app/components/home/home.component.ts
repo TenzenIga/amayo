@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 import { Store } from '@ngrx/store';
-import { getPosts, subscribeToSub } from 'app/store/actions/post.action';
+import { getPosts, subscribeToSub, unsubscribeSub } from 'app/store/actions/post.action';
 
 import { Post } from 'app/store/state/post.state';
 import { IAppState } from 'app/store/state/app.state';
@@ -17,7 +17,6 @@ import { NgStyle } from '@angular/common';
 import { SubscribeButtonComponent } from '../subscribe-button/subscribe-button.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { TopSubsComponent } from '../top-subs/top-subs.component';
-import { CreateSubFormComponent } from '../create-sub-form/create-sub-form.component';
 import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
 import { PushPipe } from '@ngrx/component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -28,7 +27,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [FontAwesomeModule, LoaderComponent, PostComponent, RouterLink, NgStyle, SubscribeButtonComponent, SidebarComponent, TopSubsComponent, CreateSubFormComponent, DateAgoPipe, PushPipe, ]
+    imports: [FontAwesomeModule, LoaderComponent, PostComponent, RouterLink, NgStyle, SubscribeButtonComponent, SidebarComponent, TopSubsComponent, DateAgoPipe, PushPipe, ]
 })
 export class HomeComponent implements OnInit {
   protected readonly store:Store<IAppState> = inject(Store);
@@ -54,6 +53,10 @@ export class HomeComponent implements OnInit {
 
   public subscribeToSub(subName: string) {
     this.store.dispatch(subscribeToSub({name: subName }));
+  }
+
+  public unsubscribeSub(subName: string) {
+    this.store.dispatch(unsubscribeSub({name: subName }));
   }
 
 }

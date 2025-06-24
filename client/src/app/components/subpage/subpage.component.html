@@ -13,7 +13,7 @@
         }
       </div>
       <div class="sub-content">
-        <div class="sub-header">
+        <div class="sub-header d-flex ">
           <div class="avatar-wrapper">
             <div
               class="avatar"
@@ -25,9 +25,11 @@
             <span class="sub-heading__title">{{ sub.name }}</span>
             <span class="sub-heading__name">r/{{ sub.name }}</span>
           </div>
-          <button class="ms-auto mb-auto mt-2 btn btn-primary btn-sm rounded-pill" (click)="onSubscribe()">
-            Подписаться
-          </button>
+          <app-subscribe-button class="ms-auto align-self-center"
+                  [subscriptionStatus]="sub.subscriptionStatus"
+                  [subName]="sub.name" 
+                  (subscribeEvent)="subscribeToSub($event)" 
+                  (unsubscribeEvent)="unsubscribeSub($event)" ></app-subscribe-button>
         </div>
       </div>
     </div>

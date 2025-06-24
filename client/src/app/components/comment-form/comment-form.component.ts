@@ -29,5 +29,6 @@ export class CommentFormComponent implements OnInit {
   public sendComment(): void{
     this.commentBody = this.commentForm.get('body').value;
     this.commentEvent.emit(this.commentBody);
+    this.commentForm.get('body').setValue('');
   }
 }

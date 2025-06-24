@@ -42,16 +42,26 @@ export class SubEffect {
       )
     )
   );
-  public readonly subscribeToSub$ = createEffect(() =>
-    this.actions$.pipe(
+
+  public readonly subscribeToSub$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(SubActions.subscribeToSub),
       switchMap((action) =>
         this.subService
           .subscribeToSub(action.name)
-          .pipe(
-            map((sub) => SubActions.subscribeToSubSuccess({ sub }))
-          )
+          .pipe(map((sub) => SubActions.subscribeToSubSuccess({ sub })))
       )
-    )
-  );
+    );
+  });
+  public readonly unsubscribeSub$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(SubActions.unsubscribeSub),
+      switchMap((action) =>
+        this.subService
+          .unsubscribeSub(action.name)
+          .pipe(map((sub) => SubActions.unsubscribeSubSuccess({ sub })))
+      )
+    );
+  });
+
 }

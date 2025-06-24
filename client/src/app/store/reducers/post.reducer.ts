@@ -31,9 +31,15 @@ export const postReducer = createReducer(
   on(PostActions.createPostSuccess, (state) => ({ ...state, loading: false })),
   on(PostActions.subscribeToSub, (state) =>({...state, subscribeToSubLoading: true})),
   on(PostActions.subscribeToSubSuccess, (state, payload) =>({...state, posts: state.posts.map(p => { 
-    
     if(p.subName === payload.sub.name){
       p = {...p, subscriptionStatus:true}
+      }
+    return p
+   }), subscribeToSubLoading: false})),
+  on(PostActions.unsubscribeSub, (state) =>({...state, subscribeToSubLoading: true})),
+  on(PostActions.unsubscribeSubSuccess, (state, payload) =>({...state, posts: state.posts.map(p => { 
+    if(p.subName === payload.sub.name){
+      p = {...p, subscriptionStatus:false}
       }
     return p
    }), subscribeToSubLoading: false})),

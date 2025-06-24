@@ -57,6 +57,16 @@ export class PostEffects {
       )
     );
   });
+  public readonly unsubscribeSub$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.unsubscribeSub),
+      switchMap((action) =>
+        this.subService
+          .unsubscribeSub(action.name)
+          .pipe(map((sub) => PostActions.unsubscribeSubSuccess({ sub })))
+      )
+    );
+  });
 
   public readonly createPost$ = createEffect(() => {
     return this.actions$.pipe(
