@@ -4,6 +4,7 @@ import { UntypedFormGroup, UntypedFormControl, Validators, ReactiveFormsModule }
 import { AuthService } from '@core/services/auth.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { loginPayload } from '@shared/interfaces/interfaces';
+import { switchMap } from 'rxjs';
 
 type errors = {
   username: null | string
@@ -17,7 +18,7 @@ type errors = {
     standalone: true,
     imports: [ReactiveFormsModule, RouterLink, RouterLinkActive]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   public errors: errors = {
     username: null,
     password: null
@@ -30,24 +31,27 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(private authService: AuthService, private router: Router) {
+    if(this.authService.isLoggedIn()){
+      this.router.navigate(['/'])
+    }
     this.loginData = {
       username: '',
       password: ''
     };
    }
 
-  ngOnInit(): void {
-  }
-
   public logIn(): void {
     this.loginData.username = this.loginForm.get('login').value;
     this.loginData.password = this.loginForm.get('password').value;
 
-    this.authService.login(this.loginData).subscribe(res => {
-      localStorage.setItem('token', res.token);
+    this.authService.login(this.loginData).pipe(
+      switchMap(res => {
+        localStorage.setItem('token', res.token);
+        return this.authService.me()
+      })
+    ).subscribe(userInfo => {
+      localStorage.setItem('username', userInfo.username);
       this.router.navigate(['/']);
-    }, error => {
-      this.errors = {...error.error};
-    });
+    })
   }
 }

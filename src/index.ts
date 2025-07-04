@@ -4,7 +4,6 @@ import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
-import cors from 'cors';
 
 dotenv.config()
 
@@ -15,6 +14,7 @@ import subRoutes from './routes/subs';
 import miscRoutes from './routes/misc';
 import userRoutes from './routes/users';
 import trim from "./middleware/trim";
+import path from "path";
 
 const app = express();
 
@@ -25,22 +25,23 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(trim);
 app.use(cookieParser());
-// Enable CORS for your Angular app's origin
-app.use(cors({
-  origin: 'http://localhost:4200',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+
 
 
 app.use(express.static('public'))
-app.get('/', (_, res) => res.send("Hello world"));
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/subs', subRoutes);
 app.use('/api/misc', miscRoutes);
 app.use('/api/users', userRoutes);
 
+// Отдача статики из Angular-сборки
+app.use(express.static(path.join(__dirname, '../client/dist/client')));
+
+// Все остальные запросы перенаправляем в Angular
+app.get('*', (_, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/client/index.html'));
+});
 
 
 app.listen(5000, async () => {

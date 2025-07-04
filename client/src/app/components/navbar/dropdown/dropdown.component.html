@@ -1,5 +1,5 @@
 
-@if( userInfo$  | async; as userInfo){
+
 <div ngbDropdown class="d-inline-block">
 <button type="button" class="btn btn-link p-0 me-3" id="dropdownBasic1"  ngbDropdownToggle>
     <img class="user-image" [src]="userInfo.userImageUrl"/>
@@ -21,4 +21,3 @@
         <button (click)="logOut()" ngbDropdownItem class="dropdown-btn"> <fa-icon [icon]="faArrowRight" size="lg"></fa-icon><span class="ms-2">Выйти</span></button>
     </div>
 </div>
-}

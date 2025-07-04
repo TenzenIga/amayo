@@ -18,7 +18,7 @@ type errors = {
     standalone: true,
     imports: [ReactiveFormsModule, RouterLink, RouterLinkActive]
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
  public errors: errors = {
    email: null,
    username: null
@@ -37,10 +37,11 @@ export class RegisterComponent implements OnInit {
       email: '',
       password: '',
     };
+     if(this.authService.isLoggedIn()){
+      this.router.navigate(['/'])
+    }
+      
    }
-
-  ngOnInit(): void {
-  }
 
   public signUp(): void{
     this.signupData.email = this.registerForm.get('email').value;

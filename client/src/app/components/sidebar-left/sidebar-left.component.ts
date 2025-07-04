@@ -24,7 +24,7 @@ import { NgStyle } from '@angular/common';
 export class SidebarLeftComponent implements OnInit {
   protected readonly router: Router = inject(Router);
   private store: Store<IAppState> = inject(Store);
-  private username = 'arhan2';
+  private username = localStorage.getItem('username');
   public faHome = faHome;
   public faFire = faFire;
   public faChartBar = faChartBar;

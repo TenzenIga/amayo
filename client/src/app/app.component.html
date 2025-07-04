@@ -1,12 +1,13 @@
 <app-navbar></app-navbar>
 <div class="main">
-   
-     <div [class.visible]="sidebarService.isVisible()" class="d-md-none bg-primary-subtle sidebar-mobile ">
+    @if (isloggedIn()){
+    <div [class.visible]="sidebarService.isVisible()" class="d-md-none bg-primary-subtle sidebar-mobile ">
       <app-sidebar-left></app-sidebar-left>
     </div>
     <div class="d-none d-md-block ps-4">
       <app-sidebar-left></app-sidebar-left>
     </div>
+    }
     <div class="container">
       <router-outlet></router-outlet>
     </div>

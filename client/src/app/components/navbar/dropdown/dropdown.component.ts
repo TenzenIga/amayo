@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, Renderer2 } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
@@ -9,16 +9,16 @@ import {faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-dropdown',
   standalone: true,
-  imports: [FontAwesomeModule, NgbDropdownModule, AsyncPipe ],
+  imports: [FontAwesomeModule, NgbDropdownModule],
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownComponent {
+  @Input() userInfo; 
   public faUser = faUser;
   private authService = inject(AuthService);
   private renderer = inject(Renderer2);
-  public userInfo$ = this.authService.me()
   public faCog = faCog;
   public faArrowRight = faSignOutAlt;
   public isDarkTheme = true;

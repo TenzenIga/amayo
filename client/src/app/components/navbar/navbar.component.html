@@ -9,10 +9,10 @@
               Новый пост
             </button>
       @if (isloggedIn()) {
-        <app-dropdown></app-dropdown>
+        <app-dropdown userInfo="userInfo"></app-dropdown>
       } @else {
-        <a routerLink="/login" class="btn btn-primary rounded-pill mx-2" role="button" routerLinkActive="active">Войти</a>
-        <a routerLink="/register" class="btn btn-primary rounded-pill mx-2" role="button" routerLinkActive="active">Регистрация</a>
+        <a routerLink="/login" class="btn btn-primary btn-sm rounded-pill mx-2" role="button" routerLinkActive="active">Войти</a>
+        <a routerLink="/register" class="btn btn-primary btn-sm rounded-pill mx-2" role="button" routerLinkActive="active">Регистрация</a>
       }
 
     </div>
