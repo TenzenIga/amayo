@@ -39,6 +39,7 @@
    },
    "scripts": {
       "start": "node build/index.js",
+      "build": "npx tsc",
       "server": "nodemon --exec npx ts-node src/index.ts",
       "client": "cd client && ng serve --proxy-config proxy.conf.json",
       "dev": "concurrently \"npm run server\" \"npm run client\" --names server,client",

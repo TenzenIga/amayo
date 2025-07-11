@@ -1,0 +1,33 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Получаем код
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Шаг 2: Устанавливаем Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Шаг 3: Собираем бэкенд (Express + TypeORM)
+      - name: Build Backend
+        run: |
+          npm ci
+          npm run build
+
+      # Шаг 4: Собираем фронтенд (Angular)
+      - name: Build Frontend
+        working-directory: ./client
+        run: |
+          npm ci
+          npm run build -- --configuration production
