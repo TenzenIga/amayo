@@ -41,7 +41,7 @@ jobs:
         run: |
           mkdir -p artifacts/build
           cp -r build package.json package-lock.json artifacts/build/
-          mkdir -p artifacts/client
+          mkdir -p artifacts/client/dist/client
           cp -r client/dist/client/* artifacts/client/dist/client/
 
     # Шаг 6: Загружаем артефакты на VPS
