@@ -7,7 +7,7 @@ env:
   VPS_HOST: ${{ secrets.VPS_HOST }}
   VPS_USER: ${{ secrets.VPS_USER }}
   VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
-
+  VPS_DEPLOY_PATH: ${{ secrets.VPS_DEPLOY_PATH }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -44,11 +44,13 @@ jobs:
           mkdir -p artifacts/frontend
           cp -r client/dist/client/* artifacts/frontend/
 
-      # Шаг 6: Тест соединения с VPS
-      - name: Test SSH connection
-        uses: appleboy/ssh-action@v1
+    # Шаг 6: Загружаем артефакты на VPS
+      - name: Deploy to VPS
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          script: echo "Success!"
+          source: "artifacts/*"
+          target: ${{ secrets.VPS_DEPLOY_PATH }}
+          strip_components: 1
