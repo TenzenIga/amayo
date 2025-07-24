@@ -40,7 +40,7 @@ jobs:
       - name: Create deployment artifacts
         run: |
           mkdir -p artifacts/build
-          cp -r build package.json package-lock.json artifacts/build/
+          cp -r build artifacts/
           mkdir -p artifacts/client/dist/client
           cp -r client/dist/client/* artifacts/client/dist/client/
 
