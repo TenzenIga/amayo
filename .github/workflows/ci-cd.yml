@@ -42,7 +42,7 @@ jobs:
           mkdir -p artifacts/build
           cp -r build package.json package-lock.json artifacts/build/
           mkdir -p artifacts/client
-          cp -r client/dist/client/* artifacts/dist/client/
+          cp -r client/dist/client/* artifacts/client/dist/client/
 
     # Шаг 6: Загружаем артефакты на VPS
       - name: Deploy to VPS
