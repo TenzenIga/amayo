@@ -39,10 +39,10 @@ jobs:
     # Шаг 5: Создаем артефакты
       - name: Create deployment artifacts
         run: |
-          mkdir -p artifacts/backend
-          cp -r build package.json package-lock.json artifacts/backend/
-          mkdir -p artifacts/frontend
-          cp -r client/dist/client/* artifacts/frontend/
+          mkdir -p artifacts/build
+          cp -r build package.json package-lock.json artifacts/build/
+          mkdir -p artifacts/client
+          cp -r client/dist/client/* artifacts/dist/client/
 
     # Шаг 6: Загружаем артефакты на VPS
       - name: Deploy to VPS
