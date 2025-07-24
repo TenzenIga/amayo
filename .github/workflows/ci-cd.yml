@@ -23,6 +23,27 @@ jobs:
         with:
           node-version: '20'
 
+      # Шаг 3: Собираем бэкенд (Express + TypeORM)
+      - name: Build Backend
+        run: |
+          npm ci
+          npm run build
+
+      # Шаг 4: Собираем фронтенд (Angular)
+      - name: Build Frontend
+        working-directory: ./client
+        run: |
+          npm ci
+          npm run build -- --configuration production
+
+    # Шаг 5: Создаем артефакты
+      - name: Create deployment artifacts
+        run: |
+          mkdir -p artifacts/backend
+          cp -r build package.json package-lock.json artifacts/backend/
+          mkdir -p artifacts/frontend
+          cp -r client/dist/client/* artifacts/frontend/
+
       # Шаг 6: Тест соединения с VPS
       - name: Test SSH connection
         uses: appleboy/ssh-action@v1
