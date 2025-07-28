@@ -4,7 +4,7 @@ import { AuthService } from '@core/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import {faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import {faCog, faMoon, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dropdown',
@@ -21,6 +21,7 @@ export class DropdownComponent {
   private renderer = inject(Renderer2);
   public faCog = faCog;
   public faArrowRight = faSignOutAlt;
+  public faMoon = faMoon;
   public isDarkTheme = true;
   
   public logOut(): void {
