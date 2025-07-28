@@ -44,8 +44,8 @@ app.get('*', (_, res) => {
 });
 
 
-app.listen(5000, async () => {
-  console.log('Server running at http://localhost:5000');
+app.listen(3000, async () => {
+  console.log('Server running at http://localhost:3000');
 
   try {
     await createConnection();
