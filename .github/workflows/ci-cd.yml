@@ -64,4 +64,4 @@ jobs:
           script: |
             cd ${{ secrets.VPS_DEPLOY_PATH }}
             npm ci --production
-            pm2 restart 
+            pm2 restart app
