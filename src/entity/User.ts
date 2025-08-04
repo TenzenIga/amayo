@@ -59,7 +59,7 @@ export default class User extends Entity {
     @Expose()
       get userImageUrl(): string {
         return this.userImage
-          ? `${process.env.APP_URL}/images/${this.userImage}`
+          ? `/images/${this.userImage}`
           : `https://ui-avatars.com/api/?length=1&name=${this.username}`;
     }
 }

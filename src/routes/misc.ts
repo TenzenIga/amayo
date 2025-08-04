@@ -147,7 +147,7 @@ const topSubs = async (_: Request, res: Response) => {
      * ORDER BY "postCount" DESC
      * LIMIT 5;
      */
-    const imageUrlExp = `COALESCE('${process.env.APP_URL}/images/' || s."imageUrn" , 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y')`;
+    const imageUrlExp = `COALESCE('/images/' || s."imageUrn" , 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y')`;
     const subs = await getConnection()
       .createQueryBuilder()
       .select(

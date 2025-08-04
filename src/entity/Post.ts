@@ -69,7 +69,7 @@ export default class Post extends Entity{
 
     @Expose()
     get postImageUrl(): string | undefined {
-           return this.postImage ? `${process.env.APP_URL}/images/${this.postImage}` : undefined;
+           return this.postImage ? `/images/${this.postImage}` : undefined;
     }
 
     protected userVote: number
