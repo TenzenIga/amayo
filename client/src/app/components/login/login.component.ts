@@ -19,6 +19,7 @@ type errors = {
     imports: [ReactiveFormsModule, RouterLink, RouterLinkActive]
 })
 export class LoginComponent {
+  
   public errors: errors = {
     username: null,
     password: null
@@ -51,6 +52,7 @@ export class LoginComponent {
       })
     ).subscribe(userInfo => {
       localStorage.setItem('username', userInfo.username);
+      localStorage.setItem('userImageUrl', userInfo.userImageUrl);
       this.router.navigate(['/']);
     })
   }

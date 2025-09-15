@@ -1,5 +1,4 @@
-import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Input, Renderer2 } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, Renderer2 } from '@angular/core';
 import { AuthService } from '@core/services/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
@@ -14,8 +13,8 @@ import {faCog, faMoon, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './dropdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DropdownComponent {
-  @Input() userInfo; 
+export class DropdownComponent implements OnInit {
+  public userImageUrl:string; 
   public faUser = faUser;
   private authService = inject(AuthService);
   private renderer = inject(Renderer2);
@@ -24,10 +23,15 @@ export class DropdownComponent {
   public faMoon = faMoon;
   public isDarkTheme = true;
   
+  public ngOnInit(){
+    this.userImageUrl = localStorage.getItem('userImageUrl')
+    
+  }
+
   public logOut(): void {
     this.authService.logout();
   }
-
+  
   public toggleTheme() {
     this.isDarkTheme = !this.isDarkTheme;
     const htmlTag = document.documentElement;

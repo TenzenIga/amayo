@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="main">
     @if (isloggedIn()){
-    <div [class.visible]="sidebarService.isVisible()" class="d-md-none bg-primary-subtle sidebar-mobile ">
+    <div [class.visible]="sidebarService.isVisible()" class="d-md-none bg-body px-3 sidebar-mobile ">
       <app-sidebar-left></app-sidebar-left>
     </div>
     <div class="d-none d-md-block ps-4">
