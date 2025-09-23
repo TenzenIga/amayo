@@ -8,3 +8,31 @@ a{
         text-decoration: none;
     }
 }
+
+.users {
+    display: flex;
+    font-size: .75rem;
+    .all {
+        flex: auto;
+    }
+    .online {
+        flex: auto;
+    }
+}
+.sub-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-size: cover;
+}
+.card-header {
+    height: 36px;
+}
+.close-icon {
+    cursor: pointer;
+}
+
+.file-input {
+    visibility: hidden;
+    width: 0;
+}

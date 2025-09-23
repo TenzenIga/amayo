@@ -11,14 +11,19 @@ import Post from '../entity/Post';
 import { upload, validateSubName } from '../utils/helpers';
 
 const createSub = async (req: Request, res: Response) => {
-  const { name } = req.body;
+  const { name, description } = req.body;
 
   const user: User = res.locals.user;
 
   try {
     let errors: any = {};
     if (isEmpty(name)) errors.name = 'Name must not be empty';
-
+    
+    // Validate description length
+    if (description && description.length > 500) {
+      errors.description = 'Description must not exceed 500 characters';
+    }
+    
     const sub = await getRepository(Sub)
       .createQueryBuilder('sub')
       .where('lower(sub.name) = :name', { name: name.toLowerCase() })
@@ -34,7 +39,14 @@ const createSub = async (req: Request, res: Response) => {
   }
 
   try {
-    const sub = new Sub({ name, user, subscribers: [user] });
+    const sub = new Sub({ name, user, subscribers: [user], description });
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] }
+    if(files.bannerUrn) {
+      sub.bannerUrn = files.bannerUrn[0].filename;
+    }
+    if(files.imageUrn) {
+      sub.imageUrn = files.imageUrn[0].filename;
+    }
     await sub.save();
 
     return res.json(sub);
@@ -165,12 +177,88 @@ const searchSubs = async (req: Request, res: Response) => {
   }
 };
 
+const updateSub = async (req: Request, res: Response) => {
+  const { title, description, rules } = req.body;
+  const sub: Sub = res.locals.sub;
+
+  try {
+    let errors: any = {};
+    
+    // Validate description length
+    if (description && description.length > 500) {
+      errors.description = 'Description must not exceed 500 characters';
+    }
+    
+    // Validate title length
+    if (title && title.length > 100) {
+      errors.title = 'Title must not exceed 100 characters';
+    }
+    
+    // Validate rules length
+    if (rules && rules.length > 1000) {
+      errors.rules = 'Rules must not exceed 1000 characters';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json(errors);
+    }
+
+    // Update sub fields
+    if (title !== undefined) sub.title = title;
+    if (description !== undefined) sub.description = description;
+    if (rules !== undefined) sub.rules = rules;
+
+    await sub.save();
+
+    return res.json(sub);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
+const deleteSub = async (_req: Request, res: Response) => {
+  const sub: Sub = res.locals.sub;
+
+  try {
+    // Delete associated images if they exist
+    if (sub.imageUrn) {
+      fs.unlink(`public/images/${sub.imageUrn}`, (err) => {
+        if (err) console.log('Error deleting image:', err);
+      });
+    }
+    
+    if (sub.bannerUrn) {
+      fs.unlink(`public/images/${sub.bannerUrn}`, (err) => {
+        if (err) console.log('Error deleting banner:', err);
+      });
+    }
+
+    // Delete the sub (this will cascade delete related posts and comments due to foreign key constraints)
+    await sub.remove();
+
+    return res.json({ message: 'Sub deleted successfully' });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
 const router = Router();
 
-router.post('/validateSub', user, auth, checkIfSubExist);
-router.post('/', user, auth, createSub);
+router.post('/validate-sub', user, auth, checkIfSubExist);
+router.post('/',
+    user,
+    auth, 
+    upload.fields([
+      { name: 'bannerUrn', maxCount: 1 },
+      { name: 'imageUrn', maxCount: 1 }
+    ]),
+    createSub);
 router.get('/:name', user, getSub);
 router.get('/search/:name', searchSubs);
+router.put('/:name', user, auth, subOwner, updateSub);
+router.delete('/:name', user, auth, subOwner, deleteSub);
 router.post(
   '/:name/image',
   user,

@@ -13,9 +13,14 @@ export function makeId(length:number):string {
 }
 
 export function validateSubName(name: string): boolean {
+  // Check length: minimum 3, maximum 21 characters
+  if (name.length < 3 || name.length > 21) {
+    return false;
+  }
+  
+  // Check allowed characters: letters, numbers, and underscore
   const allowedChars = /^[A-Za-zА-Яa-я0-9_]+$/;
   return !!name.match(allowedChars);
-
 }
 
 export const upload = multer({

@@ -18,6 +18,9 @@ export type postPayload = {
 
 export type subPayload = {
   name: string;
+  description?:string;
+  bannerUrn?:File;
+  imageUrn?:File;
 };
 export interface Post {
   id?: number;

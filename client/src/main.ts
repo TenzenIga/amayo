@@ -10,7 +10,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { TokenInterceptorService } from '@core/interceptors/token-interceptor.service';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { CoreModule } from '@core/core.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';

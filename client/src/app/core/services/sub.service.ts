@@ -21,13 +21,13 @@ export class SubService {
     return this.http.get<Sub[]>(`${this.url}/misc/top-subs`);
   }
 
-  public createSub(subPayload: subPayload): Observable<Sub> {
+  public createSub(subPayload: FormData): Observable<Sub> {
     return this.http.post<Sub>(`${this.url}/subs`, subPayload);
   }
 
   public validateSub(subPayload: subPayload): Observable<ValdiateSubInput> {
     return this.http.post<ValdiateSubInput>(
-      `${this.url}/subs/validateSub`,
+      `${this.url}/subs/validate-sub`,
       subPayload
     );
   }
@@ -41,6 +41,17 @@ export class SubService {
 
   public unsubscribeSub(name:string): Observable<any> {
     return this.http.post(`${this.url}/misc/unsubscribe`, { name });
+  }
+
+  public uploadSubImage(
+    subName: string,
+    file: File,
+    type: 'image' | 'banner'
+  ): Observable<Sub> {
+    const form = new FormData();
+    form.append('file', file);
+    form.append('type', type);
+    return this.http.post<Sub>(`${this.url}/subs/${subName}/image`, form);
   }
 
 }

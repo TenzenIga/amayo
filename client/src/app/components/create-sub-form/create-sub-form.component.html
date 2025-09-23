@@ -1,38 +1,153 @@
 <button (click)="triggerModal(modalData)" class="my-1 btn btn-outline-primary btn-sm d-block w-100 rounded-pill">Создать сообщество</button>
 
 <ng-template #modalData let-modal>
-  <div class="modal-header">
+  <div class="modal-header ">
     <h4 class="modal-title" id="modal-basic-title">Создать сообщество</h4>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  (click)="modal.dismiss()"></button>
   </div>
-  <div class="modal-body">
-    <form [formGroup]="subForm" (ngSubmit)="createSub()">
-      <label for="name" class="form-label">Название</label>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="name">r/</span>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Название"
-          aria-label="name"
-          maxlength="21"
-          formControlName="name"
-          aria-describedby="name"
-          id="name"
-          (blur)="onBlur()"
-          >
+  <form [formGroup]="subForm" (ngSubmit)="createSub()">
+    <div class="modal-body">
+    <div class="row">
+      @if(isFirstStep()){
+        <div class="col-md-6">
+         
+            <div class="input-group">
+              <span class="input-group-text" id="name">r/</span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Название"
+                aria-label="name"
+                maxlength="21"
+                formControlName="name"
+                aria-describedby="name"
+                id="name"
+                (blur)="onBlur()"
+                >
+              </div>
+              <div class="form-text"> Осталось символов {{getRemainingChars()}}</div>
+              @if (error) {
+                <div class="text-danger">
+                  {{error}}
+                </div>
+              }
+            <div class="input-group mt-3">
+              <textarea
+                type="text"
+                class="form-control"
+                placeholder="Описание сообщества"
+                aria-label="description"
+                rows="4"
+                maxlength="500"
+                formControlName="description"
+                id="description"
+                ></textarea>
+              </div>
         </div>
-        <div  class="form-text"> Осталось символов {{getRemainingChars()}}</div>
-        @if (error) {
-          <div class="text-danger">
-            {{error}}
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title my-1">
+                r/{{subForm.get('name')?.value || 'название'}}
+              </h6>
+              <div class="users ">
+                <div class="all text-muted">
+                  <span class="number">1</span>
+                  <span class="type mx-1">участников</span>
+                </div>
+                <div class="online text-muted ">
+                  <span class="number">1</span>
+                  <span class="type mx-1">online</span>
+                </div>
+              </div>
+              <p class="card-text mt-2">
+                {{subForm.get('description')?.value || 'Описание'}}
+              </p>
+           
+            </div>
           </div>
-        }
-      </form>
-
+        </div>
+      }@else{
+        <div class="col-md-6">
+          <div class="mb-2">
+            <div>
+              <div class="d-flex align-items-center justify-content-between">
+              <span>Баннер</span>
+              <input type="file" #bannerInput  (change)="onBannerChange($event)" class="file-input" accept="image/png,image/jpeg">   
+              <button class="btn btn-outline-primary btn-sm"  type="button" (click)="bannerInput.click()">
+               {{bannerFile ? 'Изменить':'Добавить'}} 
+              </button>         
+            </div>
+            @if(bannerFile ){
+              <div class="file-info d-flex align-items-center mt-2">
+                  <span class="p-2 rounded-1 border text-body-secondary">{{bannerFile?.name}}</span>
+                <fa-icon class="ms-2 close-icon" (click)="cancelBannerUpload()" [icon]="faXmark" size="lg"></fa-icon>
+              </div>
+            }
+            </div>
+          
+          </div>
+          <div class="mb-2">
+            <div>
+              <div class="d-flex align-items-center justify-content-between">
+              <span>Иконка</span>
+              <input type="file" #imageInput  (change)="onImageChange($event)" class="file-input" accept="image/png,image/jpeg" >   
+              <button class="btn btn-outline-primary btn-sm"  type="button" (click)="imageInput.click()">
+               {{imageFile ? 'Изменить':'Добавить'}} 
+              </button>         
+            </div>
+            @if(imageFile){
+              <div class="file-info d-flex align-items-center mt-2">
+                  <span class="p-2 rounded-1 border text-body-secondary">{{imageFile?.name}}</span>
+                <fa-icon class="ms-2 close-icon" (click)="cancelImageUpload()" [icon]="faXmark" size="lg"></fa-icon>
+              </div>
+            }
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header" [style.background-image]="bannerPreview ? 'url(' + bannerPreview + ')' : 'none'">     
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="mx-2 sub-avatar" [style.background-image]="imagePreview ? 'url('+ imagePreview + ')': defaultIcon"></div>
+                 <div>
+                <h6 class="card-title my-1">
+                r/{{subForm.get('name')?.value || 'название'}}
+              </h6>
+              <div class="users ">
+                <div class="all text-muted">
+                  <span class="number">1</span>
+                  <span class="type mx-1">Участников</span>
+                </div>
+                <div class="online text-muted ">
+                  <span class="number">1</span>
+                  <span class="type mx-1">Online</span>
+                </div>
+              </div>
+              </div>
+              </div>
+             
+              <p class="card-text mt-2">
+                {{subForm.get('description')?.value || 'Описание'}}
+              </p>
+            
+            </div>
+          </div>
+        </div>
+      }
+    </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-primary" (click)="modal.close()" >Отмена</button>
-      <button type="submit" class="btn btn-primary" [disabled]="this.subForm.invalid || !!error" (click)="createSub()">Создать сообщество</button>
+      
+      @if(isFirstStep()){
+        <button type="button" class="btn btn-outline-primary" (click)="modal.close()" >Отмена</button>
+        <button type="button" class="btn btn-outline-primary" [disabled]="this.subForm.invalid" (click)="nextStep()">Далее</button>
+      }@else{
+        <button type="button" class="btn btn-outline-primary" (click)="prevStep()">Назад</button>
+        <button type="button" class="btn btn-primary" [disabled]="this.subForm.invalid || !!error" (click)="createSub()" >Создать сообщество</button>
+      }
     </div>
-  </ng-template>
+  </form>
+</ng-template>

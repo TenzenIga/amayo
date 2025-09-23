@@ -6,16 +6,14 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import {
   debounceTime,
   distinctUntilChanged,
-  filter,
   takeUntil
 } from 'rxjs/operators';
-import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -109,7 +107,8 @@ export class CreatePostFormComponent implements OnInit, OnDestroy {
       if(this.selectedFile){
         formData.append('file', this.selectedFile, this.selectedFile.name);
       }
-    this.store.dispatch(createPost({ postdData: formData }));
+      
+     this.store.dispatch(createPost({ postdData: formData }));
     
   }
 
