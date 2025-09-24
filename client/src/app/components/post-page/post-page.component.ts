@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { PostsService } from '@core/services/posts.service';
 import { Post, Comment } from '@shared/interfaces/interfaces';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
@@ -30,7 +29,7 @@ import { PushPipe } from '@ngrx/component';
     standalone: true,
     imports: [NgStyle, RouterLink, PostFooterComponent, CommentFormComponent, CommentComponent, LoaderComponent, SidebarComponent, SubInfoComponent, TopSubsComponent, DateAgoPipe, PushPipe]
 })
-export class PostPageComponent implements OnInit {
+export class PostPageComponent {
   public identifier: string;
   public subName: string;
   public slug: string;

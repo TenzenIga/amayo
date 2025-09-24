@@ -21,8 +21,7 @@ export class DropdownComponent implements OnInit {
   public faCog = faCog;
   public faArrowRight = faSignOutAlt;
   public faMoon = faMoon;
-  public isDarkTheme = true;
-  
+
   public ngOnInit(){
     this.userImageUrl = localStorage.getItem('userImageUrl')
     
@@ -33,13 +32,15 @@ export class DropdownComponent implements OnInit {
   }
   
   public toggleTheme() {
-    this.isDarkTheme = !this.isDarkTheme;
     const htmlTag = document.documentElement;
-    
-    if (this.isDarkTheme) {
+    const theme = localStorage.getItem('theme') || 'dark';
+    if (theme === 'light') {
       this.renderer.setAttribute(htmlTag, 'data-bs-theme', 'dark');
+      localStorage.setItem('theme', 'dark')
     } else {
-      this.renderer.removeAttribute(htmlTag, 'data-bs-theme');
+      this.renderer.setAttribute(htmlTag, 'data-bs-theme', 'light');
+      localStorage.setItem('theme', 'light')
+
     }
   }
 }
