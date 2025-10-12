@@ -71,10 +71,15 @@ export default class Sub extends Entity {
     return this.subscribers ? this.subscribers.length : 0;
   }
 
-   subscriptionStatus: boolean;
+  subscriptionStatus: boolean;
   setStatus(user: User) {
     this.subscriptionStatus = this.subscribers.some(
       (s) => s.username === user.username
     );
+  }
+
+  isSubOwner: boolean;
+  setOwner(user: User) {
+    this.isSubOwner = this.username === user.username;
   }
 }

@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
 import * as SubActions from '../actions/sub.action';
-import * as PostActions from '../actions/post.action';
 import { initialSubState } from '../state/sub.state';
 
 export const subReducer = createReducer(
@@ -21,4 +20,5 @@ export const subReducer = createReducer(
   on(SubActions.clearSub, (state) => ({ ...state, sub: null })),
   on(SubActions.subscribeToSubSuccess, (state) =>({...state, sub: {...state.sub, subscriptionStatus: true} })),
   on(SubActions.unsubscribeSubSuccess, (state) =>({...state, sub: {...state.sub, subscriptionStatus: false} })),
+  on(SubActions.deleteSubSuccess, (state) => ({ ...state, sub: null })),
 );

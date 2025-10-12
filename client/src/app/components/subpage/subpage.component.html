@@ -30,7 +30,11 @@
                   [subName]="sub.name" 
                   (subscribeEvent)="subscribeToSub($event)" 
                   (unsubscribeEvent)="unsubscribeSub($event)" ></app-subscribe-button>
-        </div>
+          @if(sub.isSubOwner){
+            <app-subpage-dropdown [subName]="sub.name" class="align-self-center"></app-subpage-dropdown>
+           } 
+
+        </div> 
       </div>
     </div>
     <div class="row">

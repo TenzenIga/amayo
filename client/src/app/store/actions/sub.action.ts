@@ -14,6 +14,8 @@ export enum SubActions {
   UnsubscribeSub = '[Sub] Unsubscribe to Sub',
   UnsubscribeSubSuccess = '[Sub] Unsubscribe to Sub Success',
   ClearSub = '[Sub] Clear Sub',
+  DeleteSub = '[Sub] Delete Sub',
+  DeleteSubSuccess = '[Sub] Delete Sub Success'
 }
 
 export const getSub = createAction(
@@ -62,8 +64,18 @@ export const unsubscribeSub = createAction(
     props<{ name: string }>()
   );
 
-export const unsubscribeSubSuccess= createAction(
+export const unsubscribeSubSuccess = createAction(
     SubActions.UnsubscribeSubSuccess,
     props<{ sub: Sub }>()
-  );
+);
+
+export const deleteSub = createAction(
+  SubActions.DeleteSub,
+  props<{ subName: string }>()
+)
+
+export const deleteSubSuccess = createAction (
+  SubActions.DeleteSubSuccess
+)
+
 export const searchSubsClear = createAction(SubActions.SearchSubsClear);

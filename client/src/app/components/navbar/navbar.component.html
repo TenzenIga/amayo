@@ -1,18 +1,17 @@
 <nav class="navbar fixed-top bg-body-tertiary">
   <div class="container-fluid">
-    <fa-icon (click)="toggleSidebar()" class="px-2 d-md-none" [icon]="faBars" size="lg"></fa-icon>
+    <fa-icon (click)="toggleSidebar()" class="px-3 d-md-none" [icon]="faBars" size="lg"></fa-icon>
     <a class="navbar-brand" routerLink="/">Readit</a>
     <div class="ms-auto d-flex align-items-baseline">
           <button
-              class="mx-3 px-4 btn btn-primary btn-sm d-none d-md-block w-100 rounded-pill"
+              class="mx-2 px-4 btn btn-primary btn-sm d-none d-md-block rounded-pill"
               (click)="goToCreatePostPage()">
               Новый пост
             </button>
       @if (isloggedIn()) {
         <app-dropdown userInfo="userInfo"></app-dropdown>
       } @else {
-        <a routerLink="/login" class="btn btn-primary btn-sm rounded-pill mx-2" role="button" routerLinkActive="active">Войти</a>
-        <a routerLink="/register" class="btn btn-primary btn-sm rounded-pill mx-2" role="button" routerLinkActive="active">Регистрация</a>
+        <a routerLink="/login" class="btn btn-primary btn-sm rounded-pill px-3  mx-2" role="button" routerLinkActive="active">Войти</a>
       }
 
     </div>

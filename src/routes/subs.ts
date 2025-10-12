@@ -98,6 +98,7 @@ const getSub = async (req: Request, res: Response) => {
     if (res.locals.user) {
       sub.posts.forEach((p) => p.setUserVote(res.locals.user));
       sub.setStatus(res.locals.user);
+      sub.setOwner(res.locals.user)
     }
 
     return res.json(sub);
@@ -124,37 +125,6 @@ const subOwner = async (req: Request, res: Response, next: NextFunction) => {
 
 
 
-const uploadSubImage = async (req: Request, res: Response) => {
-  const sub: Sub = res.locals.sub;
-  try {
-    const type = req.body.type;
-    if (type !== 'image' && type !== 'banner') {
-      fs.unlink(req.file.path, (err) => {
-        if (err) console.log(err);
-      });
-      return res.status(400).json({ error: 'Invalid type' });
-    }
-
-    let oldFile = '';
-    if (type === 'image') {
-      oldFile = sub.imageUrn || '';
-      sub.imageUrn = req.file.filename;
-    } else if (type === 'banner') {
-      oldFile = sub.bannerUrn || '';
-      sub.bannerUrn = req.file.filename;
-    }
-    await sub.save();
-
-    if (oldFile !== '') {
-      fs.unlink(`public/images/${oldFile}`, (err) => {
-        if (err) console.log(err);
-      });
-    }
-    return res.json(sub);
-  } catch (error) {
-    return res.status(500).json({ error: 'Something went wrong' });
-  }
-};
 
 const searchSubs = async (req: Request, res: Response) => {
   try {
@@ -259,13 +229,6 @@ router.get('/:name', user, getSub);
 router.get('/search/:name', searchSubs);
 router.put('/:name', user, auth, subOwner, updateSub);
 router.delete('/:name', user, auth, subOwner, deleteSub);
-router.post(
-  '/:name/image',
-  user,
-  auth,
-  subOwner,
-  upload.single('file'),
-  uploadSubImage
-);
+
 
 export default router;

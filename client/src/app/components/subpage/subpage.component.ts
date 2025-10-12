@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Sub } from '@shared/interfaces/interfaces';
@@ -15,6 +15,7 @@ import { LoaderComponent } from '../../shared/components/loader/loader.component
 import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
 import { PushPipe } from '@ngrx/component';
 import { SubscribeButtonComponent } from '../subscribe-button/subscribe-button.component';
+import { SubpageDropdownComponent } from './subpage-dropdown/subpage-dropdown.component';
 
 @Component({
     selector: 'app-subpage',
@@ -22,7 +23,16 @@ import { SubscribeButtonComponent } from '../subscribe-button/subscribe-button.c
     styleUrls: ['./subpage.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [NgStyle, PostComponent, RouterLink, SidebarComponent, SubInfoComponent, LoaderComponent, DateAgoPipe, PushPipe, SubscribeButtonComponent]
+    imports: [NgStyle, 
+      PostComponent, 
+      RouterLink, 
+      SidebarComponent, 
+      SubpageDropdownComponent,
+      SubInfoComponent,
+      LoaderComponent,
+      DateAgoPipe,
+      PushPipe,
+      SubscribeButtonComponent]
 })
 export class SubpageComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
