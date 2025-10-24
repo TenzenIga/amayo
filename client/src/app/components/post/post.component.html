@@ -1,19 +1,28 @@
 <div class="card post">
-    <div class="card-body">
-        <div class="post-header">
-            <ng-content>      
-            </ng-content>
-        </div>
-        <h4 [routerLink]="[post.url]" class="card-title">{{post.title}}</h4>
-        <a
-        [routerLink]="[post.url]"
-        >
-         @if(post.postImageUrl) {
-              <img [src]="post.postImageUrl"  class="card-img w-50 mx-auto d-block" />
-          }
-        <p class="card-text" [innerHtml]="post.body"></p>
-        </a>
-        
-        <app-post-footer (vote)="onVotePost($event)" [post]="post"></app-post-footer>
+  <div class="card-body">
+    <div class="post-header">
+      <ng-content></ng-content>
     </div>
+    <h4
+      [routerLink]="[post.url]"
+      class="card-title">
+      {{ post.title }}
+    </h4>
+    <a [routerLink]="[post.url]">
+      @if(post.postImageUrl) {
+      <figure class="img-wrapper">
+        <img
+          [src]="post.postImageUrl"
+          class="card-img mx-auto d-block" />
+      </figure>
+      }
+      <p
+        class="card-text"
+        [innerHtml]="post.body"></p>
+    </a>
+
+    <app-post-footer
+      (vote)="onVotePost($event)"
+      [post]="post"></app-post-footer>
   </div>
+</div>

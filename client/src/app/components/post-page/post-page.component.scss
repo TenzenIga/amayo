@@ -1,39 +1,44 @@
-
 .post-page {
-    
-    &__header {
-        cursor: pointer;
-        & > *{
-            font-weight: 500;
-        } 
+  &__header {
+    cursor: pointer;
+    & > * {
+      font-weight: 500;
     }
-    &__img{
-        height: 50%;
-    }
-    .sub{
-        font-size: 14px;
-    }
-    .username {
-        font-size: 12px;
-        font-weight: 400;
-    }
-    .sub-avatar {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: cover;
-    }
-    a {
-        color: unset;
-        text-decoration: none;
-    }
-    .date {
-        font-size: 12px;
-
-    }
-    
+  }
+  &__img {
+    height: 50%;
+  }
+  .sub {
+    font-size: 14px;
+  }
+  .username {
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .sub-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-size: cover;
+  }
+  a {
+    color: unset;
+    text-decoration: none;
+  }
+  .date {
+    font-size: 12px;
+  }
 }
-
-
-
-
+.img-wrapper {
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
+  border-radius: 10px;
+  /* The key property for blurring the background behind this element */
+  backdrop-filter: blur(10px); /* Adjust blur strength as needed */
+  -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
+  color: white; /* For content visibility on a blurred background */
+  text-align: center;
+}
+.card-img-top {
+  height: 450px;
+  object-fit: contain;
+}
