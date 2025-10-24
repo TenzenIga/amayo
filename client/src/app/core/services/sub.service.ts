@@ -28,6 +28,10 @@ export class SubService {
   public deleteSub(subName:string):Observable<any>{
     return this.http.delete(`${this.url}/subs/${subName}`)
   }
+
+  public editSub(subName, subPayload: FormData):Observable<any>{
+    return this.http.put(`${this.url}/subs/${subName}`, subPayload)
+  }
   public validateSub(subPayload: subPayload): Observable<ValdiateSubInput> {
     return this.http.post<ValdiateSubInput>(
       `${this.url}/subs/validate-sub`,

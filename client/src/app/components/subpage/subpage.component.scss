@@ -1,68 +1,81 @@
-.sub{
-   &-content {
-       padding: 0 1.25rem 1.25rem 1.25rem;
-   }
-   &-header {
-       display: flex;
-   }
-    &-heading {
-        display: flex;
-        flex-direction: column;
+.sub {
+  &-content {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+  }
+  &-header {
+    display: flex;
+  }
+  &-heading {
+    display: flex;
+    flex-direction: column;
 
-        &__title {
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 32px;
-            overflow: hidden;
-        }
-        &__name {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 18px;
-            color: #7c7c7c;
-            padding-left: 2px;
-        }
+    &__title {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 32px;
+      overflow: hidden;
     }
-    &-description {
-        font-size: 1rem;
+    &__name {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 18px;
+      color: #7c7c7c;
+      padding-left: 2px;
     }
+  }
+  &-description {
+    font-size: 1rem;
+  }
 
-    button {
-        font-weight: bold;
-    }
-  
+  button {
+    font-weight: bold;
+  }
+  &-bg {
+    position: relative;
+  }
 }
 
 .avatar {
-    border: 4px solid #fff;
-    position: absolute;
+  border: 4px solid #fff;
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  top: -15px;
+  &-edit {
+    cursor: pointer;
+    opacity: 0.6;
+    background: black;
+  }
+  &-wrapper {
     width: 75px;
     height: 75px;
-    border-radius: 50%;
-    background-size: cover;
-    top: -15px;
-    
-    &-wrapper {
-        width: 75px;
-        height: 75px;
-        position: relative;
-    }
- }
+    position: relative;
+  }
+}
 
-.username, .date {
-    font-weight: 500;
+.username,
+.date {
+  font-weight: 500;
 }
 
 a {
-    text-decoration: none;
-    color: unset;
+  text-decoration: none;
+  color: unset;
 }
 
 .banner {
-    height: 16rem;
-    background-position: center;
-    background-size: cover;   
-    &-default {
-        background-color: slateblue;
-    }
+  height: 16rem;
+  background-position: center;
+  background-size: cover;
+  &-default {
+    background-color: slateblue;
+  }
+  &-edit-btn {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+  }
 }

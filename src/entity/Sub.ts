@@ -30,14 +30,14 @@ export default class Sub extends Entity {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ nullable: true })
-  imageUrn: string;
+  @Column({ type: 'varchar', nullable: true })
+  imageUrn: string | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  bannerUrn: string | null;
 
   @Column({ nullable: true })
-  bannerUrn: string;
-   
-  @Column({ nullable: true })
-  rules: string
+  rules: string;
 
   @Column()
   username: string;
@@ -61,9 +61,7 @@ export default class Sub extends Entity {
 
   @Expose()
   get bannerUrl(): string | undefined {
-    return this.bannerUrn
-      ? `/images/${this.bannerUrn}`
-      : undefined;
+    return this.bannerUrn ? `/images/${this.bannerUrn}` : undefined;
   }
 
   @Expose()

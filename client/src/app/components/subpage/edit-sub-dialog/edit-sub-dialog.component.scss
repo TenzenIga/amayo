@@ -1,0 +1,85 @@
+button {
+  font-weight: bold;
+}
+
+a {
+  font-weight: bold;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.users {
+  display: flex;
+  font-size: 0.75rem;
+  .all {
+    flex: auto;
+  }
+  .online {
+    flex: auto;
+  }
+}
+.sub-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-size: cover;
+}
+.card-header {
+  height: 36px;
+}
+.close-icon {
+  cursor: pointer;
+}
+
+.file-input {
+  visibility: hidden;
+  width: 0;
+}
+.banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.banner-preview {
+  height: 200px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.delete-btn {
+  bottom: 38px;
+  right: 8px;
+  position: absolute;
+}
+
+.banner-upload__button {
+  height: 200px;
+  border: dashed 0.06rem #dee2e6;
+  border-radius: 1.25rem;
+  background: transparent;
+}
+
+.image {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-preview {
+  height: 150px;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  margin: auto;
+  width: 150px;
+}
+.image-upload__button {
+  height: 150px;
+  border: dashed 0.06rem #dee2e6;
+  border-radius: 1.25rem;
+  background: transparent;
+}

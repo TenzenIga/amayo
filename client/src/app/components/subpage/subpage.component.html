@@ -1,74 +1,94 @@
 @if (sub$ | ngrxPush; as sub) {
-  <div
-    class="sub-wrapper"
-    >
-    <div class="card sub">
-      <div class="sub-bg">
-        @if (sub.bannerUrl) {
+<div class="sub-wrapper">
+  <div class="card sub">
+    <div class="sub-bg">
+      @if (sub.bannerUrl) {
+      <div
+        class="banner"
+        [ngStyle]="{ 'background-image': 'url(' + sub.bannerUrl + ')' }"></div>
+      } @else {
+      <div class="banner banner-default"></div>
+      } @if(sub.isSubOwner){
+      <button
+        type="button"
+        (click)="openEditModal(sub)"
+        class="btn btn-sm btn-secondary rounded-circle banner-edit-btn">
+        <fa-icon
+          [icon]="faPen"
+          size="md"></fa-icon>
+      </button>
+      }
+    </div>
+    <div class="sub-content">
+      <div class="sub-header d-flex">
+        <div
+          class="avatar-wrapper"
+          (mouseenter)="onMouseEnter()"
+          (mouseleave)="onMouseLeave()">
           <div
-            class="banner"
-          [ngStyle]="{ 'background-image': 'url(' + sub.bannerUrl + ')' }"></div>
-        } @else {
-          <div class="banner banner-default"></div>
-        }
-      </div>
-      <div class="sub-content">
-        <div class="sub-header d-flex ">
-          <div class="avatar-wrapper">
-            <div
-              class="avatar"
+            class="avatar"
             [ngStyle]="{
               'background-image': 'url(' + sub.imageUrl + ')'
             }"></div>
+          @if(sub.isSubOwner && isFocused) {
+          <div
+            class="avatar avatar-edit d-flex align-items-center justify-content-center"
+            (click)="openEditModal(sub)">
+            <fa-icon
+              [icon]="faPen"
+              size="md"></fa-icon>
           </div>
-          <div class="ms-3 mt-2 sub-heading">
-            <span class="sub-heading__title">{{ sub.name }}</span>
-            <span class="sub-heading__name">r/{{ sub.name }}</span>
-          </div>
-          <app-subscribe-button class="ms-auto align-self-center"
-                  [subscriptionStatus]="sub.subscriptionStatus"
-                  [subName]="sub.name" 
-                  (subscribeEvent)="subscribeToSub($event)" 
-                  (unsubscribeEvent)="unsubscribeSub($event)" ></app-subscribe-button>
-          @if(sub.isSubOwner){
-            <app-subpage-dropdown [subName]="sub.name" class="align-self-center"></app-subpage-dropdown>
-           } 
-
-        </div> 
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-8">
-        <div class="posts-list">
-          @for (post of sub.posts; track trackByFn($index, post)) {
-            <app-post
-              [post]="post"
-              class="my-2">
-              <a
-                [routerLink]="['/u', post.username]"
-                class="py-1 pr-1 username">
-                {{ post.username }}
-              </a>
-              <a
-                [routerLink]="[post.url]"
-                class="p-1 ml-2 text-muted date">
-                {{ post.createdAt | dateAgo }}
-              </a>
-            </app-post>
           }
         </div>
-      </div>
-      <div class="d-none d-md-block col-4 my-2">
-        <app-sidebar>
-          <app-sub-info slotStart></app-sub-info>
-        </app-sidebar>
+        <div class="ms-3 mt-2 sub-heading">
+          <span class="sub-heading__title">{{ sub.name }}</span>
+          <span class="sub-heading__name">r/{{ sub.name }}</span>
+        </div>
+        <app-subscribe-button
+          class="ms-auto align-self-center"
+          [subscriptionStatus]="sub.subscriptionStatus"
+          [subName]="sub.name"
+          (subscribeEvent)="subscribeToSub($event)"
+          (unsubscribeEvent)="unsubscribeSub($event)"></app-subscribe-button>
+        @if(sub.isSubOwner){
+        <app-subpage-dropdown
+          [sub]="sub"
+          class="align-self-center"></app-subpage-dropdown>
+        }
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="posts-list">
+        @for (post of sub.posts; track trackByFn($index, post)) {
+        <app-post
+          [post]="post"
+          class="my-2">
+          <a
+            [routerLink]="['/u', post.username]"
+            class="py-1 pr-1 username">
+            {{ post.username }}
+          </a>
+          <a
+            [routerLink]="[post.url]"
+            class="p-1 ml-2 text-muted date">
+            {{ post.createdAt | dateAgo }}
+          </a>
+        </app-post>
+        }
+      </div>
+    </div>
+    <div class="d-none d-md-block col-4 my-2">
+      <app-sidebar>
+        <app-sub-info slotStart></app-sub-info>
+      </app-sidebar>
+    </div>
+  </div>
+</div>
 } @else {
-  <app-loader class="loader"></app-loader>
+<app-loader class="loader"></app-loader>
 }
-
 
 <ng-template #loader>
   <app-loader class="loader"></app-loader>

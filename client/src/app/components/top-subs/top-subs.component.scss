@@ -1,26 +1,26 @@
 .sub {
-    display: flex;
-    align-items: center;
-    cursor:pointer;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 
-    &-avatar {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: cover;
-    }
+  &-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+  }
 }
-
 
 button {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-a{
+a {
+  text-decoration: none;
+  color: unset;
+  font-weight: 500;
+  &:hover {
     text-decoration: none;
-    color: unset;
-    font-weight: 500;
-    &:hover {
-        text-decoration: none;
-    }
+  }
 }

@@ -1,0 +1,105 @@
+<div class="modal-header">
+  <h4 class="modal-title">Редактирование сообщества</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<form
+  [formGroup]="subForm"
+  (ngSubmit)="editSub()">
+  <div class="modal-body">
+    <!-- Баннер сообщества -->
+    <div class="banner">
+      <span class="fs-6 mb-2">Баннер</span>
+      @if(bannerPreview){
+      <div
+        class="banner-preview"
+        (click)="bannerInput.click()"
+        [style.background-image]="'url(' + bannerPreview + ')'"></div>
+      <button
+        type="button"
+        (click)="onDeleteBanner()"
+        class="btn btn-sm btn-danger delete-btn">
+        <fa-icon
+          [icon]="faCan"
+          size="md"></fa-icon>
+      </button>
+      }@else{
+      <button
+        type="button"
+        class="banner-upload__button"
+        (click)="bannerInput.click()">
+        Загрузить изображение
+      </button>
+      }
+
+      <input
+        type="file"
+        #bannerInput
+        (change)="onBannerChange($event)"
+        class="file-input"
+        accept="image/png,image/jpeg" />
+    </div>
+
+    <!-- Иконка сообщества -->
+    <div class="image">
+      <span class="fs-6 mb-2">Иконка</span>
+
+      @if(imagePreview){
+      <div
+        class="image-preview"
+        (click)="imageInput.click()"
+        [style.background-image]="'url(' + imagePreview + ')'"></div>
+      <button
+        type="button"
+        (click)="deleteImage()"
+        class="btn btn-sm btn-danger delete-btn">
+        <fa-icon
+          [icon]="faCan"
+          size="md"></fa-icon>
+      </button>
+      }@else{
+      <button
+        type="button"
+        class="image-upload__button"
+        (click)="imageInput.click()">
+        Загрузить изображение
+      </button>
+      }
+
+      <input
+        type="file"
+        #imageInput
+        (change)="onImageChange($event)"
+        class="file-input"
+        accept="image/png,image/jpeg" />
+    </div>
+    <div class="input-group mt-3">
+      <textarea
+        type="text"
+        class="form-control"
+        placeholder="Описание сообщества"
+        aria-label="description"
+        rows="4"
+        maxlength="500"
+        formControlName="description"
+        id="description"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="reset"
+      class="btn btn-outline-secondary"
+      (click)="activeModal.dismiss('cancel click')">
+      Отмена
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="editSub()">
+      Сохранить
+    </button>
+  </div>
+</form>

@@ -2,7 +2,7 @@
     <button class="btn btn-sm btn-outline-secondary ms-2  rounded-circle" id="sub-dropdown"  ngbDropdownToggle><fa-icon  [icon]="elipsis" size="md"></fa-icon></button>
     <div ngbDropdownMenu class="dropdown-content" aria-labelledby="sub-dropdown">
     <button ngbDropdownItem class="dropdown-btn">
-        <span class="ms-2">Редактировать сообщество</span>
+        <span class="ms-2" (click)="openEditModal()">Редактировать сообщество</span>
     </button>
     <button ngbDropdownItem (click)="openDeleteModal()" class="dropdown-btn">
         <span class="ms-2">Удалить сообщество</span>

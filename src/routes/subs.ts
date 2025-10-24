@@ -18,12 +18,12 @@ const createSub = async (req: Request, res: Response) => {
   try {
     let errors: any = {};
     if (isEmpty(name)) errors.name = 'Name must not be empty';
-    
+
     // Validate description length
     if (description && description.length > 500) {
       errors.description = 'Description must not exceed 500 characters';
     }
-    
+
     const sub = await getRepository(Sub)
       .createQueryBuilder('sub')
       .where('lower(sub.name) = :name', { name: name.toLowerCase() })
@@ -40,11 +40,11 @@ const createSub = async (req: Request, res: Response) => {
 
   try {
     const sub = new Sub({ name, user, subscribers: [user], description });
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] }
-    if(files.bannerUrn) {
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    if (files.bannerUrn) {
       sub.bannerUrn = files.bannerUrn[0].filename;
     }
-    if(files.imageUrn) {
+    if (files.imageUrn) {
       sub.imageUrn = files.imageUrn[0].filename;
     }
     await sub.save();
@@ -98,7 +98,7 @@ const getSub = async (req: Request, res: Response) => {
     if (res.locals.user) {
       sub.posts.forEach((p) => p.setUserVote(res.locals.user));
       sub.setStatus(res.locals.user);
-      sub.setOwner(res.locals.user)
+      sub.setOwner(res.locals.user);
     }
 
     return res.json(sub);
@@ -123,9 +123,6 @@ const subOwner = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-
-
-
 const searchSubs = async (req: Request, res: Response) => {
   try {
     const name = req.params.name;
@@ -148,23 +145,21 @@ const searchSubs = async (req: Request, res: Response) => {
 };
 
 const updateSub = async (req: Request, res: Response) => {
-  const { title, description, rules } = req.body;
+  const { title, description, rules, isBannerDeleted, isImageDeleted } =
+    req.body;
   const sub: Sub = res.locals.sub;
 
   try {
     let errors: any = {};
-    
-    // Validate description length
+
     if (description && description.length > 500) {
       errors.description = 'Description must not exceed 500 characters';
     }
-    
-    // Validate title length
+
     if (title && title.length > 100) {
       errors.title = 'Title must not exceed 100 characters';
     }
-    
-    // Validate rules length
+
     if (rules && rules.length > 1000) {
       errors.rules = 'Rules must not exceed 1000 characters';
     }
@@ -173,11 +168,39 @@ const updateSub = async (req: Request, res: Response) => {
       return res.status(400).json(errors);
     }
 
-    // Update sub fields
     if (title !== undefined) sub.title = title;
     if (description !== undefined) sub.description = description;
     if (rules !== undefined) sub.rules = rules;
 
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    // Если мы получили новую картинку - удаляем старую и сохраняем новую
+    if (files?.bannerUrn) {
+      fs.unlink(`public/images/${sub.bannerUrn}`, (err) => {
+        if (err) console.log('Error deleting banner:', err);
+      });
+      sub.bannerUrn = files.bannerUrn[0].filename;
+    }
+    // Если юзер удалил картинку и не добавил новую то удаляем картинку изаписываем null
+    if (isBannerDeleted === 'true') {
+      fs.unlink(`public/images/${sub.bannerUrn}`, (err) => {
+        if (err) console.log('Error deleting banner:', err);
+      });
+      sub.bannerUrn = null;
+    }
+
+    if (files?.imageUrn) {
+      fs.unlink(`public/images/${sub.bannerUrn}`, (err) => {
+        if (err) console.log('Error deleting banner:', err);
+      });
+      sub.imageUrn = files.imageUrn[0].filename;
+    }
+
+    if (isImageDeleted === 'true') {
+      fs.unlink(`public/images/${sub.imageUrn}`, (err) => {
+        if (err) console.log('Error deleting image:', err);
+      });
+      sub.imageUrn = null;
+    }
     await sub.save();
 
     return res.json(sub);
@@ -197,7 +220,7 @@ const deleteSub = async (_req: Request, res: Response) => {
         if (err) console.log('Error deleting image:', err);
       });
     }
-    
+
     if (sub.bannerUrn) {
       fs.unlink(`public/images/${sub.bannerUrn}`, (err) => {
         if (err) console.log('Error deleting banner:', err);
@@ -217,18 +240,29 @@ const deleteSub = async (_req: Request, res: Response) => {
 const router = Router();
 
 router.post('/validate-sub', user, auth, checkIfSubExist);
-router.post('/',
-    user,
-    auth, 
-    upload.fields([
-      { name: 'bannerUrn', maxCount: 1 },
-      { name: 'imageUrn', maxCount: 1 }
-    ]),
-    createSub);
+router.post(
+  '/',
+  user,
+  auth,
+  upload.fields([
+    { name: 'bannerUrn', maxCount: 1 },
+    { name: 'imageUrn', maxCount: 1 }
+  ]),
+  createSub
+);
 router.get('/:name', user, getSub);
 router.get('/search/:name', searchSubs);
-router.put('/:name', user, auth, subOwner, updateSub);
+router.put(
+  '/:name',
+  user,
+  auth,
+  upload.fields([
+    { name: 'bannerUrn', maxCount: 1 },
+    { name: 'imageUrn', maxCount: 1 }
+  ]),
+  subOwner,
+  updateSub
+);
 router.delete('/:name', user, auth, subOwner, deleteSub);
-
 
 export default router;
