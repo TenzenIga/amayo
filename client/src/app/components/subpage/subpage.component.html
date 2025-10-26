@@ -75,6 +75,11 @@
             class="p-1 ml-2 text-muted date">
             {{ post.createdAt | dateAgo }}
           </a>
+          @if(post.isPostOwner){
+          <app-post-dropdown
+            class="ms-auto"
+            [post]="post"></app-post-dropdown>
+          }
         </app-post>
         }
       </div>

@@ -19,29 +19,49 @@ export const postReducer = createReducer(
   on(PostActions.votePostSuccess, (state, payload) => ({
     ...state,
     post: payload.post,
-    posts: state.posts.map((p) =>{
-      if(p.identifier === payload.post.identifier){
-        return {...p, userVote: payload.post.userVote, voteScore: payload.post.voteScore}
+    posts: state.posts.map((p) => {
+      if (p.identifier === payload.post.identifier) {
+        return {
+          ...p,
+          userVote: payload.post.userVote,
+          voteScore: payload.post.voteScore
+        };
       }
-      return p
-    }
-    )
+      return p;
+    })
   })),
   on(PostActions.createPost, (state) => ({ ...state, loading: true })),
   on(PostActions.createPostSuccess, (state) => ({ ...state, loading: false })),
-  on(PostActions.subscribeToSub, (state) =>({...state, subscribeToSubLoading: true})),
-  on(PostActions.subscribeToSubSuccess, (state, payload) =>({...state, posts: state.posts.map(p => { 
-    if(p.subName === payload.sub.name){
-      p = {...p, subscriptionStatus:true}
+  on(PostActions.subscribeToSub, (state) => ({
+    ...state,
+    subscribeToSubLoading: true
+  })),
+  on(PostActions.subscribeToSubSuccess, (state, payload) => ({
+    ...state,
+    posts: state.posts.map((p) => {
+      if (p.subName === payload.sub.name) {
+        p = { ...p, subscriptionStatus: true };
       }
-    return p
-   }), subscribeToSubLoading: false})),
-  on(PostActions.unsubscribeSub, (state) =>({...state, subscribeToSubLoading: true})),
-  on(PostActions.unsubscribeSubSuccess, (state, payload) =>({...state, posts: state.posts.map(p => { 
-    if(p.subName === payload.sub.name){
-      p = {...p, subscriptionStatus:false}
+      return p;
+    }),
+    subscribeToSubLoading: false
+  })),
+  on(PostActions.unsubscribeSub, (state) => ({
+    ...state,
+    subscribeToSubLoading: true
+  })),
+  on(PostActions.unsubscribeSubSuccess, (state, payload) => ({
+    ...state,
+    posts: state.posts.map((p) => {
+      if (p.subName === payload.sub.name) {
+        p = { ...p, subscriptionStatus: false };
       }
-    return p
-   }), subscribeToSubLoading: false})),
-
+      return p;
+    }),
+    subscribeToSubLoading: false
+  })),
+  on(PostActions.deletePostSuccess, (state, payload) => ({
+    ...state,
+    posts: state.posts.filter((p) => p.identifier !== payload.post.identifier)
+  }))
 );

@@ -24,6 +24,11 @@
           <span class="ms-2 text-muted date align-self-start">
             {{ post.createdAt | dateAgo }}
           </span>
+          @if(post.isPostOwner){
+          <app-post-dropdown
+            class="ms-auto"
+            [post]="post"></app-post-dropdown>
+          }
         </div>
         <h3 class="post-page__title">{{ post.title }}</h3>
 

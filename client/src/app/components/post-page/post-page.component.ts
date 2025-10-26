@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit
+} from '@angular/core';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -7,7 +12,11 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
 import { selectPost } from 'app/store/selectors/post.selector';
 import { getPost, votePost } from 'app/store/actions/post.action';
-import { getComments, voteComment, createComment } from 'app/store/actions/comment.action';
+import {
+  getComments,
+  voteComment,
+  createComment
+} from 'app/store/actions/comment.action';
 import { selectComments } from 'app/store/selectors/comment.selector';
 import { getSub } from 'app/store/actions/sub.action';
 import { NgStyle } from '@angular/common';
@@ -20,14 +29,28 @@ import { SubInfoComponent } from '../sub-info/sub-info.component';
 import { TopSubsComponent } from '../top-subs/top-subs.component';
 import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
 import { PushPipe } from '@ngrx/component';
+import { PostDropdownComponent } from '../post-dropdown/post-dropdown.component';
 
 @Component({
-    selector: 'app-post-page',
-    templateUrl: './post-page.component.html',
-    styleUrls: ['./post-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [NgStyle, RouterLink, PostFooterComponent, CommentFormComponent, CommentComponent, LoaderComponent, SidebarComponent, SubInfoComponent, TopSubsComponent, DateAgoPipe, PushPipe]
+  selector: 'app-post-page',
+  templateUrl: './post-page.component.html',
+  styleUrls: ['./post-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgStyle,
+    RouterLink,
+    PostFooterComponent,
+    CommentFormComponent,
+    CommentComponent,
+    LoaderComponent,
+    SidebarComponent,
+    SubInfoComponent,
+    TopSubsComponent,
+    DateAgoPipe,
+    PushPipe,
+    PostDropdownComponent
+  ]
 })
 export class PostPageComponent {
   public identifier: string;
@@ -40,7 +63,6 @@ export class PostPageComponent {
     private activatedRoute: ActivatedRoute,
     private store: Store<IAppState>,
     private router: Router = inject(Router)
-    
   ) {}
 
   ngOnInit(): void {
@@ -54,16 +76,16 @@ export class PostPageComponent {
       this.store.dispatch(
         getComments({ identifier: this.identifier, slug: this.slug })
       );
-      this.store.dispatch(
-        getSub({ subName:  this.subName })
-      );
+      this.store.dispatch(getSub({ subName: this.subName }));
     });
   }
 
   public sendComment(commentBody: string): void {
     const identifier = this.activatedRoute.snapshot.paramMap.get('identifier');
     const slug = this.activatedRoute.snapshot.paramMap.get('slug');
-    this.store.dispatch(createComment({identifier, slug, value:commentBody}))
+    this.store.dispatch(
+      createComment({ identifier, slug, value: commentBody })
+    );
   }
 
   public trackByFn(comment: Comment): string {
@@ -81,8 +103,8 @@ export class PostPageComponent {
     this.store.dispatch(voteComment({ identifier, slug: this.slug, value }));
   }
 
-  public goToSub(){
+  public goToSub() {
     const subName = this.activatedRoute.snapshot.paramMap.get('subName');
-    this.router.navigate([`/r/${subName}`])
+    this.router.navigate([`/r/${subName}`]);
   }
 }

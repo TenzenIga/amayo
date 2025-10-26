@@ -1,0 +1,4 @@
+// work around https://github.com/ng-bootstrap/ng-bootstrap/issues/2560
+.dropdown-toggle::after {
+  display: none;
+}

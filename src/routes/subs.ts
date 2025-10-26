@@ -96,7 +96,10 @@ const getSub = async (req: Request, res: Response) => {
     });
     sub.posts = posts;
     if (res.locals.user) {
-      sub.posts.forEach((p) => p.setUserVote(res.locals.user));
+      sub.posts.forEach((p) => {
+        p.setUserVote(res.locals.user);
+        p.setOwner(res.locals.user);
+      });
       sub.setStatus(res.locals.user);
       sub.setOwner(res.locals.user);
     }

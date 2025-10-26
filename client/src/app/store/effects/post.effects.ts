@@ -91,4 +91,15 @@ export class PostEffects {
       ),
     { dispatch: false }
   );
+
+  public readonly deletePost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.deletePost),
+      switchMap((action) =>
+        this.postsService
+          .deletePost(action.identifier, action.slug)
+          .pipe(map((post) => PostActions.deletePostSuccess({ post })))
+      )
+    );
+  });
 }

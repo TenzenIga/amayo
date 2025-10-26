@@ -6,10 +6,11 @@ import Sub from '../entity/Sub';
 import Comment from '../entity/Comment';
 import user from '../middleware/user';
 import { upload } from '../utils/helpers';
+import fs from 'fs';
 
 interface PostExtended extends Post {
-  subscriptionStatus?:boolean,
-  subImageUrl?: string
+  subscriptionStatus?: boolean;
+  subImageUrl?: string;
 }
 
 const createPost = async (req: Request, res: Response) => {
@@ -25,8 +26,8 @@ const createPost = async (req: Request, res: Response) => {
     const subRecord = await Sub.findOneOrFail({ name: sub });
 
     const post = new Post({ title, body, user, sub: subRecord });
-    if(req.file){
-      post.postImage = req.file.filename
+    if (req.file) {
+      post.postImage = req.file.filename;
     }
     await post.save();
 
@@ -47,9 +48,15 @@ const deletePost = async (req: Request, res: Response) => {
     if (post.username !== user.username) {
       return res.status(403).json({ error: 'You dont own this post' });
     }
-    const response = await Post.delete({ identifier, slug });
+    // Delete associated images if they exist
+    if (post.postImage) {
+      fs.unlink(`public/images/${post.postImage}`, (err) => {
+        if (err) console.log('Error deleting image:', err);
+      });
+    }
+    await Post.delete({ identifier, slug });
 
-    return res.json(response);
+    return res.json(post);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Something went wrong' });
@@ -57,28 +64,29 @@ const deletePost = async (req: Request, res: Response) => {
 };
 
 const getPosts = async (_: Request, res: Response) => {
-
   try {
-    const posts:PostExtended[] = await Post.find({
+    const posts: PostExtended[] = await Post.find({
       order: { createdAt: 'DESC' },
       relations: ['comments', 'votes']
     });
-    await Promise.all(posts.map(async p => {
-      let sub = await Sub.findOneOrFail(
-        { name: p.subName },
-        {
-          relations: ['subscribers']
+    await Promise.all(
+      posts.map(async (p) => {
+        let sub = await Sub.findOneOrFail(
+          { name: p.subName },
+          {
+            relations: ['subscribers']
+          }
+        );
+        if (res.locals.user) {
+          p.setUserVote(res.locals.user);
+          p.setOwner(res.locals.user);
+          sub.setStatus(res.locals.user);
         }
-      );
-      if (res.locals.user){
-        p.setUserVote(res.locals.user)
-        sub.setStatus(res.locals.user);
+        p.subscriptionStatus = sub.subscriptionStatus;
+        p.subImageUrl = sub.imageUrl;
+      })
+    );
 
-      }
-      p.subscriptionStatus = sub.subscriptionStatus;
-      p.subImageUrl = sub.imageUrl;
-    }));
-  
     return res.json(posts);
   } catch (err) {
     console.log(err);
@@ -97,6 +105,7 @@ const getPost = async (req: Request, res: Response) => {
 
     if (res.locals.user) {
       post.setUserVote(res.locals.user);
+      post.setOwner(res.locals.user);
     }
 
     return res.json(post);

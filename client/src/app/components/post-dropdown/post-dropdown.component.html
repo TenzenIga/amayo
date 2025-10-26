@@ -1,0 +1,32 @@
+<div
+  ngbDropdown
+  class="d-block">
+  <button
+    class="btn btn-sm btn-outline-secondary ms-2"
+    id="post-dropdown"
+    ngbDropdownToggle>
+    <fa-icon
+      [icon]="elipsis"
+      size="md"></fa-icon>
+  </button>
+  <div
+    ngbDropdownMenu
+    class="dropdown-content"
+    aria-labelledby="post-dropdown">
+    <button
+      ngbDropdownItem
+      class="dropdown-btn">
+      <span
+        class="ms-2"
+        (click)="openEditModal()">
+        Редактировать пост
+      </span>
+    </button>
+    <button
+      ngbDropdownItem
+      (click)="openDeleteModal()"
+      class="dropdown-btn">
+      <span class="ms-2">Удалить пост</span>
+    </button>
+  </div>
+</div>

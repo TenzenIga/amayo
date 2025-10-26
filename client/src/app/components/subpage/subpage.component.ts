@@ -31,6 +31,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditSubDialogComponent } from './edit-sub-dialog/edit-sub-dialog.component';
+import { PostDropdownComponent } from '../post-dropdown/post-dropdown.component';
 
 @Component({
   selector: 'app-subpage',
@@ -49,7 +50,8 @@ import { EditSubDialogComponent } from './edit-sub-dialog/edit-sub-dialog.compon
     DateAgoPipe,
     PushPipe,
     SubscribeButtonComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
+    PostDropdownComponent
   ]
 })
 export class SubpageComponent implements OnInit {

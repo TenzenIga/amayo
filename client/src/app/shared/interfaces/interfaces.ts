@@ -13,14 +13,14 @@ export type postPayload = {
   sub: string;
   title: string;
   body: string;
-  file:File;
+  file: File;
 };
 
 export type subPayload = {
   name: string;
-  description?:string;
-  bannerUrn?:File;
-  imageUrn?:File;
+  description?: string;
+  bannerUrn?: File;
+  imageUrn?: File;
 };
 export interface Post {
   id?: number;
@@ -39,7 +39,8 @@ export interface Post {
   voteScore: number;
   commentCount: number;
   userVote?: number;
-  postImageUrl?:string;
+  postImageUrl?: string;
+  isPostOwner?: boolean;
 }
 
 export interface Sub {
@@ -54,8 +55,8 @@ export interface Sub {
   posts: Post[];
   imageUrl?: string;
   bannerUrl?: string;
-  subscribersCount?:number
-  subscriptionStatus?: boolean
+  subscribersCount?: number;
+  subscriptionStatus?: boolean;
 }
 
 export interface Comment {
@@ -69,5 +70,5 @@ export interface Comment {
 }
 
 export interface ValdiateSubInput {
-  fieldError: string | null
+  fieldError: string | null;
 }

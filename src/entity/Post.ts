@@ -1,88 +1,103 @@
-import {Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, BeforeInsert, OneToMany} from "typeorm";
-import { Expose, Exclude } from "class-transformer";
+import {
+  Entity as TOEntity,
+  Column,
+  Index,
+  ManyToOne,
+  JoinColumn,
+  BeforeInsert,
+  OneToMany
+} from 'typeorm';
+import { Expose, Exclude } from 'class-transformer';
 import slugify from 'slugify';
 
 import Entity from './Entity';
-import User from "./User";
-import { makeId } from "../utils/helpers";
-import  Sub  from "./Sub";
-import Comment from "./Comment";
-import Vote from "./Vote";
+import User from './User';
+import { makeId } from '../utils/helpers';
+import Sub from './Sub';
+import Comment from './Comment';
+import Vote from './Vote';
 
 @TOEntity('posts')
-export default class Post extends Entity{
-    constructor(post: Partial<Post>){
-        super()
-        Object.assign(this, post);
-    }
+export default class Post extends Entity {
+  constructor(post: Partial<Post>) {
+    super();
+    Object.assign(this, post);
+  }
 
-    @Index()
-    @Column()
-    identifier:string //7 character id
+  @Index()
+  @Column()
+  identifier: string; //7 character id
 
-    @Column()
-    title: string
+  @Column()
+  title: string;
 
-    @Index()
-    @Column()
-    slug: string
+  @Index()
+  @Column()
+  slug: string;
 
-    @Column({nullable:true, type: 'text'})
-    body: string
-     
-    @Column({ nullable: true })
-    postImage: string;
+  @Column({ nullable: true, type: 'text' })
+  body: string;
 
-    @Column()
-    subName: string
+  @Column({ nullable: true })
+  postImage: string;
 
-    @Column()
-    username:string
+  @Column()
+  subName: string;
 
-    @ManyToOne(()=> User, user => user.posts)
-    @JoinColumn({name: 'username', referencedColumnName: 'username'})
-    user:User;
+  @Column()
+  username: string;
 
-    @ManyToOne(()=> Sub, sub => sub.posts, {
-        onDelete:'CASCADE'
-    })
-    @JoinColumn({name: 'subName', referencedColumnName:'name'})
-    sub:Sub
+  @ManyToOne(() => User, (user) => user.posts)
+  @JoinColumn({ name: 'username', referencedColumnName: 'username' })
+  user: User;
 
-    @Exclude()
-    @OneToMany(()=> Comment, comment => comment.post)
-    comments: Comment[]
+  @ManyToOne(() => Sub, (sub) => sub.posts, {
+    onDelete: 'CASCADE'
+  })
+  @JoinColumn({ name: 'subName', referencedColumnName: 'name' })
+  sub: Sub;
 
-    @Exclude()
-    @OneToMany(()=> Vote, vote => vote.post)
-    votes: Vote[]
-    
-    @Expose() get url(): string {
-        return `/r/${this.subName}/${this.identifier}/${this.slug}`;
-    }
-    
-    @Expose() get commentCount(): number {
-        return this.comments ? this.comments.length : 0;
-    }  
+  @Exclude()
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments: Comment[];
 
-    @Expose() get voteScore(): number {
-        return this.votes ?  this.votes.reduce((prev, curr)=> prev + (curr.value || 0), 0) : 0;
-    }  
+  @Exclude()
+  @OneToMany(() => Vote, (vote) => vote.post)
+  votes: Vote[];
 
-    @Expose()
-    get postImageUrl(): string | undefined {
-           return this.postImage ? `/images/${this.postImage}` : undefined;
-    }
+  @Expose() get url(): string {
+    return `/r/${this.subName}/${this.identifier}/${this.slug}`;
+  }
 
-    protected userVote: number
-    setUserVote(user: User) {
-        const index = this.votes.findIndex(v => v.username === user.username)
-        this.userVote = index > -1 ? this.votes[index].value : 0; 
-    }
+  @Expose() get commentCount(): number {
+    return this.comments ? this.comments.length : 0;
+  }
 
-    @BeforeInsert()
-    makeIdAndSlug(){
-        this.identifier = makeId(7);
-        this.slug = slugify(this.title, '_');
-    }
+  @Expose() get voteScore(): number {
+    return this.votes
+      ? this.votes.reduce((prev, curr) => prev + (curr.value || 0), 0)
+      : 0;
+  }
+
+  @Expose()
+  get postImageUrl(): string | undefined {
+    return this.postImage ? `/images/${this.postImage}` : undefined;
+  }
+
+  protected userVote: number;
+  setUserVote(user: User) {
+    const index = this.votes.findIndex((v) => v.username === user.username);
+    this.userVote = index > -1 ? this.votes[index].value : 0;
+  }
+
+  @BeforeInsert()
+  makeIdAndSlug() {
+    this.identifier = makeId(7);
+    this.slug = slugify(this.title, '_');
+  }
+
+  isPostOwner: boolean;
+  setOwner(user: User) {
+    this.isPostOwner = this.username === user.username;
+  }
 }
