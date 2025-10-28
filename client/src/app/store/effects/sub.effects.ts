@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { SubService } from '@core/services/sub.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map, switchMap } from 'rxjs/operators';
 import * as SubActions from '../actions/sub.action';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class SubEffect {
-  constructor(private actions$: Actions, private subService: SubService) {}
-
+  private subService: SubService = inject(SubService);
+  private actions$: Actions = inject(Actions);
+  private router: Router = inject(Router);
+  private toastr: ToastrService = inject(ToastrService);
   public readonly getSub$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(SubActions.getSub),
@@ -64,4 +68,37 @@ export class SubEffect {
     );
   });
 
+  public readonly createSub$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(SubActions.createSub),
+      switchMap((action) =>
+        this.subService
+          .createSub(action.formData)
+          .pipe(map((sub) => SubActions.createSubSuccess({ sub })))
+      )
+    );
+  });
+
+  public readonly deleteSub$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(SubActions.deleteSub),
+      switchMap((action) =>
+        this.subService
+          .deleteSub(action.subName)
+          .pipe(map((sub) => SubActions.deleteSubSuccess({ sub })))
+      )
+    );
+  });
+
+  public readonly deleteSubRedirect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SubActions.deleteSubSuccess),
+        map((_) => {
+          this.router.navigate(['/']);
+          this.toastr.success('Sub deleted!');
+        })
+      ),
+    { dispatch: false }
+  );
 }

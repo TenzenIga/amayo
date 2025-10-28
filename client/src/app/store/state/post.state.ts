@@ -1,6 +1,3 @@
-import { Status } from '../models/status';
-import { Sub } from './sub.state';
-
 export interface Post {
   id: number;
   createdAt: Date;
@@ -25,7 +22,7 @@ export interface IPostState {
   post: Post;
   posts: Post[];
   loading: boolean;
-  subscribeToSubLoading: boolean; 
+  subscribeToSubLoading: boolean;
   error: any;
 }
 export const initialPostState: IPostState = {

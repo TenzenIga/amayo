@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as SubActions from '../actions/sub.action';
 import { initialSubState } from '../state/sub.state';
+import * as PostActions from '../actions/post.action';
 
 export const subReducer = createReducer(
   initialSubState,
@@ -18,7 +19,22 @@ export const subReducer = createReducer(
   })),
   on(SubActions.searchSubsClear, (state) => ({ ...state, suggestions: [] })),
   on(SubActions.clearSub, (state) => ({ ...state, sub: null })),
-  on(SubActions.subscribeToSubSuccess, (state) =>({...state, sub: {...state.sub, subscriptionStatus: true} })),
-  on(SubActions.unsubscribeSubSuccess, (state) =>({...state, sub: {...state.sub, subscriptionStatus: false} })),
+  on(SubActions.subscribeToSubSuccess, (state) => ({
+    ...state,
+    sub: { ...state.sub, subscriptionStatus: true }
+  })),
+  on(SubActions.unsubscribeSubSuccess, (state) => ({
+    ...state,
+    sub: { ...state.sub, subscriptionStatus: false }
+  })),
   on(SubActions.deleteSubSuccess, (state) => ({ ...state, sub: null })),
+  on(PostActions.deletePostSuccess, (state, paylaod) => ({
+    ...state,
+    sub: {
+      ...state.sub,
+      posts: state.sub.posts.filter(
+        (p) => p.identifier !== paylaod.post.identifier
+      )
+    }
+  }))
 );

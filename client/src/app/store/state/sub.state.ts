@@ -3,6 +3,7 @@ import { Post } from './post.state';
 
 export interface Sub {
   id?: number;
+  name: string;
   createdAt?: Date;
   updatedAt?: Date;
   title: string;
@@ -12,8 +13,8 @@ export interface Sub {
   posts: Post[];
   imageUrl?: string;
   bannerUrl?: string;
-  subscribersCount?:number
-  subscriptionStatus: boolean
+  subscribersCount?: number;
+  subscriptionStatus: boolean;
 }
 
 export interface ISubState {

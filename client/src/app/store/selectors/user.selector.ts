@@ -6,5 +6,5 @@ const userState = (state: IAppState) => state.user;
 
 export const selectUserInfo = createSelector(
   userState,
-  (state: IUserState) => state.user
+  (state: IUserState) => state.userData
 );

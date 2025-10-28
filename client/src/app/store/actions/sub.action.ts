@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Sub } from '../state/sub.state';
+import { subPayload } from '@shared/interfaces/interfaces';
 
 export enum SubActions {
   GetSub = '[Sub] Get Sub',
@@ -15,7 +16,9 @@ export enum SubActions {
   UnsubscribeSubSuccess = '[Sub] Unsubscribe to Sub Success',
   ClearSub = '[Sub] Clear Sub',
   DeleteSub = '[Sub] Delete Sub',
-  DeleteSubSuccess = '[Sub] Delete Sub Success'
+  DeleteSubSuccess = '[Sub] Delete Sub Success',
+  CreateSub = '[Sub] Create Sub',
+  CreateSubSuccess = '[Sub] Create Sub Success'
 }
 
 export const getSub = createAction(
@@ -44,38 +47,45 @@ export const searchSubsSuccess = createAction(
   props<{ suggestions: Sub[] }>()
 );
 
-
-export const clearSub = createAction(
-  SubActions.ClearSub
-);
+export const clearSub = createAction(SubActions.ClearSub);
 
 export const subscribeToSub = createAction(
-    SubActions.SubscribeToSub,
-    props<{ name: string }>()
-  );
+  SubActions.SubscribeToSub,
+  props<{ name: string }>()
+);
 
-export const subscribeToSubSuccess= createAction(
-    SubActions.SubscribeToSubSuccess,
-    props<{ sub: Sub }>()
-  );
+export const subscribeToSubSuccess = createAction(
+  SubActions.SubscribeToSubSuccess,
+  props<{ sub: Sub }>()
+);
 
 export const unsubscribeSub = createAction(
-    SubActions.UnsubscribeSub,
-    props<{ name: string }>()
-  );
+  SubActions.UnsubscribeSub,
+  props<{ name: string }>()
+);
 
 export const unsubscribeSubSuccess = createAction(
-    SubActions.UnsubscribeSubSuccess,
-    props<{ sub: Sub }>()
+  SubActions.UnsubscribeSubSuccess,
+  props<{ sub: Sub }>()
 );
 
 export const deleteSub = createAction(
   SubActions.DeleteSub,
   props<{ subName: string }>()
-)
+);
 
-export const deleteSubSuccess = createAction (
-  SubActions.DeleteSubSuccess
-)
+export const deleteSubSuccess = createAction(
+  SubActions.DeleteSubSuccess,
+  props<{ sub: Sub }>()
+);
 
+export const createSub = createAction(
+  SubActions.CreateSub,
+  props<{ formData: FormData }>()
+);
+
+export const createSubSuccess = createAction(
+  SubActions.CreateSubSuccess,
+  props<{ sub: Sub }>()
+);
 export const searchSubsClear = createAction(SubActions.SearchSubsClear);

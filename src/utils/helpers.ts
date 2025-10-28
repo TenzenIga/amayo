@@ -1,15 +1,19 @@
 import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
 
-export function makeId(length:number):string {
-    let result = [];
-    const characters  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result.push(characters.charAt(Math.floor(Math.random() * 
- charactersLength)));
-   }
-   return result.join('');
+const whitelist = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+
+export function makeId(length: number): string {
+  let result = [];
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result.push(
+      characters.charAt(Math.floor(Math.random() * charactersLength))
+    );
+  }
+  return result.join('');
 }
 
 export function validateSubName(name: string): boolean {
@@ -17,7 +21,7 @@ export function validateSubName(name: string): boolean {
   if (name.length < 3 || name.length > 21) {
     return false;
   }
-  
+
   // Check allowed characters: letters, numbers, and underscore
   const allowedChars = /^[A-Za-zА-Яa-я0-9_]+$/;
   return !!name.match(allowedChars);
@@ -32,7 +36,7 @@ export const upload = multer({
     }
   }),
   fileFilter: (_, file: any, cb: FileFilterCallback) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype == 'image/png') {
+    if (whitelist.includes(file.mimetype)) {
       cb(null, true);
     } else {
       cb(new Error('File is not an image'));

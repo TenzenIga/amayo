@@ -233,7 +233,7 @@ const deleteSub = async (_req: Request, res: Response) => {
     // Delete the sub (this will cascade delete related posts and comments due to foreign key constraints)
     await sub.remove();
 
-    return res.json({ message: 'Sub deleted successfully' });
+    return res.json(sub);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: 'Something went wrong' });

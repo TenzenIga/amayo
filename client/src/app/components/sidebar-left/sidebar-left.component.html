@@ -1,24 +1,56 @@
-<div >
+<div>
   <div class="list-group border-0">
-    <a href="/" aria-current="true" class=" px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action"> <fa-icon class="px-2" [icon]="faHome" size="lg"></fa-icon>
-  Моя лента</a>
-    <a href="/" class="px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action"><fa-icon class="px-2" [icon]="faFire" size="lg"></fa-icon> Популярное</a>
-    <a href="/" class="px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action"><fa-icon class="px-2" [icon]="faTable" size="lg"></fa-icon> Сообщества</a>
-    <a href="/" class="px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action"><fa-icon class="px-2" [icon]="faChartBar" size="lg"></fa-icon> Все</a>
+    <a
+      href="/"
+      aria-current="true"
+      class="px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action">
+      <fa-icon
+        class="px-2"
+        [icon]="faHome"
+        size="lg"></fa-icon>
+      Моя лента
+    </a>
+    <a
+      href="/"
+      class="px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action">
+      <fa-icon
+        class="px-2"
+        [icon]="faFire"
+        size="lg"></fa-icon>
+      Популярное
+    </a>
+    <a
+      href="/"
+      class="px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action">
+      <fa-icon
+        class="px-2"
+        [icon]="faTable"
+        size="lg"></fa-icon>
+      Сообщества
+    </a>
+    <a
+      href="/"
+      class="px-0 fw-semibold border-0 rounded-2 list-group-item list-group-item-action">
+      <fa-icon
+        class="px-2"
+        [icon]="faChartBar"
+        size="lg"></fa-icon>
+      Все
+    </a>
   </div>
   <div class="list-group border-top rounded-0 mt-2">
     <h4 class="mt-2">Мои сообщества</h4>
-          <app-create-sub-form></app-create-sub-form>
-    @if(userinfo$ | ngrxPush; as userinfo){
-      @for(sub of userinfo.user.subscriptions; track trackByFn($index, sub)){
-        <a (click)="goToSub(sub.name)" class="sub d-flex align-items-center border-0 rounded-2 list-group-item list-group-item-action">
-                    <div class="mx-2 sub-avatar" [ngStyle]="{'background-image': 'url(' + sub.imageUrl + ')'}"></div>
-                    <span class="sub-title fw-semibold">
-                      r/{{ sub.name }}
-                  </span>
-                  </a>
-      }
-
-    }
+    <app-create-sub-form></app-create-sub-form>
+    @if(userinfo$ | ngrxPush; as userinfo){ @for(sub of
+    userinfo.user.subscriptions; track trackByFn($index, sub)){
+    <a
+      (click)="goToSub(sub.name)"
+      class="sub d-flex align-items-center border-0 rounded-2 list-group-item list-group-item-action">
+      <div
+        class="mx-2 sub-avatar"
+        [ngStyle]="{ 'background-image': 'url(' + sub.imageUrl + ')' }"></div>
+      <span class="sub-title fw-semibold">r/{{ sub.name }}</span>
+    </a>
+    } }
   </div>
 </div>

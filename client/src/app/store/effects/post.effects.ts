@@ -6,6 +6,7 @@ import { exhaustMap, map, switchMap } from 'rxjs/operators';
 import slugify from 'slugify';
 import * as PostActions from '../actions/post.action';
 import { SubService } from '@core/services/sub.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class PostEffects {
@@ -13,7 +14,7 @@ export class PostEffects {
   private postsService: PostsService = inject(PostsService);
   private subService: SubService = inject(SubService);
   private router: Router = inject(Router);
-
+  private toastr: ToastrService = inject(ToastrService);
   public readonly getPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.getPosts),
@@ -102,4 +103,16 @@ export class PostEffects {
       )
     );
   });
+
+  public readonly deletePostRedirect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(PostActions.deletePostSuccess),
+        map(({ post }) => {
+          this.router.navigate([`/r/${post.subName}`]);
+          this.toastr.success('Post deleted!');
+        })
+      ),
+    { dispatch: false }
+  );
 }
