@@ -71,4 +71,15 @@ export class PostsService {
   public deletePost(identifier: string, slug: string): Observable<Post> {
     return this.http.delete<Post>(`${this.url}/posts/${identifier}/${slug}`);
   }
+
+  public editPost(
+    identifier: string,
+    slug: string,
+    postData: FormData
+  ): Observable<Post> {
+    return this.http.put<Post>(
+      `${this.url}/posts/${identifier}/${slug}`,
+      postData
+    );
+  }
 }

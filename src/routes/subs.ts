@@ -183,7 +183,7 @@ const updateSub = async (req: Request, res: Response) => {
       });
       sub.bannerUrn = files.bannerUrn[0].filename;
     }
-    // Если юзер удалил картинку и не добавил новую то удаляем картинку изаписываем null
+    // Если юзер удалил картинку и не добавил новую то удаляем картинку и записываем null
     if (isBannerDeleted === 'true') {
       fs.unlink(`public/images/${sub.bannerUrn}`, (err) => {
         if (err) console.log('Error deleting banner:', err);

@@ -38,8 +38,8 @@ export default class Post extends Entity {
   @Column({ nullable: true, type: 'text' })
   body: string;
 
-  @Column({ nullable: true })
-  postImage: string;
+  @Column({ type: 'varchar', nullable: true })
+  postImage: string | null;
 
   @Column()
   subName: string;

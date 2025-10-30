@@ -80,10 +80,21 @@ export class PostEffects {
     );
   });
 
+  public readonly editPost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.editPost),
+      switchMap((action) =>
+        this.postsService
+          .editPost(action.identifier, action.slug, action.postdData)
+          .pipe(map((post) => PostActions.editPostSuccess({ post })))
+      )
+    );
+  });
+
   public readonly newPostRedirect$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(PostActions.createPostSuccess),
+        ofType(PostActions.createPostSuccess, PostActions.editPostSuccess),
         map(({ post }) =>
           this.router.navigate([
             `/r/${post.subName}/${post.identifier}/${slugify(post.title, '_')}`

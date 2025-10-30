@@ -10,13 +10,23 @@ import { AuthGuard } from './auth.guard';
 import { SubpageComponent } from './components/subpage/subpage.component';
 import { PostPageComponent } from './components/post-page/post-page.component';
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
+import { EditPostPageComponent } from './components/edit-post-page/edit-post-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'userpage', component: UserpageComponent, canActivate: [AuthGuard] },
-  { path: 'submit',component: CreatePostPageComponent,canActivate: [AuthGuard]},
+  {
+    path: 'submit',
+    component: CreatePostPageComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'edit',
+    component: EditPostPageComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'r/:subName', component: SubpageComponent },
   { path: 'r/:subName/:identifier/:slug', component: PostPageComponent },
   { path: '**', component: NotFoundPageComponent }

@@ -12,7 +12,6 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { SubService } from '@core/services/sub.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -56,7 +55,6 @@ export class EditSubDialogComponent {
     this.subForm.get('description').setValue(this.sub.description);
   }
   public editSub() {
-    // TO DO переписать на ngrx, добавить отписку
     const formData = new FormData();
     formData.append('description', this.subForm.get('description')?.value);
     formData.append('isBannerDeleted', this.isBannerDeleted);

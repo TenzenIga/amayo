@@ -12,6 +12,9 @@ import {
   NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { DeletePostDialogComponent } from './delete-post-dialog/delete-post-dialog.component';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { getPostSuccess } from 'app/store/actions/post.action';
 
 @Component({
   selector: 'app-post-dropdown',
@@ -24,15 +27,16 @@ import { DeletePostDialogComponent } from './delete-post-dialog/delete-post-dial
 export class PostDropdownComponent {
   @Input() post;
   private modalService = inject(NgbModal);
+  private router: Router = inject(Router);
+  private store = inject(Store);
   public readonly elipsis = faEllipsisH;
+
   public openDeleteModal(): void {
     const modalRef = this.modalService.open(DeletePostDialogComponent);
     modalRef.componentInstance.post = this.post;
   }
-  public openEditModal(): void {
-    // const modalRef = this.modalService.open(EditPostDialogComponent, {
-    //   size: 'lg'
-    // });
-    // modalRef.componentInstance.post = this.post;
+  public onEdit(): void {
+    this.store.dispatch(getPostSuccess({ post: this.post }));
+    this.router.navigate(['/edit']);
   }
 }

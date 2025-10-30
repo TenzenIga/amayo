@@ -117,7 +117,7 @@ const getPost = async (req: Request, res: Response) => {
 
 const updatePost = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params;
-  const { body } = req.body;
+  const { title, body, isImageDeleted } = req.body;
 
   const user = res.locals.user;
 
@@ -127,8 +127,21 @@ const updatePost = async (req: Request, res: Response) => {
     if (post.username !== user.username) {
       return res.status(403).json({ error: 'You dont own this post' });
     }
+    if (req.file) {
+      fs.unlink(`public/images/${post.postImage}`, (err) => {
+        if (err) console.log('Error deleting image:', err);
+      });
+      post.postImage = req.file.filename;
+    }
+    if (isImageDeleted === 'true') {
+      fs.unlink(`public/images/${post.postImage}`, (err) => {
+        if (err) console.log('Error deleting banner:', err);
+      });
+      post.postImage = null;
+    }
+    if (title !== undefined) post.title = title;
+    if (body !== undefined) post.body = body;
 
-    post.body = body;
     await post.save();
     return res.json(post);
   } catch (err) {
@@ -187,5 +200,5 @@ router.delete('/:identifier/:slug', user, auth, deletePost);
 router.get('/:identifier/:slug', user, getPost);
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost);
 router.get('/:identifier/:slug/comments', user, getPostComments);
-router.put('/:identifier/:slug', user, auth, updatePost);
+router.put('/:identifier/:slug', user, auth, upload.single('file'), updatePost);
 export default router;

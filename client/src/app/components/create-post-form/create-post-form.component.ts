@@ -22,11 +22,12 @@ import { createPost } from 'app/store/actions/post.action';
 import { searchSubs, searchSubsClear } from 'app/store/actions/sub.action';
 import { selectSub, suggestedSubs } from 'app/store/selectors/sub.selector';
 import { IAppState } from 'app/store/state/app.state';
-import { quillConfiguration } from './quilConfig';
+
 import { SuggestionsComponent } from '../../shared/components/suggestions/suggestions.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { QuillEditorComponent } from 'ngx-quill';
 import { PushPipe } from '@ngrx/component';
+import { quillConfiguration } from '@shared/utils';
 @Component({
   selector: 'app-create-post-form',
   templateUrl: './create-post-form.component.html',

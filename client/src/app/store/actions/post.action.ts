@@ -23,7 +23,9 @@ export enum PostActions {
   UnsubscribeSub = '[Post] Unsubscribe To Sub',
   UnsubscribeSubSuccess = '[Post] Unsubscribe To Sub Success',
   DeletePost = '[Post] Delete Post',
-  DeletePostSuccess = '[Post] Delete Post Success'
+  DeletePostSuccess = '[Post] Delete Post Success',
+  EditPost = '[Post] Edit Post',
+  EditPostSuccess = '[Post] Edit Post Success'
 }
 
 export const getPosts = createAction(PostActions.GetPosts);
@@ -89,5 +91,15 @@ export const deletePost = createAction(
 
 export const deletePostSuccess = createAction(
   PostActions.DeletePostSuccess,
+  props<{ post: Post }>()
+);
+
+export const editPost = createAction(
+  PostActions.EditPost,
+  props<{ identifier: string; slug: string; postdData: FormData }>()
+);
+
+export const editPostSuccess = createAction(
+  PostActions.EditPostSuccess,
   props<{ post: Post }>()
 );
