@@ -1,74 +1,64 @@
-@if ({
-  posts: posts$ | ngrxPush,
-  loading: loading$ | ngrxPush
-  }; as state) {
-   
-  <div
-    class="row"
-    >
-   
-    <div class="col-md-9">
-      @if (state.loading) {
-        <app-loader class="loader col-8"></app-loader>
-      }
-      @if (state.status === 'failed') {
-        <div>Something went wrong</div>
-      }
-      @if (state.posts !== null) {
-        @if (state.loading === false) {
+@if ({ posts: posts$ | ngrxPush, loading: loading$ | ngrxPush }; as state) {
+
+<div class="row">
+  <div class="col-md-9">
+    @if (state.loading) {
+    <app-loader class="loader"></app-loader>
+    } @if (state.status === 'failed') {
+    <div>Something went wrong</div>
+    } @if (state.posts !== null) { @if (state.loading === false) {
+    <div class="posts-list">
+      @for (post of state.posts; track trackByFn($index, post)) {
+      <app-post
+        [post]="post"
+        class="d-flex my-2">
+        <a
+          [routerLink]="['r/', post.subName]"
+          class="d-flex">
           <div
-            class="posts-list"
-            >
-            @for (post of state.posts; track trackByFn($index, post)) {
-              <app-post
-                [post]="post"
-                class="d-flex my-2"
-               >
-                <a
-                  [routerLink]="['r/', post.subName]"
-                  class=" d-flex">
-                  <div
-                    class="sub-avatar"
-                    [ngStyle]="{
-                      'background-image': 'url(' + post.subImageUrl + ')'
-                    }"></div>
-                    <div class="py-1 ps-1 sub">
-                      r/{{ post.subName }}
-                    </div>
-                </a>
-                <a
-                  [routerLink]="['/u', post.username]"
-                  class="p-1 ms-2 username">
-                  {{ post.username }}
-                </a>
-                <a
-                  [routerLink]="[post.url]"
-                  class="p-1 ms-2 text-muted date">
-                  {{ post.createdAt | dateAgo }}
-                </a>
-                <app-subscribe-button class="ms-auto"
-                  [subscriptionStatus]="post.subscriptionStatus"
-                  [subName]="post.subName" 
-                  (subscribeEvent)="subscribeToSub($event)" 
-                  (unsubscribeEvent)="unsubscribeSub($event)" ></app-subscribe-button>
-              </app-post>
-            }
-          </div>
-          <button class="button-mobile text-bg-primary d-md-none" (click)="goToCreatePostPage()"><fa-icon [icon]="faPen" size="lg"></fa-icon></button>
-        }
+            class="sub-avatar"
+            [ngStyle]="{
+              'background-image': 'url(' + post.subImageUrl + ')'
+            }"></div>
+          <div class="py-1 ps-1 sub">r/{{ post.subName }}</div>
+        </a>
+        <a
+          [routerLink]="['/u', post.username]"
+          class="p-1 ms-2 username">
+          {{ post.username }}
+        </a>
+        <a
+          [routerLink]="[post.url]"
+          class="p-1 ms-2 text-muted date">
+          {{ post.createdAt | dateAgo }}
+        </a>
+        <app-subscribe-button
+          class="ms-auto"
+          [subscriptionStatus]="post.subscriptionStatus"
+          [subName]="post.subName"
+          (subscribeEvent)="subscribeToSub($event)"
+          (unsubscribeEvent)="unsubscribeSub($event)"></app-subscribe-button>
+      </app-post>
       }
     </div>
-    <div class="d-none d-md-block col-3 mt-2">
-      <app-sidebar>
-        <app-top-subs slotStart></app-top-subs>
-        @if(isLoggedIn){
-          <div
-          class="card"
-          slotMid>
-        </div>
-        }
- 
-      </app-sidebar>
-    </div>
+    <button
+      class="button-mobile text-bg-primary d-md-none"
+      (click)="goToCreatePostPage()">
+      <fa-icon
+        [icon]="faPen"
+        size="lg"></fa-icon>
+    </button>
+    } }
   </div>
+  <div class="d-none d-md-block col-3 mt-2">
+    <app-sidebar>
+      <app-top-subs slotStart></app-top-subs>
+      @if(isLoggedIn){
+      <div
+        class="card"
+        slotMid></div>
+      }
+    </app-sidebar>
+  </div>
+</div>
 }

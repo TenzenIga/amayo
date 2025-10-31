@@ -3,28 +3,28 @@
     padding: 0 1.25rem 1.25rem 1.25rem;
   }
   &-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    grid-template-rows: 75px;
+  }
+  &-controls {
+    grid-column: 1/4;
   }
   &-heading {
     display: flex;
     flex-direction: column;
-
+    line-height: 1.25;
     &__title {
-      font-size: 28px;
+      font-size: 1.125rem;
       font-weight: 700;
-      line-height: 32px;
       overflow: hidden;
     }
     &__name {
-      font-size: 14px;
+      font-size: 0.75rem;
       font-weight: 500;
-      line-height: 18px;
       color: #7c7c7c;
       padding-left: 2px;
     }
-  }
-  &-description {
-    font-size: 1rem;
   }
 
   button {
@@ -77,5 +77,17 @@ a {
     position: absolute;
     bottom: 8px;
     right: 8px;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .sub-heading__title {
+    font-size: 2rem;
+  }
+  .sub-heading__name {
+    font-size: 1rem;
+  }
+  .sub-controls {
+    grid-column: 3/4;
   }
 }

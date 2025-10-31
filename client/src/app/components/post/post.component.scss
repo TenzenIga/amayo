@@ -19,6 +19,7 @@
   text-decoration: none;
   width: 100%;
   &-header {
+    font-size: 0.75rem;
     display: flex;
     & > * {
       font-weight: 500;
@@ -30,5 +31,11 @@
   a {
     color: unset;
     text-decoration: none;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .post-header {
+    font-size: 1rem;
   }
 }

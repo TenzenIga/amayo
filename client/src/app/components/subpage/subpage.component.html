@@ -20,7 +20,7 @@
       }
     </div>
     <div class="sub-content">
-      <div class="sub-header d-flex">
+      <div class="sub-header">
         <div
           class="avatar-wrapper"
           (mouseenter)="onMouseEnter()"
@@ -40,21 +40,23 @@
           </div>
           }
         </div>
-        <div class="ms-3 mt-2 sub-heading">
+        <div class="ms-1 mt-1 ms-md-2 sub-heading">
           <span class="sub-heading__title">{{ sub.name }}</span>
           <span class="sub-heading__name">r/{{ sub.name }}</span>
         </div>
-        <app-subscribe-button
-          class="ms-auto align-self-center"
-          [subscriptionStatus]="sub.subscriptionStatus"
-          [subName]="sub.name"
-          (subscribeEvent)="subscribeToSub($event)"
-          (unsubscribeEvent)="unsubscribeSub($event)"></app-subscribe-button>
-        @if(sub.isSubOwner){
-        <app-subpage-dropdown
-          [sub]="sub"
-          class="align-self-center"></app-subpage-dropdown>
-        }
+        <div class="ms-md-auto sub-controls d-flex">
+          <app-subscribe-button
+            class="align-self-center"
+            [subscriptionStatus]="sub.subscriptionStatus"
+            [subName]="sub.name"
+            (subscribeEvent)="subscribeToSub($event)"
+            (unsubscribeEvent)="unsubscribeSub($event)"></app-subscribe-button>
+          @if(sub.isSubOwner){
+          <app-subpage-dropdown
+            [sub]="sub"
+            class="align-self-center"></app-subpage-dropdown>
+          }
+        </div>
       </div>
     </div>
   </div>
