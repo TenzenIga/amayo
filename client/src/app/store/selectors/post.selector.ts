@@ -19,7 +19,7 @@ export const selectLoading = createSelector(
   (state: IPostState) => state.loading
 );
 
-export const selectSubscribeToSubLoading = createSelector(
+export const selectPagination = createSelector(
   postState,
-  (state: IPostState) => state.subscribeToSubLoading
+  (state: IPostState) => state.pagination
 );

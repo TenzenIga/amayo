@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { Post } from '../state/post.state';
+import { IPostState, Post } from '../state/post.state';
 import { Sub } from '@shared/interfaces/interfaces';
+import { HttpParams } from '@angular/common/http';
 
 export type postPayload = {
   sub: string;
@@ -28,10 +29,13 @@ export enum PostActions {
   EditPostSuccess = '[Post] Edit Post Success'
 }
 
-export const getPosts = createAction(PostActions.GetPosts);
+export const getPosts = createAction(
+  PostActions.GetPosts,
+  props<{ page: number }>()
+);
 export const getPostsSuccess = createAction(
   PostActions.GetPostsSuccess,
-  props<{ posts: Post[] }>()
+  props<{ res: Pick<IPostState, 'posts' | 'pagination'> }>()
 );
 
 export const getPost = createAction(

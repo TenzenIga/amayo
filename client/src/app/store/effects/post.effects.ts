@@ -7,6 +7,7 @@ import slugify from 'slugify';
 import * as PostActions from '../actions/post.action';
 import { SubService } from '@core/services/sub.service';
 import { ToastrService } from 'ngx-toastr';
+import { IPostState } from '../state/post.state';
 
 @Injectable()
 export class PostEffects {
@@ -18,10 +19,14 @@ export class PostEffects {
   public readonly getPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.getPosts),
-      exhaustMap((_) =>
+      exhaustMap((action) =>
         this.postsService
-          .getPosts()
-          .pipe(map((posts) => PostActions.getPostsSuccess({ posts })))
+          .getPosts(action.page)
+          .pipe(
+            map((res: Pick<IPostState, 'posts' | 'pagination'>) =>
+              PostActions.getPostsSuccess({ res })
+            )
+          )
       )
     );
   });

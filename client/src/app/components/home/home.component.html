@@ -2,11 +2,7 @@
 
 <div class="row">
   <div class="col-md-9">
-    @if (state.loading) {
-    <app-loader class="loader"></app-loader>
-    } @if (state.status === 'failed') {
-    <div>Something went wrong</div>
-    } @if (state.posts !== null) { @if (state.loading === false) {
+    @if (state.posts) {
     <div class="posts-list">
       @for (post of state.posts; track trackByFn($index, post)) {
       <app-post
@@ -39,16 +35,17 @@
           (subscribeEvent)="subscribeToSub($event)"
           (unsubscribeEvent)="unsubscribeSub($event)"></app-subscribe-button>
       </app-post>
+
       }
     </div>
-    <button
-      class="button-mobile text-bg-primary d-md-none"
-      (click)="goToCreatePostPage()">
-      <fa-icon
-        [icon]="faPen"
-        size="lg"></fa-icon>
-    </button>
-    } }
+
+    } @if (state.loading) {
+    <app-loader class="loader"></app-loader>
+    }
+    <div
+      #sentinel
+      class="sentinel"
+      style="height: 20px; background: transparent"></div>
   </div>
   <div class="d-none d-md-block col-3 mt-2">
     <app-sidebar>

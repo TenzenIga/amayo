@@ -63,11 +63,18 @@ const deletePost = async (req: Request, res: Response) => {
   }
 };
 
-const getPosts = async (_: Request, res: Response) => {
+const getPosts = async (req: Request, res: Response) => {
   try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+    const totalPosts = await Post.count();
+
     const posts: PostExtended[] = await Post.find({
       order: { createdAt: 'DESC' },
-      relations: ['comments', 'votes']
+      relations: ['comments', 'votes'],
+      skip: skip,
+      take: limit
     });
     await Promise.all(
       posts.map(async (p) => {
@@ -87,7 +94,17 @@ const getPosts = async (_: Request, res: Response) => {
       })
     );
 
-    return res.json(posts);
+    return res.json({
+      posts,
+      pagination: {
+        currentPage: page,
+        pageSize: limit,
+        totalCount: totalPosts,
+        totalPages: Math.ceil(totalPosts / limit),
+        hasNext: page < Math.ceil(totalPosts / limit),
+        hasPrevious: page > 1
+      }
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: 'Someting went wrong' });

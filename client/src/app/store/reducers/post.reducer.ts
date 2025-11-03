@@ -7,7 +7,8 @@ export const postReducer = createReducer(
   on(PostActions.getPosts, (state) => ({ ...state, loading: true })),
   on(PostActions.getPostsSuccess, (state, payload) => ({
     ...state,
-    posts: payload.posts,
+    posts: [...state.posts, ...payload.res.posts],
+    pagination: payload.res.pagination,
     loading: false
   })),
   on(PostActions.getPost, (state) => ({ ...state, loading: true })),
@@ -33,8 +34,7 @@ export const postReducer = createReducer(
   on(PostActions.createPost, (state) => ({ ...state, loading: true })),
   on(PostActions.createPostSuccess, (state) => ({ ...state, loading: false })),
   on(PostActions.subscribeToSub, (state) => ({
-    ...state,
-    subscribeToSubLoading: true
+    ...state
   })),
   on(PostActions.subscribeToSubSuccess, (state, payload) => ({
     ...state,
@@ -43,12 +43,10 @@ export const postReducer = createReducer(
         p = { ...p, subscriptionStatus: true };
       }
       return p;
-    }),
-    subscribeToSubLoading: false
+    })
   })),
   on(PostActions.unsubscribeSub, (state) => ({
-    ...state,
-    subscribeToSubLoading: true
+    ...state
   })),
   on(PostActions.unsubscribeSubSuccess, (state, payload) => ({
     ...state,
@@ -57,8 +55,7 @@ export const postReducer = createReducer(
         p = { ...p, subscriptionStatus: false };
       }
       return p;
-    }),
-    subscribeToSubLoading: false
+    })
   })),
   on(PostActions.deletePostSuccess, (state, payload) => ({
     ...state,

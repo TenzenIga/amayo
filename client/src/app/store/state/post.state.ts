@@ -18,17 +18,26 @@ export interface Post {
   subImageUrl?: string;
 }
 
+export interface IPagination {
+  currentPage?: number;
+  pageSize?: number;
+  totalCount?: number;
+  totalPages?: number;
+  hasNext?: boolean;
+  hasPrevious?: boolean;
+}
+
 export interface IPostState {
   post: Post;
   posts: Post[];
   loading: boolean;
-  subscribeToSubLoading: boolean;
   error: any;
+  pagination: IPagination;
 }
 export const initialPostState: IPostState = {
   post: null,
   posts: [],
   loading: false,
-  subscribeToSubLoading: false,
-  error: null
+  error: null,
+  pagination: {}
 };

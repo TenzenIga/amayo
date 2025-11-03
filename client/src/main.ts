@@ -2,10 +2,13 @@
 
 import { enableProdMode, isDevMode, importProvidersFrom } from '@angular/core';
 
-
 import { environment } from './environments/environment';
 import { AuthGuard } from './app/auth.guard';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi
+} from '@angular/common/http';
 import { TokenInterceptorService } from '@core/interceptors/token-interceptor.service';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error-interceptor.service';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
@@ -32,25 +35,41 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-    providers: [
-        importProvidersFrom(BrowserModule, ReactiveFormsModule, ToastrModule.forRoot(), FontAwesomeModule, AppRoutingModule, PushPipe, StoreModule.forRoot(appReducers), QuillModule.forRoot(), StoreDevtoolsModule.instrument({
-            maxAge: 25, // Retains last 25 states
-            autoPause: true // Pauses recording actions and state changes when the extension window is not open
-        }),
-         EffectsModule.forRoot([PostEffects, CommentEffects, SubEffect, UserEffect]), NgbModule, StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })),
-        AuthGuard,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: TokenInterceptorService,
-            multi: true
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: HttpErrorInterceptor,
-            multi: true
-        },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideAnimations()
-    ]
-})
-  .catch(err => console.error(err));
+  providers: [
+    importProvidersFrom(
+      BrowserModule,
+      ReactiveFormsModule,
+      ToastrModule.forRoot(),
+      FontAwesomeModule,
+      AppRoutingModule,
+      PushPipe,
+      StoreModule.forRoot(appReducers),
+      QuillModule.forRoot(),
+      StoreDevtoolsModule.instrument({
+        maxAge: 25, // Retains last 25 states
+        autoPause: true // Pauses recording actions and state changes when the extension window is not open
+      }),
+      EffectsModule.forRoot([
+        PostEffects,
+        CommentEffects,
+        SubEffect,
+        UserEffect
+      ]),
+      NgbModule,
+      StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    ),
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    },
+    provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations()
+  ]
+}).catch((err) => console.error(err));

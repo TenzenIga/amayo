@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Comment, postPayload } from '@shared/interfaces/interfaces';
+import { Comment } from '@shared/interfaces/interfaces';
 import { Post } from 'app/store/state/post.state';
 
 @Injectable({
@@ -12,8 +12,11 @@ export class PostsService {
   private url = '/api';
   private http: HttpClient = inject(HttpClient);
 
-  public getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.url}/posts`);
+  public getPosts<T>(page: number): Observable<T> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', '10');
+    return this.http.get<T>(`${this.url}/posts`, { params });
   }
 
   public getPost(identifier: string, slug: string): Observable<Post> {
