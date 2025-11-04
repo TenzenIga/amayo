@@ -19,13 +19,25 @@ export const subReducer = createReducer(
   })),
   on(SubActions.searchSubsClear, (state) => ({ ...state, suggestions: [] })),
   on(SubActions.clearSub, (state) => ({ ...state, sub: null })),
-  on(SubActions.subscribeToSubSuccess, (state) => ({
+  on(SubActions.subscribeToSubSuccess, (state, payload) => ({
     ...state,
-    sub: { ...state.sub, subscriptionStatus: true }
+    sub: { ...state.sub, subscriptionStatus: true },
+    subs: state.subs.map((s) => {
+      if (s.id === payload.sub.id) {
+        return { ...s, subscriptionStatus: true };
+      }
+      return s;
+    })
   })),
-  on(SubActions.unsubscribeSubSuccess, (state) => ({
+  on(SubActions.unsubscribeSubSuccess, (state, payload) => ({
     ...state,
-    sub: { ...state.sub, subscriptionStatus: false }
+    sub: { ...state.sub, subscriptionStatus: false },
+    subs: state.subs.map((s) => {
+      if (s.id === payload.sub.id) {
+        return { ...s, subscriptionStatus: false };
+      }
+      return s;
+    })
   })),
   on(SubActions.deleteSubSuccess, (state) => ({ ...state, sub: null })),
   on(PostActions.deletePostSuccess, (state, paylaod) => ({
@@ -36,5 +48,9 @@ export const subReducer = createReducer(
         (p) => p.identifier !== paylaod.post.identifier
       )
     }
+  })),
+  on(SubActions.getSubsListSuccess, (state, paylaod) => ({
+    ...state,
+    subs: paylaod.subs
   }))
 );

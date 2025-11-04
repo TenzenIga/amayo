@@ -18,7 +18,7 @@ export interface Sub {
 }
 
 export interface ISubState {
-  subs: Sub[];
+  subs: Omit<Sub[], 'posts'>;
   sub: Sub;
   topSubs: Sub[];
   status: Status;

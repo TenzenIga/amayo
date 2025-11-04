@@ -5,6 +5,7 @@ import { exhaustMap, map, switchMap } from 'rxjs/operators';
 import * as SubActions from '../actions/sub.action';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Sub } from '../state/sub.state';
 
 @Injectable()
 export class SubEffect {
@@ -100,5 +101,20 @@ export class SubEffect {
         })
       ),
     { dispatch: false }
+  );
+
+  public readonly getSubsList$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SubActions.getSubsList),
+      exhaustMap(() =>
+        this.subService
+          .getSubsList()
+          .pipe(
+            map((subs: Omit<Sub[], 'posts'>) =>
+              SubActions.getSubsListSuccess({ subs })
+            )
+          )
+      )
+    )
   );
 }

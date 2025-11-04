@@ -18,7 +18,9 @@ export enum SubActions {
   DeleteSub = '[Sub] Delete Sub',
   DeleteSubSuccess = '[Sub] Delete Sub Success',
   CreateSub = '[Sub] Create Sub',
-  CreateSubSuccess = '[Sub] Create Sub Success'
+  CreateSubSuccess = '[Sub] Create Sub Success',
+  GetSubsList = '[Sub] Get Subs List',
+  GetSubsListSuccess = '[Sub] Get Subs List Success'
 }
 
 export const getSub = createAction(
@@ -88,4 +90,11 @@ export const createSubSuccess = createAction(
   SubActions.CreateSubSuccess,
   props<{ sub: Sub }>()
 );
+
+export const getSubsList = createAction(SubActions.GetSubsList);
+export const getSubsListSuccess = createAction(
+  SubActions.GetSubsListSuccess,
+  props<{ subs: Omit<Sub[], 'posts'> }>()
+);
+
 export const searchSubsClear = createAction(SubActions.SearchSubsClear);

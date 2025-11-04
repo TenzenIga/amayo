@@ -1,0 +1,64 @@
+.subs-list {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  grid-gap: 12px;
+}
+
+.sub-card {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  grid-template-rows: 75px auto;
+  grid-gap: 8px;
+  min-height: 200px;
+}
+.sub-heading {
+  text-decoration: none;
+  color: unset;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    overflow: hidden;
+  }
+  &__name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #7c7c7c;
+    padding-left: 2px;
+  }
+}
+.sub-desc {
+  text-decoration: none;
+  color: unset;
+  grid-column: 1/4;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.avatar {
+  border: 4px solid #fff;
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  &-wrapper {
+    width: 75px;
+    height: 75px;
+    position: relative;
+  }
+}
+@media (min-width: 992px) {
+  .subs-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 1200px) {
+  .subs-list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

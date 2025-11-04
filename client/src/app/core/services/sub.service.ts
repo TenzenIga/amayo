@@ -25,12 +25,12 @@ export class SubService {
     return this.http.post<Sub>(`${this.url}/subs`, subPayload);
   }
 
-  public deleteSub(subName:string):Observable<any>{
-    return this.http.delete(`${this.url}/subs/${subName}`)
+  public deleteSub(subName: string): Observable<any> {
+    return this.http.delete(`${this.url}/subs/${subName}`);
   }
 
-  public editSub(subName, subPayload: FormData):Observable<any>{
-    return this.http.put(`${this.url}/subs/${subName}`, subPayload)
+  public editSub(subName, subPayload: FormData): Observable<any> {
+    return this.http.put(`${this.url}/subs/${subName}`, subPayload);
   }
   public validateSub(subPayload: subPayload): Observable<ValdiateSubInput> {
     return this.http.post<ValdiateSubInput>(
@@ -42,12 +42,15 @@ export class SubService {
     return this.http.get<Sub[]>(`${this.url}/subs/search/${subName}`);
   }
 
-  public subscribeToSub(name:string): Observable<any> {
+  public subscribeToSub(name: string): Observable<any> {
     return this.http.post(`${this.url}/misc/subscribe`, { name });
   }
 
-  public unsubscribeSub(name:string): Observable<any> {
+  public unsubscribeSub(name: string): Observable<any> {
     return this.http.post(`${this.url}/misc/unsubscribe`, { name });
   }
 
+  public getSubsList<T>(): Observable<T> {
+    return this.http.get<T>(`${this.url}/subs`);
+  }
 }

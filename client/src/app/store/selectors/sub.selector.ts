@@ -18,3 +18,8 @@ export const suggestedSubs = createSelector(
   subState,
   (state: ISubState) => state.suggestions
 );
+
+export const selectSubsList = createSelector(
+  subState,
+  (state: ISubState) => state.subs
+);

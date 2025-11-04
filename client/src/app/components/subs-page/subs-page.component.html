@@ -1,1 +1,35 @@
-<h1>Больше сообществ</h1>
+<h1>Сообщества</h1>
+<div class="subs-list">
+  @if(subs$ | ngrxPush; as subs){ @for (sub of subs; track trackByFn($index,
+  sub)) {
+  <div class="card sub-card border rounded-2 p-3">
+    <a
+      [routerLink]="['/r/', sub.name]"
+      class="avatar-wrapper">
+      <div
+        class="avatar"
+        [ngStyle]="{
+          'background-image': 'url(' + sub.imageUrl + ')'
+        }"></div>
+    </a>
+    <a
+      [routerLink]="['/r/', sub.name]"
+      class="ms-1 mt-1 ms-md-2 sub-heading">
+      <span class="sub-heading__title">{{ sub.name }}</span>
+      <span class="sub-heading__name">r/{{ sub.name }}</span>
+    </a>
+    <app-subscribe-button
+      class="ms-auto"
+      [subscriptionStatus]="sub.subscriptionStatus"
+      [subName]="sub.name"
+      (subscribeEvent)="subscribeToSub($event)"
+      (unsubscribeEvent)="unsubscribeSub($event)"></app-subscribe-button>
+    <a
+      class="sub-desc"
+      [routerLink]="['/r/', sub.name]">
+      {{ sub.description }}
+    </a>
+  </div>
+
+  } }
+</div>
