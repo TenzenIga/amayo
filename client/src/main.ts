@@ -29,6 +29,7 @@ import { SubEffect } from './app/store/effects/sub.effects';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app/app.component';
 import { UserEffect } from 'app/store/effects/user.effects';
+import { provideRouterStore } from '@ngrx/router-store';
 
 if (environment.production) {
   enableProdMode();
@@ -70,6 +71,7 @@ bootstrapApplication(AppComponent, {
       multi: true
     },
     provideHttpClient(withInterceptorsFromDi()),
-    provideAnimations()
+    provideAnimations(),
+    provideRouterStore()
   ]
 }).catch((err) => console.error(err));

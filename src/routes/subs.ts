@@ -240,8 +240,28 @@ const deleteSub = async (_req: Request, res: Response) => {
   }
 };
 
-const router = Router();
+const getSubs = async (_: Request, res: Response) => {
+  try {
+    const subs = await Sub.find({
+      relations: ['subscribers']
+    });
 
+    subs.forEach((sub) => {
+      if (res.locals.user) {
+        sub.setStatus(res.locals.user);
+        sub.setOwner(res.locals.user);
+      }
+    });
+
+    return res.json(subs);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
+const router = Router();
+router.get('/', user, getSubs);
 router.post('/validate-sub', user, auth, checkIfSubExist);
 router.post(
   '/',

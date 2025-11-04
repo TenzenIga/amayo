@@ -1,38 +1,36 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/operators';
 
 import { signupPayload, loginPayload } from '@shared/interfaces/interfaces';
+import { Store } from '@ngrx/store';
+import { IAppState } from 'app/store/state/app.state';
+import { clearUserData } from 'app/store/actions/user.action';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private token = null;
-  constructor(private http: HttpClient) { }
+  private store: Store<IAppState> = inject(Store);
+  private http: HttpClient = inject(HttpClient);
 
   public signUp(signupData: signupPayload): Observable<any> {
-    return this.http.post('/api/auth/register', signupData, );
-
+    return this.http.post('/api/auth/register', signupData);
   }
 
   public login(loginData: loginPayload): Observable<any> {
-    return this.http.post('/api/auth/login', loginData, )
-      .pipe(
-        tap(
-          ({token}) => {
-            localStorage.setItem('token', token);
-            this.setToken(token);
-          }
-        )
-      );
-
+    return this.http.post('/api/auth/login', loginData).pipe(
+      tap(({ token }) => {
+        localStorage.setItem('token', token);
+        this.setToken(token);
+      })
+    );
   }
 
-  public me():Observable<any> {
-    return this.http.get('/api/auth/me')
-
+  public me(): Observable<any> {
+    return this.http.get('/api/auth/me');
   }
 
   public isLoggedIn(): boolean {
@@ -50,5 +48,8 @@ export class AuthService {
   public logout(): void {
     this.token = null;
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userImageUrl');
+    this.store.dispatch(clearUserData());
   }
 }

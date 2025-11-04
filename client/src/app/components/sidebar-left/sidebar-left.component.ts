@@ -9,11 +9,11 @@ import { IAppState } from 'app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { getUserInfo } from 'app/store/actions/user.action';
 import { Observable } from 'rxjs';
-import { User, UserData } from 'app/store/state/user.state';
+import { UserData } from 'app/store/state/user.state';
 import { selectUserInfo } from 'app/store/selectors/user.selector';
 import { PushPipe } from '@ngrx/component';
 import { Sub } from '@shared/interfaces/interfaces';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faHome,
@@ -26,7 +26,13 @@ import { NgStyle } from '@angular/common';
 @Component({
   selector: 'app-sidebar-left',
   standalone: true,
-  imports: [CreateSubFormComponent, PushPipe, FontAwesomeModule, NgStyle],
+  imports: [
+    CreateSubFormComponent,
+    PushPipe,
+    FontAwesomeModule,
+    NgStyle,
+    RouterLink
+  ],
   templateUrl: './sidebar-left.component.html',
   styleUrl: './sidebar-left.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -43,7 +49,9 @@ export class SidebarLeftComponent implements OnInit {
     this.store.select(selectUserInfo);
 
   public ngOnInit() {
-    this.store.dispatch(getUserInfo({ username: this.username }));
+    if (this.username) {
+      this.store.dispatch(getUserInfo({ username: this.username }));
+    }
   }
 
   public trackByFn(sub: Sub): number {

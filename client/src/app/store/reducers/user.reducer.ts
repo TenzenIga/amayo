@@ -10,6 +10,10 @@ export const userReducer = createReducer(
     ...state,
     userData: payload.userData
   })),
+  on(UserActions.clearUserData, (state) => ({
+    ...state,
+    userData: null
+  })),
   on(SubActions.deleteSubSuccess, (state, payload) => {
     return {
       ...state,
