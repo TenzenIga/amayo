@@ -1,20 +1,43 @@
 <nav class="navbar fixed-top bg-body-tertiary">
   <div class="container-fluid">
-    <fa-icon (click)="toggleSidebar()" class="px-3 d-md-none" [icon]="faBars" size="lg"></fa-icon>
-    <a class="navbar-brand" routerLink="/">Readit</a>
-    <div class="ms-auto d-flex align-items-baseline">
-          <button
-              class="mx-2 px-4 btn btn-primary btn-sm d-none d-md-block rounded-pill"
-              (click)="goToCreatePostPage()">
-              Новый пост
-            </button>
-      @if (isloggedIn()) {
-        <app-dropdown userInfo="userInfo"></app-dropdown>
-      } @else {
-        <a routerLink="/login" class="btn btn-primary btn-sm rounded-pill px-3  mx-2" role="button" routerLinkActive="active">Войти</a>
-      }
+    <fa-icon
+      (click)="toggleSidebar()"
+      class="px-3 d-md-none"
+      [icon]="faBars"
+      size="lg"></fa-icon>
+    <a
+      class="navbar-brand"
+      routerLink="/">
+      Readit
+    </a>
+    <div class="ms-auto d-flex align-items-center">
+      <button
+        class="me-2 px-4 btn btn-primary btn-sm d-none d-md-block rounded-pill"
+        (click)="goToCreatePostPage()">
+        Новый пост
+      </button>
+      <button
+        class="me-2 px-2 btn btn-primary btn-sm d-md-none d-md-block rounded-pill"
+        (click)="goToCreatePostPage()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
+      <button class="btn p-1 mx-1">
+        <fa-icon
+          [icon]="faBell"
+          size="lg"></fa-icon>
+      </button>
 
+      @if (isloggedIn()) {
+      <app-dropdown userInfo="userInfo"></app-dropdown>
+      } @else {
+      <a
+        routerLink="/login"
+        class="btn btn-primary btn-sm rounded-pill px-3 mx-2"
+        role="button"
+        routerLinkActive="active">
+        Войти
+      </a>
+      }
     </div>
   </div>
 </nav>
-
