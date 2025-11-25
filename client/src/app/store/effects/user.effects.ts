@@ -14,7 +14,9 @@ export class UserEffect {
       exhaustMap((action) =>
         this.userService
           .getUserInfo(action.username)
-          .pipe(map((userData) => UserActions.getUserInfoSuccess({ userData })))
+          .pipe(
+            map((userData: any) => UserActions.getUserInfoSuccess({ userData }))
+          )
       )
     );
   });

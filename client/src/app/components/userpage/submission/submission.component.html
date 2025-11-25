@@ -1,0 +1,103 @@
+<!-- controls -->
+<div class="userpage-controls mt-5">
+  <button
+    type="button"
+    [ngClass]="activeIndex === 1 && 'active'"
+    class="btn btn-outline-primary"
+    (click)="onClick(1)">
+    Сводка
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    [ngClass]="activeIndex === 2 && 'active'"
+    (click)="onClick(2)">
+    Посты
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    [ngClass]="activeIndex === 3 && 'active'"
+    (click)="onClick(3)">
+    Комментарии
+  </button>
+</div>
+<!-- submissions -->
+<div class="posts-list">
+  @for (submission of submissions; track trackByFn($index, submission)) {
+  @if(submission.type ==='Post'){
+  <app-post
+    [post]="submission"
+    class="mt-2">
+    <a
+      [routerLink]="['r/', submission.subName]"
+      class="d-flex">
+      <div
+        class="sub-avatar"
+        [ngStyle]="{
+          'background-image': 'url(' + submission.sub.imageUrl + ')'
+        }"></div>
+      <div class="py-1 ps-1 sub">r/{{ submission.subName }}</div>
+    </a>
+
+    <a
+      [routerLink]="[submission.url]"
+      class="p-1 ms-2 text-muted date">
+      {{ submission.createdAt | dateAgo }}
+    </a>
+  </app-post>
+  } @if(submission.type === 'Comment'){
+  <div class="card my-2">
+    <div class="card-body">
+      <div class="d-flex align-items-center">
+        <a
+          [routerLink]="['r/', submission.post.subName]"
+          class="d-flex">
+          <div
+            class="sub-avatar"
+            [ngStyle]="{
+              'background-image': 'url(' + submission.post.sub.imageUrl + ')'
+            }"></div>
+          <div class="py-1 ps-1 sub">r/{{ submission.post.subName }}</div>
+        </a>
+        <span class="p-1 dot">•</span>
+        <h2
+          class="card-title fs-6"
+          [routerLink]="[submission.post.url]">
+          {{ submission.post.title }}
+        </h2>
+      </div>
+      <div class="d-flex date align-items-center">
+        <span class="fw-bold">
+          {{ submission.username }}
+        </span>
+        <span class="ms-1 text-secondary">
+          комментарий {{ submission.createdAt | dateAgo }}
+        </span>
+      </div>
+      <a [routerLink]="[submission.post.url]">
+        <div class="mt-3 comment__body">
+          {{ submission.body }}
+        </div>
+      </a>
+      <div class="mt-2 comment__footer">
+        <div class="ms-auto votes">
+          <fa-icon
+            [icon]="faThumbsUp"
+            class="mx-1 thumb-up"
+            [ngClass]="
+              submission.userVote === 1 ? 'text-success' : ''
+            "></fa-icon>
+          <span class="text-success">{{ submission.voteScore }}</span>
+          <fa-icon
+            [icon]="faThumbsDown"
+            class="mx-1 thumb-down"
+            [ngClass]="
+              submission.userVote === -1 ? 'text-danger' : ''
+            "></fa-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  } }
+</div>

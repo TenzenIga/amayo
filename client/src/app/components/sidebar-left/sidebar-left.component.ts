@@ -9,7 +9,6 @@ import { IAppState } from 'app/store/state/app.state';
 import { Store } from '@ngrx/store';
 import { getUserInfo } from 'app/store/actions/user.action';
 import { Observable } from 'rxjs';
-import { UserData } from 'app/store/state/user.state';
 import { selectUserInfo } from 'app/store/selectors/user.selector';
 import { PushPipe } from '@ngrx/component';
 import { Sub } from '@shared/interfaces/interfaces';
@@ -22,6 +21,7 @@ import {
   faTable
 } from '@fortawesome/free-solid-svg-icons';
 import { NgStyle } from '@angular/common';
+import { User } from 'app/store/state/user.state';
 
 @Component({
   selector: 'app-sidebar-left',
@@ -45,7 +45,7 @@ export class SidebarLeftComponent implements OnInit {
   public faFire = faFire;
   public faChartBar = faChartBar;
   public faTable = faTable;
-  public readonly userinfo$: Observable<UserData> =
+  public readonly userinfo$: Observable<User> =
     this.store.select(selectUserInfo);
 
   public ngOnInit() {

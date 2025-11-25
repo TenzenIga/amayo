@@ -1,5 +1,3 @@
-import { Post } from './post.state';
-
 interface Subscription {
   id: number;
   createdAt: Date;
@@ -25,12 +23,9 @@ export interface User {
   subscriptions: Subscription[];
   userImageUrl: string;
 }
-export interface UserData {
-  user: User;
-  submissions: Post[];
-}
+
 export interface IUserState {
-  userData: UserData;
+  userData: User;
 }
 
 export const initialUserState: IUserState = {

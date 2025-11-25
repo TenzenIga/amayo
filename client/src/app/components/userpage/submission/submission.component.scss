@@ -1,0 +1,58 @@
+.sub,
+.date,
+button {
+  font-weight: 500;
+}
+.sub-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: contain;
+  border: 2px solid #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+a {
+  text-decoration: none;
+  color: unset;
+}
+.card-title {
+  margin: 0;
+}
+.dot {
+  line-height: 1.5rem;
+  font-size: 0.75rem;
+}
+.date {
+  font-size: 0.8rem;
+  line-height: 1rem;
+}
+
+.comment__footer {
+  color: #6c757d;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.votes {
+  display: flex;
+  span {
+    margin: 0 5px;
+  }
+  .thumb-up:hover {
+    color: #346eb8;
+  }
+  .thumb-down {
+    padding: 4px 0;
+
+    &:hover {
+      color: #dc3545;
+    }
+  }
+}
+
+.userpage-controls {
+  display: flex;
+  gap: 10px;
+}

@@ -1,0 +1,22 @@
+.user-info {
+  display: flex;
+}
+.avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-size: contain;
+  border: 2px solid #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.user-info__title {
+  display: grid;
+  font-weight: 600;
+}
+.title {
+  font-size: 1.5rem;
+}
+.username {
+  font-size: 0.85rem;
+}

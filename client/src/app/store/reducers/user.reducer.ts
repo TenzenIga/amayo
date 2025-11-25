@@ -19,12 +19,9 @@ export const userReducer = createReducer(
       ...state,
       userData: {
         ...state.userData,
-        user: {
-          ...state.userData.user,
-          subscriptions: state.userData.user.subscriptions.filter(
-            (sub) => sub.name !== payload.sub.name
-          )
-        }
+        subscriptions: state.userData.subscriptions.filter(
+          (sub) => sub.name !== payload.sub.name
+        )
       }
     };
   })

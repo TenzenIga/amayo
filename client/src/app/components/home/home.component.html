@@ -19,7 +19,7 @@
           <div class="py-1 ps-1 sub">r/{{ post.subName }}</div>
         </a>
         <a
-          [routerLink]="['/u', post.username]"
+          [routerLink]="['/user/', post.username]"
           class="p-1 ms-2 username">
           {{ post.username }}
         </a>
@@ -50,11 +50,6 @@
   <div class="d-none d-md-block col-3 mt-2">
     <app-sidebar>
       <app-top-subs slotStart></app-top-subs>
-      @if(isLoggedIn){
-      <div
-        class="card"
-        slotMid></div>
-      }
     </app-sidebar>
   </div>
 </div>

@@ -1,1 +1,38 @@
-<p>userpage works!</p>
+@if({userinfo:userinfo$ | async, submissions:submissions$ | async}; as state){
+@if (state.userinfo && state.submissions) {
+<div class="row">
+  <div class="col-md-8">
+    <!-- userinfo -->
+
+    <div class="user-info d-flex align-items-center p-1 mt-2">
+      <div
+        class="avatar"
+        [ngStyle]="{
+          'background-image': 'url(' + state.userinfo.userImageUrl + ')'
+        }"></div>
+      <div class="ms-3 user-info__title">
+        <span class="title">
+          {{ state.userinfo.username }}
+        </span>
+        <span class="username text-secondary">
+          u/{{ state.userinfo.username }}
+        </span>
+      </div>
+    </div>
+
+    <app-submission
+      [submissions]="state.submissions.submissions"></app-submission>
+  </div>
+  <div class="d-none d-md-block col-4 my-2">
+    <app-sidebar>
+      <app-user-info
+        [userinfo]="state.userinfo"
+        [submissionsCount]="state.submissions.submissionsCount"
+        slotStart></app-user-info>
+    </app-sidebar>
+  </div>
+</div>
+}@else {
+<!-- Индикатор загрузки -->
+<app-loader></app-loader>
+} }

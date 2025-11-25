@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UserData } from '../state/user.state';
+import { User } from '../state/user.state';
 
 export enum UserActions {
   GetUserInfo = '[User] Get User Info',
@@ -15,5 +15,5 @@ export const getUserInfo = createAction(
 export const clearUserData = createAction(UserActions.ClearUserData);
 export const getUserInfoSuccess = createAction(
   UserActions.GetUserInfoSuccess,
-  props<{ userData: UserData }>()
+  props<{ userData: User }>()
 );
