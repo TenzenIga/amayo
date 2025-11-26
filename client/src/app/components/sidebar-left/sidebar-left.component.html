@@ -1,4 +1,4 @@
-<div>
+<div class="sidebar-left p-3 bg-body">
   <div class="list-group border-0">
     <a
       href="/"
@@ -46,7 +46,7 @@
     @for(sub of userinfo.subscriptions; track trackByFn($index, sub)){
     <a
       (click)="goToSub(sub.name)"
-      class="sub d-flex align-items-center border-0 rounded-2 list-group-item list-group-item-action">
+      class="sub d-flex align-items-center border-0 rounded-2 px-0 list-group-item list-group-item-action">
       <div
         class="mx-2 sub-avatar"
         [ngStyle]="{ 'background-image': 'url(' + sub.imageUrl + ')' }"></div>

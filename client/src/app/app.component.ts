@@ -22,10 +22,9 @@ export class AppComponent {
   private authService: AuthService = inject(AuthService);
   private renderer = inject(Renderer2);
   private store: Store<IAppState> = inject(Store);
-  showSidebar: boolean = true;
+  public showSidebar: boolean = true;
   protected readonly sidebarService: SidebarService = inject(SidebarService);
-  route$ = this.store.select(selectUrl);
-  constructor() {}
+  public route$ = this.store.select(selectUrl);
   public ngOnInit() {
     this.route$.subscribe((r) => {
       if (r === '/login' || r === '/register') {
@@ -43,5 +42,8 @@ export class AppComponent {
 
   public isloggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+  public closeSideNav() {
+    this.sidebarService.toggle();
   }
 }

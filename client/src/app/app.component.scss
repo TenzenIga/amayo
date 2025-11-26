@@ -1,22 +1,26 @@
-.main{
-    margin-top: 70px;
-    display: flex;
+.main {
+  margin-top: 70px;
+  display: flex;
 }
 .right-sidebar {
-    position: fixed;
-    width: 200px;
-    height: 100vh;
+  position: fixed;
+  width: 200px;
+  height: 100vh;
 }
 .sidebar-mobile {
-    width: 300px;
-    left: -300px;
-    position: fixed;
-    z-index: 1;
-    top: 63px;
-    height: 100vh;
-    transition: left 0.3s ease;
+  display: flex;
+  width: 100%;
+  left: -100vw;
+  position: fixed;
+  z-index: 1;
+  top: 63px;
+  height: 100vh;
+  transition: left 0.3s ease;
+  background-color: transparent;
 }
 .sidebar-mobile.visible {
-      left: 0;
- }
-
+  left: 0;
+}
+.sidebar-backdrop {
+  width: 100%;
+}
