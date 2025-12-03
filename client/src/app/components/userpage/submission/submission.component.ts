@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input
+  Input,
+  output
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Post } from 'app/store/state/post.state';
@@ -31,8 +32,9 @@ import { DateAgoPipe } from '@shared/pipes/date-ago.pipe';
 })
 export class SubmissionComponent {
   @Input() submissions: Array<Post | Comment>;
+  @Input() activeFilter: string = 'all';
+  filterSubmissions = output<string>();
   private router: Router = inject(Router);
-  public activeIndex = 1;
 
   public faCommentAlt = faCommentAlt;
   public faBookmark = faBookmark;
@@ -49,7 +51,7 @@ export class SubmissionComponent {
   public trackByFn(index: number, post: Post | Comment): string | number {
     return post.identifier || index;
   }
-  public onClick(index: number) {
-    this.activeIndex = index;
+  public onClick(name: string) {
+    this.filterSubmissions.emit(name);
   }
 }

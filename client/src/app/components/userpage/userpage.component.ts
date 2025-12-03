@@ -13,6 +13,7 @@ import { User } from 'app/store/state/user.state';
 import { SubmissionComponent } from './submission/submission.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 @Component({
   selector: 'app-userpage',
   templateUrl: './userpage.component.html',
@@ -20,10 +21,10 @@ import { LoaderComponent } from '@shared/components/loader/loader.component';
   imports: [
     SidebarComponent,
     AsyncPipe,
-    NgStyle,
     SubmissionComponent,
     UserInfoComponent,
-    LoaderComponent
+    LoaderComponent,
+    UserProfileComponent
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -39,7 +40,23 @@ export class UserpageComponent implements OnInit {
     this.activatedRoute.params.subscribe((routeParams) => {
       this.userName = routeParams['username'];
       this.userinfo$ = this.userService.getUserInfo(this.userName);
-      this.submissions$ = this.userService.getUserSubmissions(this.userName);
+      this.submissions$ = this.userService.getUserSubmissions(
+        this.userName,
+        'all'
+      );
     });
+  }
+
+  public filterSubmissions(type: 'comment' | 'post'): void {
+    this.submissions$ = this.userService.getUserSubmissions(
+      this.userName,
+      'comment'
+    );
+  }
+  handleFilterChange(name: 'post' | 'comment' | 'all') {
+    this.submissions$ = this.userService.getUserSubmissions(
+      this.userName,
+      name
+    );
   }
 }

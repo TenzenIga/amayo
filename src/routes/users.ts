@@ -22,24 +22,35 @@ const getUserInfo = async (req: Request, res: Response) => {
 
 const getUserSubmissions = async (req: Request, res: Response) => {
   try {
+    const { type } = req.query;
     const user = await User.findOneOrFail({
       where: { username: req.params.username }
     });
-    const postsCount = await Post.count({
-      where: { user }
-    });
-    const commentsCount = await Comment.count({
-      where: { user }
-    });
-    const posts = await Post.find({
-      where: { user },
-      relations: ['comments', 'votes', 'sub']
-    });
 
-    const comments = await Comment.find({
-      where: { user },
-      relations: ['post', 'post.sub', 'votes']
-    });
+    let postsCount = 0;
+    let commentsCount = 0;
+    if (type === 'all' || type === 'post') {
+      postsCount = await Post.count({ where: { user } });
+    }
+
+    if (type === 'all' || type === 'comment') {
+      commentsCount = await Comment.count({ where: { user } });
+    }
+    let posts: Post[] = [];
+    let comments: Comment[] = [];
+
+    if (type === 'all' || type === 'post') {
+      posts = await Post.find({
+        where: { user },
+        relations: ['comments', 'votes', 'sub']
+      });
+    }
+    if (type === 'all' || type === 'comment') {
+      comments = await Comment.find({
+        where: { user },
+        relations: ['post', 'post.sub', 'votes']
+      });
+    }
 
     if (res.locals.user) {
       posts.forEach((p) => p.setUserVote(res.locals.user));
@@ -59,7 +70,8 @@ const getUserSubmissions = async (req: Request, res: Response) => {
 
     return res.json({
       submissions,
-      submissionsCount: postsCount + commentsCount
+      submissionsCount: postsCount + commentsCount,
+      filter: type
     });
   } catch (error) {
     console.log(error);

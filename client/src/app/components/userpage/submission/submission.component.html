@@ -2,28 +2,28 @@
 <div class="userpage-controls mt-5">
   <button
     type="button"
-    [ngClass]="activeIndex === 1 && 'active'"
+    [ngClass]="activeFilter === 'all' && 'active'"
     class="btn btn-outline-primary"
-    (click)="onClick(1)">
+    (click)="onClick('all')">
     Сводка
   </button>
   <button
     type="button"
     class="btn btn-outline-primary"
-    [ngClass]="activeIndex === 2 && 'active'"
-    (click)="onClick(2)">
+    [ngClass]="activeFilter === 'post' && 'active'"
+    (click)="onClick('post')">
     Посты
   </button>
   <button
     type="button"
     class="btn btn-outline-primary"
-    [ngClass]="activeIndex === 3 && 'active'"
-    (click)="onClick(3)">
+    [ngClass]="activeFilter === 'comment' && 'active'"
+    (click)="onClick('comment')">
     Комментарии
   </button>
 </div>
 <!-- submissions -->
-<div class="posts-list">
+<div class="submissions-list">
   @for (submission of submissions; track trackByFn($index, submission)) {
   @if(submission.type ==='Post'){
   <app-post
