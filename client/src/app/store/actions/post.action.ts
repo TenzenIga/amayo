@@ -1,7 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { IPostState, Post } from '../state/post.state';
 import { Sub } from '@shared/interfaces/interfaces';
-import { HttpParams } from '@angular/common/http';
 
 export type postPayload = {
   sub: string;

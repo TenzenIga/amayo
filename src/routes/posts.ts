@@ -68,31 +68,60 @@ const getPosts = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
-    const totalPosts = await Post.count();
+    let totalPosts = 0;
 
-    const posts: PostExtended[] = await Post.find({
-      order: { createdAt: 'DESC' },
-      relations: ['comments', 'votes'],
-      skip: skip,
-      take: limit
-    });
-    await Promise.all(
-      posts.map(async (p) => {
-        let sub = await Sub.findOneOrFail(
-          { name: p.subName },
-          {
-            relations: ['subscribers']
+    let posts: PostExtended[] = [];
+    if (res.locals.user) {
+      const userId = res.locals.user.id;
+      console.log(user);
+      [posts, totalPosts] = await Post.createQueryBuilder('post')
+        .innerJoin('post.sub', 'sub')
+        .innerJoin('sub.subscribers', 'subscriber', 'subscriber.id = :userId', {
+          userId: userId
+        })
+        .leftJoinAndSelect('post.comments', 'comments')
+        .leftJoinAndSelect('post.votes', 'votes')
+        .orderBy('post.createdAt', 'DESC')
+        .getManyAndCount();
+
+      await Promise.all(
+        posts.map(async (p) => {
+          let sub = await Sub.findOneOrFail(
+            { name: p.subName },
+            {
+              relations: ['subscribers']
+            }
+          );
+          if (res.locals.user) {
+            p.setUserVote(res.locals.user);
+            p.setOwner(res.locals.user);
+            sub.setStatus(res.locals.user);
           }
-        );
-        if (res.locals.user) {
-          p.setUserVote(res.locals.user);
-          p.setOwner(res.locals.user);
-          sub.setStatus(res.locals.user);
-        }
-        p.subscriptionStatus = sub.subscriptionStatus;
-        p.subImageUrl = sub.imageUrl;
-      })
-    );
+          p.subscriptionStatus = sub.subscriptionStatus;
+          p.subImageUrl = sub.imageUrl;
+        })
+      );
+    } else {
+      totalPosts = await Post.count();
+      posts = await Post.find({
+        order: { createdAt: 'DESC' },
+        relations: ['comments', 'votes'],
+        skip: skip,
+        take: limit
+      });
+      await Promise.all(
+        posts.map(async (p) => {
+          let sub = await Sub.findOneOrFail(
+            { name: p.subName },
+            {
+              relations: ['subscribers']
+            }
+          );
+          p.subscriptionStatus = sub.subscriptionStatus;
+          p.subImageUrl = sub.imageUrl;
+        })
+      );
+    }
 
     return res.json({
       posts,

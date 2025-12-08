@@ -27,15 +27,9 @@ const getUserSubmissions = async (req: Request, res: Response) => {
       where: { username: req.params.username }
     });
 
-    let postsCount = 0;
-    let commentsCount = 0;
-    if (type === 'all' || type === 'post') {
-      postsCount = await Post.count({ where: { user } });
-    }
+    const postsCount = await Post.count({ where: { user } });
+    const commentsCount = await Comment.count({ where: { user } });
 
-    if (type === 'all' || type === 'comment') {
-      commentsCount = await Comment.count({ where: { user } });
-    }
     let posts: Post[] = [];
     let comments: Comment[] = [];
 
