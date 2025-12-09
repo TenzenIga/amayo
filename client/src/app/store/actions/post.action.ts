@@ -12,6 +12,8 @@ export type postPayload = {
 export enum PostActions {
   GetPosts = '[Post] Get Posts',
   GetPostsSuccess = '[Post] Get Posts Success',
+  GetFeed = '[Post] Get Feed',
+  GetFeedSuccess = '[Post] Get Feed Success',
   GetPost = '[Post] Get Post',
   GetPostSuccess = '[Post] Get Post Success',
   CreatePost = '[Post] Create Post',
@@ -27,6 +29,15 @@ export enum PostActions {
   EditPost = '[Post] Edit Post',
   EditPostSuccess = '[Post] Edit Post Success'
 }
+
+export const getFeed = createAction(
+  PostActions.GetFeed,
+  props<{ page: number }>()
+);
+export const getFeedSuccess = createAction(
+  PostActions.GetFeedSuccess,
+  props<{ res: Pick<IPostState, 'posts' | 'pagination'> }>()
+);
 
 export const getPosts = createAction(
   PostActions.GetPosts,

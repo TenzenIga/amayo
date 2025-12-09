@@ -30,6 +30,20 @@ export class PostEffects {
       )
     );
   });
+  public readonly getFeed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.getFeed),
+      exhaustMap((action) =>
+        this.postsService
+          .getFeed(action.page)
+          .pipe(
+            map((res: Pick<IPostState, 'posts' | 'pagination'>) =>
+              PostActions.getFeedSuccess({ res })
+            )
+          )
+      )
+    );
+  });
 
   public readonly getPost$ = createEffect(() => {
     return this.actions$.pipe(

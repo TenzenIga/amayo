@@ -63,7 +63,7 @@ const deletePost = async (req: Request, res: Response) => {
   }
 };
 
-const getPosts = async (req: Request, res: Response) => {
+const getFeed = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
@@ -73,7 +73,6 @@ const getPosts = async (req: Request, res: Response) => {
     let posts: PostExtended[] = [];
     if (res.locals.user) {
       const userId = res.locals.user.id;
-      console.log(user);
       [posts, totalPosts] = await Post.createQueryBuilder('post')
         .innerJoin('post.sub', 'sub')
         .innerJoin('sub.subscribers', 'subscriber', 'subscriber.id = :userId', {
@@ -82,8 +81,20 @@ const getPosts = async (req: Request, res: Response) => {
         .leftJoinAndSelect('post.comments', 'comments')
         .leftJoinAndSelect('post.votes', 'votes')
         .orderBy('post.createdAt', 'DESC')
+        .skip(skip)
+        .take(limit)
         .getManyAndCount();
 
+      // если у пользователя нет подписок, показываем вместо ленты все посты
+      if (totalPosts === 0) {
+        totalPosts = await Post.count();
+        posts = await Post.find({
+          order: { createdAt: 'DESC' },
+          relations: ['comments', 'votes'],
+          skip: skip,
+          take: limit
+        });
+      }
       await Promise.all(
         posts.map(async (p) => {
           let sub = await Sub.findOneOrFail(
@@ -92,11 +103,9 @@ const getPosts = async (req: Request, res: Response) => {
               relations: ['subscribers']
             }
           );
-          if (res.locals.user) {
-            p.setUserVote(res.locals.user);
-            p.setOwner(res.locals.user);
-            sub.setStatus(res.locals.user);
-          }
+          p.setUserVote(res.locals.user);
+          p.setOwner(res.locals.user);
+          sub.setStatus(res.locals.user);
           p.subscriptionStatus = sub.subscriptionStatus;
           p.subImageUrl = sub.imageUrl;
         })
@@ -122,6 +131,54 @@ const getPosts = async (req: Request, res: Response) => {
         })
       );
     }
+
+    return res.json({
+      posts,
+      pagination: {
+        currentPage: page,
+        pageSize: limit,
+        totalCount: totalPosts,
+        totalPages: Math.ceil(totalPosts / limit),
+        hasNext: page < Math.ceil(totalPosts / limit),
+        hasPrevious: page > 1
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Someting went wrong' });
+  }
+};
+
+const getPosts = async (req: Request, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+    const totalPosts = await Post.count();
+
+    const posts: PostExtended[] = await Post.find({
+      order: { createdAt: 'DESC' },
+      relations: ['comments', 'votes'],
+      skip: skip,
+      take: limit
+    });
+    await Promise.all(
+      posts.map(async (p) => {
+        let sub = await Sub.findOneOrFail(
+          { name: p.subName },
+          {
+            relations: ['subscribers']
+          }
+        );
+        if (res.locals.user) {
+          p.setUserVote(res.locals.user);
+          p.setOwner(res.locals.user);
+          sub.setStatus(res.locals.user);
+        }
+        p.subscriptionStatus = sub.subscriptionStatus;
+        p.subImageUrl = sub.imageUrl;
+      })
+    );
 
     return res.json({
       posts,
@@ -241,7 +298,8 @@ const getPostComments = async (req: Request, res: Response) => {
 const router = Router();
 
 router.post('/', user, auth, upload.single('file'), createPost);
-router.get('/', user, getPosts);
+router.get('/', user, getFeed);
+router.get('/all', user, getPosts);
 router.delete('/:identifier/:slug', user, auth, deletePost);
 router.get('/:identifier/:slug', user, getPost);
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost);

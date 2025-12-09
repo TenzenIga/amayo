@@ -12,11 +12,17 @@ export class PostsService {
   private url = '/api';
   private http: HttpClient = inject(HttpClient);
 
-  public getPosts<T>(page: number): Observable<T> {
+  public getFeed<T>(page: number): Observable<T> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('limit', '10');
     return this.http.get<T>(`${this.url}/posts`, { params });
+  }
+  public getPosts<T>(page: number): Observable<T> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', '10');
+    return this.http.get<T>(`${this.url}/posts/all`, { params });
   }
 
   public getPost(identifier: string, slug: string): Observable<Post> {

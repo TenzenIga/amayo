@@ -36,6 +36,13 @@ const routes: Routes = [
       )
   },
   {
+    path: 'all',
+    loadComponent: () =>
+      import('./components/all-page/all-page.component').then(
+        (m) => m.AllPageComponent
+      )
+  },
+  {
     path: 'edit',
     component: EditPostPageComponent,
     canActivate: [AuthGuard]

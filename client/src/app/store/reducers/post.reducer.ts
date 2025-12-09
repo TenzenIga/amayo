@@ -4,6 +4,13 @@ import { initialPostState } from '../state/post.state';
 
 export const postReducer = createReducer(
   initialPostState,
+  on(PostActions.getFeed, (state) => ({ ...state, loading: true })),
+  on(PostActions.getFeedSuccess, (state, payload) => ({
+    ...state,
+    posts: [...state.posts, ...payload.res.posts],
+    pagination: payload.res.pagination,
+    loading: false
+  })),
   on(PostActions.getPosts, (state) => ({ ...state, loading: true })),
   on(PostActions.getPostsSuccess, (state, payload) => ({
     ...state,

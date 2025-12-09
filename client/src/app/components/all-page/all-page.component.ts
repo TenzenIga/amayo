@@ -13,7 +13,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 import { Store } from '@ngrx/store';
 import {
-  getFeed,
+  getPosts,
   subscribeToSub,
   unsubscribeSub
 } from 'app/store/actions/post.action';
@@ -39,9 +39,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'all-page',
+  templateUrl: './all-page.component.html',
+  styleUrls: ['./all-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
@@ -57,7 +57,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     PushPipe
   ]
 })
-export class HomeComponent implements OnInit {
+export class AllPageComponent implements OnInit {
   @ViewChild('sentinel') sentinel!: ElementRef;
   private observer!: IntersectionObserver;
   private page = 0;
@@ -73,8 +73,6 @@ export class HomeComponent implements OnInit {
     this.store.select(selectPagination);
   public faPen = faPen;
   ngOnInit(): void {
-    console.log('init');
-
     this.store.dispatch(clearSub());
     this.loading$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -134,6 +132,6 @@ export class HomeComponent implements OnInit {
     }
     this.page++;
 
-    this.store.dispatch(getFeed({ page: this.page }));
+    this.store.dispatch(getPosts({ page: this.page }));
   }
 }
