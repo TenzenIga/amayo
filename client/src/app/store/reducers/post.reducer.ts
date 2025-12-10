@@ -67,5 +67,10 @@ export const postReducer = createReducer(
   on(PostActions.deletePostSuccess, (state, payload) => ({
     ...state,
     posts: state.posts.filter((p) => p.identifier !== payload.post.identifier)
+  })),
+  on(PostActions.resetPosts, (state) => ({
+    ...state,
+    posts: [],
+    pagination: initialPostState.pagination
   }))
 );

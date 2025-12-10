@@ -2,12 +2,21 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostsService } from '@core/services/posts.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  exhaustMap,
+  filter,
+  map,
+  switchMap,
+  tap
+} from 'rxjs/operators';
 import slugify from 'slugify';
 import * as PostActions from '../actions/post.action';
 import { SubService } from '@core/services/sub.service';
 import { ToastrService } from 'ngx-toastr';
 import { IPostState } from '../state/post.state';
+import { routerNavigatedAction } from '@ngrx/router-store';
+import { of } from 'rxjs';
 
 @Injectable()
 export class PostEffects {
@@ -145,4 +154,31 @@ export class PostEffects {
       ),
     { dispatch: false }
   );
+
+  loadHomeFeed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(routerNavigatedAction),
+      map((action) => action.payload.routerState.url),
+      distinctUntilChanged(),
+      filter((url) => url === '/'),
+
+      switchMap(() =>
+        of(PostActions.resetPosts(), PostActions.getFeed({ page: 0 }))
+      )
+    )
+  );
+
+  // Отслеживаем переход на /all
+  loadAllPosts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(routerNavigatedAction),
+      map((action) => action.payload.routerState.url),
+      distinctUntilChanged(),
+      filter((url) => url === '/all'),
+
+      switchMap(() =>
+        of(PostActions.resetPosts(), PostActions.getPosts({ page: 0 }))
+      )
+    );
+  });
 }

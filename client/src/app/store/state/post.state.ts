@@ -34,10 +34,20 @@ export interface IPostState {
   error: any;
   pagination: IPagination;
 }
+
+export const initialPagination: IPagination = {
+  currentPage: 0,
+  pageSize: 10,
+  totalCount: 0,
+  totalPages: 0,
+  hasNext: false,
+  hasPrevious: false
+};
+
 export const initialPostState: IPostState = {
   post: null,
   posts: [],
   loading: false,
   error: null,
-  pagination: {}
+  pagination: initialPagination
 };

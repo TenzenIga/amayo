@@ -27,7 +27,8 @@ export enum PostActions {
   DeletePost = '[Post] Delete Post',
   DeletePostSuccess = '[Post] Delete Post Success',
   EditPost = '[Post] Edit Post',
-  EditPostSuccess = '[Post] Edit Post Success'
+  EditPostSuccess = '[Post] Edit Post Success',
+  ResetPosts = '[Post] Reset Posts'
 }
 
 export const getFeed = createAction(
@@ -117,3 +118,5 @@ export const editPostSuccess = createAction(
   PostActions.EditPostSuccess,
   props<{ post: Post }>()
 );
+
+export const resetPosts = createAction(PostActions.ResetPosts);
