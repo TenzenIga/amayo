@@ -7,6 +7,7 @@ import { signupPayload, loginPayload } from '@shared/interfaces/interfaces';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
 import { clearUserData } from 'app/store/actions/user.action';
+import { getPosts, resetPosts } from 'app/store/actions/post.action';
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,7 @@ export class AuthService {
     localStorage.removeItem('username');
     localStorage.removeItem('userImageUrl');
     this.store.dispatch(clearUserData());
+    this.store.dispatch(resetPosts());
+    this.store.dispatch(getPosts({ page: 0 }));
   }
 }
