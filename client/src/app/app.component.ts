@@ -27,7 +27,7 @@ export class AppComponent {
   public route$ = this.store.select(selectUrl);
   public ngOnInit() {
     this.route$.subscribe((r) => {
-      if (r === '/login' || r === '/register') {
+      if (r.startsWith('/login') || r.startsWith('/register')) {
         this.showSidebar = false;
       } else {
         this.showSidebar = true;
