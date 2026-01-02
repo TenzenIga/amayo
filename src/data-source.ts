@@ -4,22 +4,22 @@ import Comment from './entity/Comment';
 import Vote from './entity/Vote';
 import Entity from './entity/Entity';
 import { DataSource } from 'typeorm';
+import Sub from './entity/Sub';
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: '5522',
-  database: 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  username: process.env.DB_USERNAME || 'postgres',
+  password: process.env.DB_PASSWORD || '5522',
+  database: process.env.DB_DATABASE || 'postgres',
 
-  // Сущности
-  entities: [Entity, Post, User, Comment, Sub, Vote], // Импортируйте явно
+  entities: [Entity, Post, User, Comment, Sub, Vote],
 
   migrations: ['src/migration/**/*.ts'],
 
   subscribers: ['src/subscribers/**/*.ts'],
 
-  synchronize: true, // Только для разработки!
+  synchronize: true,
   logging: true,
 
   extra: {
