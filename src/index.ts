@@ -38,15 +38,22 @@ app.use(express.static(path.join(__dirname, '../client/dist/client')));
 app.get('*', (_, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/client/index.html'));
 });
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, async () => {
-  console.log('Server running at http://localhost:3000');
-
+async function startServer() {
   try {
+    // Инициализируем DataSource
     await AppDataSource.initialize();
     console.log('Database connected successfully');
-  } catch (err) {
-    console.error('Database connection failed:', err);
+
+    // Запускаем сервер
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
     process.exit(1);
   }
-});
+}
+
+startServer();
