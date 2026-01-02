@@ -3,7 +3,6 @@ import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import AppDataSource from './data-source';
 
 dotenv.config();
 
@@ -14,6 +13,7 @@ import miscRoutes from './routes/misc';
 import userRoutes from './routes/users';
 import trim from './middleware/trim';
 import path from 'path';
+import { AppDataSource } from './data-source';
 
 const app = express();
 
