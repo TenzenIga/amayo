@@ -1,6 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { isEmpty } from 'class-validator';
-import { getRepository } from 'typeorm';
 import fs from 'fs';
 
 import auth from '../middleware/auth';
@@ -9,6 +8,10 @@ import Sub from '../entity/Sub';
 import user from '../middleware/user';
 import Post from '../entity/Post';
 import { upload, validateSubName } from '../utils/helpers';
+import AppDataSource from '../data-source';
+
+const subRepository = AppDataSource.getRepository(Sub);
+const postRepository = AppDataSource.getRepository(Post);
 
 const createSub = async (req: Request, res: Response) => {
   const { name, description } = req.body;
@@ -24,7 +27,7 @@ const createSub = async (req: Request, res: Response) => {
       errors.description = 'Description must not exceed 500 characters';
     }
 
-    const sub = await getRepository(Sub)
+    const sub = await subRepository
       .createQueryBuilder('sub')
       .where('lower(sub.name) = :name', { name: name.toLowerCase() })
       .getOne();
@@ -47,7 +50,7 @@ const createSub = async (req: Request, res: Response) => {
     if (files.imageUrn) {
       sub.imageUrn = files.imageUrn[0].filename;
     }
-    await sub.save();
+    await subRepository.save(sub);
 
     return res.json(sub);
   } catch (err) {
@@ -66,7 +69,7 @@ const checkIfSubExist = async (req: Request, res: Response) => {
     });
   }
   try {
-    const sub = await getRepository(Sub)
+    const sub = await subRepository
       .createQueryBuilder('sub')
       .where('lower(sub.name) = :name', { name: name.toLowerCase() })
       .getOne();
@@ -83,14 +86,13 @@ const getSub = async (req: Request, res: Response) => {
   const name = req.params.name;
 
   try {
-    const sub = await Sub.findOneOrFail(
-      { name },
-      {
-        relations: ['subscribers']
-      }
-    );
-    const posts = await Post.find({
-      where: { sub },
+    const sub = await subRepository.findOneOrFail({
+      where: { name },
+
+      relations: ['subscribers']
+    });
+    const posts = await postRepository.find({
+      where: { sub: { id: sub.id } },
       order: { createdAt: 'DESC' },
       relations: ['comments', 'votes']
     });
@@ -114,7 +116,9 @@ const getSub = async (req: Request, res: Response) => {
 const subOwner = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   try {
-    const sub = await Sub.findOneOrFail({ where: { name: req.params.name } });
+    const sub = await subRepository.findOneOrFail({
+      where: { name: req.params.name }
+    });
 
     if (sub.username !== user.username) {
       return res.status(403).json({ error: 'You dont own this sub' });
@@ -132,7 +136,7 @@ const searchSubs = async (req: Request, res: Response) => {
     if (isEmpty(name))
       return res.status(400).json({ error: 'Name must not be empty' });
 
-    const subs = await getRepository(Sub)
+    const subs = await subRepository
       .createQueryBuilder()
       .where('LOWER(name) LIKE :name', {
         name: `${name.toLocaleLowerCase().trim()}%`
@@ -204,7 +208,7 @@ const updateSub = async (req: Request, res: Response) => {
       });
       sub.imageUrn = null;
     }
-    await sub.save();
+    await subRepository.save(sub);
 
     return res.json(sub);
   } catch (error) {
@@ -231,7 +235,7 @@ const deleteSub = async (_req: Request, res: Response) => {
     }
 
     // Delete the sub (this will cascade delete related posts and comments due to foreign key constraints)
-    await sub.remove();
+    await subRepository.remove(sub);
 
     return res.json(sub);
   } catch (error) {
@@ -242,7 +246,7 @@ const deleteSub = async (_req: Request, res: Response) => {
 
 const getSubs = async (_: Request, res: Response) => {
   try {
-    const subs = await Sub.find({
+    const subs = await subRepository.find({
       relations: ['subscribers']
     });
 

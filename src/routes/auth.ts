@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import User from '../entity/User';
 import auth from '../middleware/auth';
 import user from '../middleware/user';
+import AppDataSource from '../data-source';
 
 const mapErrors = (errors: Object[]) => {
   return errors.reduce((prev: any, err: any) => {
@@ -13,6 +14,7 @@ const mapErrors = (errors: Object[]) => {
     return prev;
   }, {});
 };
+const userRepository = AppDataSource.getRepository(User);
 
 const register = async (req: Request, res: Response) => {
   const { email, username, password } = req.body;
@@ -20,8 +22,9 @@ const register = async (req: Request, res: Response) => {
   try {
     // TODO: validation
     let errors: any = {};
-    const emailUser = await User.findOne({ email });
-    const usernameUser = await User.findOne({ username });
+
+    const emailUser = await userRepository.findOne({ where: { email } });
+    const usernameUser = await userRepository.findOne({ where: { username } });
 
     if (emailUser) errors.email = 'Email is already taken';
     if (usernameUser) errors.username = 'Username is already taken';
@@ -36,7 +39,7 @@ const register = async (req: Request, res: Response) => {
       return res.status(400).json({ errors: mapErrors(errors) });
     }
 
-    await user.save();
+    await userRepository.save(user);
 
     //TODO: Return user
     return res.json(user);
@@ -58,7 +61,7 @@ const login = async (req: Request, res: Response) => {
       return res.status(400).json(errors);
     }
 
-    const user = await User.findOne({ username });
+    const user = await userRepository.findOne({ where: { username } });
 
     if (!user) return res.status(404).json({ username: 'User not found' });
 

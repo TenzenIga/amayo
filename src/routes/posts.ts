@@ -7,11 +7,15 @@ import Comment from '../entity/Comment';
 import user from '../middleware/user';
 import { upload } from '../utils/helpers';
 import fs from 'fs';
+import AppDataSource from '../data-source';
 
 interface PostExtended extends Post {
   subscriptionStatus?: boolean;
   subImageUrl?: string;
 }
+const commentRepository = AppDataSource.getRepository(Comment);
+const subRepository = AppDataSource.getRepository(Sub);
+const postRepository = AppDataSource.getRepository(Post);
 
 const createPost = async (req: Request, res: Response) => {
   const { title, body, sub } = req.body;
@@ -23,14 +27,16 @@ const createPost = async (req: Request, res: Response) => {
 
   try {
     // find sub
-    const subRecord = await Sub.findOneOrFail({ name: sub });
+    const subRecord = await subRepository.findOneOrFail({
+      where: { name: sub }
+    });
 
     const post = new Post({ title, body, user, sub: subRecord });
     if (req.file) {
       post.postImage = req.file.filename;
     }
-    await post.save();
-
+    // await post.save();
+    await postRepository.save(post);
     return res.json(post);
   } catch (err) {
     console.log(err);
@@ -43,7 +49,9 @@ const deletePost = async (req: Request, res: Response) => {
   const user = res.locals.user;
 
   try {
-    const post = await Post.findOneOrFail({ identifier, slug });
+    const post = await postRepository.findOneOrFail({
+      where: { identifier, slug }
+    });
 
     if (post.username !== user.username) {
       return res.status(403).json({ error: 'You dont own this post' });
@@ -54,8 +62,7 @@ const deletePost = async (req: Request, res: Response) => {
         if (err) console.log('Error deleting image:', err);
       });
     }
-    await Post.delete({ identifier, slug });
-
+    await postRepository.delete({ identifier, slug });
     return res.json(post);
   } catch (err) {
     console.log(err);
@@ -73,7 +80,8 @@ const getFeed = async (req: Request, res: Response) => {
     let posts: PostExtended[] = [];
     if (res.locals.user) {
       const userId = res.locals.user.id;
-      [posts, totalPosts] = await Post.createQueryBuilder('post')
+      [posts, totalPosts] = await postRepository
+        .createQueryBuilder('post')
         .innerJoin('post.sub', 'sub')
         .innerJoin('sub.subscribers', 'subscriber', 'subscriber.id = :userId', {
           userId: userId
@@ -87,8 +95,8 @@ const getFeed = async (req: Request, res: Response) => {
 
       // если у пользователя нет подписок, показываем вместо ленты все посты
       if (totalPosts === 0) {
-        totalPosts = await Post.count();
-        posts = await Post.find({
+        totalPosts = await postRepository.count();
+        posts = await postRepository.find({
           order: { createdAt: 'DESC' },
           relations: ['comments', 'votes'],
           skip: skip,
@@ -97,12 +105,10 @@ const getFeed = async (req: Request, res: Response) => {
       }
       await Promise.all(
         posts.map(async (p) => {
-          let sub = await Sub.findOneOrFail(
-            { name: p.subName },
-            {
-              relations: ['subscribers']
-            }
-          );
+          let sub = await subRepository.findOneOrFail({
+            where: { name: p.subName },
+            relations: ['subscribers']
+          });
           p.setUserVote(res.locals.user);
           p.setOwner(res.locals.user);
           sub.setStatus(res.locals.user);
@@ -111,8 +117,8 @@ const getFeed = async (req: Request, res: Response) => {
         })
       );
     } else {
-      totalPosts = await Post.count();
-      posts = await Post.find({
+      totalPosts = await postRepository.count();
+      posts = await postRepository.find({
         order: { createdAt: 'DESC' },
         relations: ['comments', 'votes'],
         skip: skip,
@@ -120,12 +126,11 @@ const getFeed = async (req: Request, res: Response) => {
       });
       await Promise.all(
         posts.map(async (p) => {
-          let sub = await Sub.findOneOrFail(
-            { name: p.subName },
-            {
-              relations: ['subscribers']
-            }
-          );
+          let sub = await subRepository.findOneOrFail({
+            where: { name: p.subName },
+
+            relations: ['subscribers']
+          });
           p.subscriptionStatus = sub.subscriptionStatus;
           p.subImageUrl = sub.imageUrl;
         })
@@ -154,9 +159,9 @@ const getPosts = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const skip = (page - 1) * limit;
-    const totalPosts = await Post.count();
+    const totalPosts = await postRepository.count();
 
-    const posts: PostExtended[] = await Post.find({
+    const posts: PostExtended[] = await postRepository.find({
       order: { createdAt: 'DESC' },
       relations: ['comments', 'votes'],
       skip: skip,
@@ -164,12 +169,11 @@ const getPosts = async (req: Request, res: Response) => {
     });
     await Promise.all(
       posts.map(async (p) => {
-        let sub = await Sub.findOneOrFail(
-          { name: p.subName },
-          {
-            relations: ['subscribers']
-          }
-        );
+        let sub = await subRepository.findOneOrFail({
+          where: { name: p.subName },
+
+          relations: ['subscribers']
+        });
         if (res.locals.user) {
           p.setUserVote(res.locals.user);
           p.setOwner(res.locals.user);
@@ -197,14 +201,72 @@ const getPosts = async (req: Request, res: Response) => {
   }
 };
 
+const getPopularPosts = async (req: Request, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const skip = (page - 1) * limit;
+    const totalPosts = await postRepository.count();
+
+    const posts: PostExtended[] = await postRepository.find({
+      order: { createdAt: 'DESC' },
+      relations: ['comments', 'votes'],
+      skip: skip,
+      take: limit
+    });
+    await Promise.all(
+      posts.map(async (p) => {
+        let sub = await subRepository.findOneOrFail({
+          where: { name: p.subName },
+          relations: ['subscribers']
+        });
+        if (res.locals.user) {
+          p.setUserVote(res.locals.user);
+          p.setOwner(res.locals.user);
+          sub.setStatus(res.locals.user);
+        }
+        p.subscriptionStatus = sub.subscriptionStatus;
+        p.subImageUrl = sub.imageUrl;
+      })
+    );
+    posts.sort((a, b) => {
+      // Сначала по голосам
+      if (b.voteScore !== a.voteScore) {
+        return b.voteScore - a.voteScore;
+      }
+      // Затем по комментариям
+      if (b.commentCount !== a.commentCount) {
+        return b.commentCount - a.commentCount;
+      }
+      // Затем по дате
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    });
+    const sortedPosts = posts.slice(skip, skip + limit);
+
+    return res.json({
+      posts: sortedPosts,
+      pagination: {
+        currentPage: page,
+        pageSize: limit,
+        totalCount: totalPosts,
+        totalPages: Math.ceil(totalPosts / limit),
+        hasNext: page < Math.ceil(totalPosts / limit),
+        hasPrevious: page > 1
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Someting went wrong' });
+  }
+};
 const getPost = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params;
 
   try {
-    const post = await Post.findOneOrFail(
-      { identifier, slug },
-      { relations: ['sub', 'votes', 'comments'] }
-    );
+    const post = await postRepository.findOneOrFail({
+      where: { identifier, slug },
+      relations: ['sub', 'votes', 'comments']
+    });
 
     if (res.locals.user) {
       post.setUserVote(res.locals.user);
@@ -225,7 +287,9 @@ const updatePost = async (req: Request, res: Response) => {
   const user = res.locals.user;
 
   try {
-    const post = await Post.findOneOrFail({ identifier, slug });
+    const post = await postRepository.findOneOrFail({
+      where: { identifier, slug }
+    });
 
     if (post.username !== user.username) {
       return res.status(403).json({ error: 'You dont own this post' });
@@ -245,7 +309,7 @@ const updatePost = async (req: Request, res: Response) => {
     if (title !== undefined) post.title = title;
     if (body !== undefined) post.body = body;
 
-    await post.save();
+    await postRepository.save(post);
     return res.json(post);
   } catch (err) {
     console.log(err);
@@ -258,15 +322,16 @@ const commentOnPost = async (req: Request, res: Response) => {
   const body = req.body.body;
 
   try {
-    const post = await Post.findOneOrFail({ identifier, slug });
+    const post = await postRepository.findOneOrFail({
+      where: { identifier, slug }
+    });
     const comment = new Comment({
       body,
       user: res.locals.user,
       post
     });
 
-    await comment.save();
-
+    await commentRepository.save(comment);
     return res.json(comment);
   } catch (err) {
     console.log(err);
@@ -277,10 +342,12 @@ const commentOnPost = async (req: Request, res: Response) => {
 const getPostComments = async (req: Request, res: Response) => {
   const { identifier, slug } = req.params;
   try {
-    const post = await Post.findOneOrFail({ identifier, slug });
+    const post = await postRepository.findOneOrFail({
+      where: { identifier, slug }
+    });
 
-    const comments = await Comment.find({
-      where: { post },
+    const comments = await commentRepository.find({
+      where: { post: { id: post.id } },
       order: { createdAt: 'DESC' },
       relations: ['votes']
     });
@@ -300,6 +367,7 @@ const router = Router();
 router.post('/', user, auth, upload.single('file'), createPost);
 router.get('/', user, getFeed);
 router.get('/all', user, getPosts);
+router.get('/popular', user, getPopularPosts);
 router.delete('/:identifier/:slug', user, auth, deletePost);
 router.get('/:identifier/:slug', user, getPost);
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost);

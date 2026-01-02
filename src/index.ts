@@ -1,34 +1,30 @@
-import "reflect-metadata";
-import { createConnection } from "typeorm";
+import 'reflect-metadata';
 import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import cookieParser from "cookie-parser";
+import cookieParser from 'cookie-parser';
+import AppDataSource from './data-source';
 
-dotenv.config()
-
+dotenv.config();
 
 import authRoutes from './routes/auth';
 import postsRoutes from './routes/posts';
 import subRoutes from './routes/subs';
 import miscRoutes from './routes/misc';
 import userRoutes from './routes/users';
-import trim from "./middleware/trim";
-import path from "path";
+import trim from './middleware/trim';
+import path from 'path';
 
 const app = express();
 
-
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(morgan('dev'));
 app.use(trim);
 app.use(cookieParser());
 
-
-
-app.use(express.static('public'))
+app.use(express.static('public'));
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/subs', subRoutes);
@@ -43,14 +39,14 @@ app.get('*', (_, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/client/index.html'));
 });
 
-
 app.listen(3000, async () => {
   console.log('Server running at http://localhost:3000');
 
   try {
-    await createConnection();
-    console.log('Database connected');
+    await AppDataSource.initialize();
+    console.log('Database connected successfully');
   } catch (err) {
-    console.log(err);
+    console.error('Database connection failed:', err);
+    process.exit(1);
   }
-})
+});

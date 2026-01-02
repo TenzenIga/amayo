@@ -6,21 +6,26 @@ import Post from '../entity/Post';
 import Vote from '../entity/Vote';
 import Comment from '../entity/Comment';
 import user from '../middleware/user';
-import { getConnection } from 'typeorm';
 import Sub from '../entity/Sub';
+import AppDataSource from '../data-source';
+
+const commentRepository = AppDataSource.getRepository(Comment);
+const subRepository = AppDataSource.getRepository(Sub);
+const voteRepository = AppDataSource.getRepository(Vote);
+const postRepository = AppDataSource.getRepository(Post);
 
 const subscribeToSub = async (req: Request, res: Response) => {
   const { name } = req.body;
 
   try {
-    const sub = await Sub.findOneOrFail(
-      { name },
-      { relations: ['subscribers'] }
-    );
+    const sub = await subRepository.findOneOrFail({
+      where: { name },
+      relations: ['subscribers']
+    });
     const user: User = res.locals.user;
 
     sub.subscribers.push(user);
-    await sub.save();
+    await subRepository.save(sub);
     return res.json(sub);
   } catch (err) {
     console.log(err);
@@ -31,14 +36,14 @@ const unsubscribeSub = async (req: Request, res: Response) => {
   const { name } = req.body;
 
   try {
-    const sub = await Sub.findOneOrFail(
-      { name },
-      { relations: ['subscribers'] }
-    );
+    const sub = await subRepository.findOneOrFail({
+      where: { name },
+      relations: ['subscribers']
+    });
     const user: User = res.locals.user;
 
-    sub.subscribers = sub.subscribers.filter(u => u.id !== user.id);
-    await sub.save();
+    sub.subscribers = sub.subscribers.filter((u) => u.id !== user.id);
+    await subRepository.save(sub);
     return res.json(sub);
   } catch (err) {
     console.log(err);
@@ -56,10 +61,14 @@ const voteOnPost = async (req: Request, res: Response) => {
 
   try {
     const user: User = res.locals.user;
-    let post = await Post.findOneOrFail({ identifier, slug });
-    let vote: Vote | undefined;
+    let post = await postRepository.findOneOrFail({
+      where: { identifier, slug }
+    });
+    let vote: Vote | null;
 
-    vote = await Vote.findOne({ user, post });
+    vote = await voteRepository.findOne({
+      where: { user: { id: user.id }, post: { id: post.id } }
+    });
 
     if (!vote && value === 0) {
       //if no vote and value = 0 return error
@@ -67,20 +76,20 @@ const voteOnPost = async (req: Request, res: Response) => {
     } else if (!vote) {
       vote = new Vote({ user, value });
       vote.post = post;
-      await vote.save();
+      await voteRepository.save(vote);
     } else if (value === 0) {
       // if vote exists and value = 0 remove vote from DB
-      await vote.remove();
+      await voteRepository.remove(vote);
     } else if (vote.value !== value) {
       //If  vote  and value has changed, update vote
       vote.value = value;
-      await vote.save();
+      await voteRepository.save(vote);
     }
 
-    post = await Post.findOneOrFail(
-      { identifier, slug },
-      { relations: ['comments', 'comments.votes', 'sub', 'votes'] }
-    );
+    post = await postRepository.findOneOrFail({
+      where: { identifier, slug },
+      relations: ['comments', 'comments.votes', 'sub', 'votes']
+    });
 
     post.setUserVote(user);
     post.comments.forEach((c) => c.setUserVote(user));
@@ -101,10 +110,12 @@ const voteOnComment = async (req: Request, res: Response) => {
   }
   try {
     const user: User = res.locals.user;
-    let vote: Vote | undefined;
+    let vote: Vote | null;
     let comment: Comment | undefined;
-    comment = await Comment.findOneOrFail({ identifier });
-    vote = await Vote.findOne({ user, comment });
+    comment = await commentRepository.findOneOrFail({ where: { identifier } });
+    vote = await voteRepository.findOne({
+      where: { user: { id: user.id }, comment: { id: comment.id } }
+    });
 
     if (!vote && value === 0) {
       //if no vote and value = 0 return error
@@ -112,19 +123,19 @@ const voteOnComment = async (req: Request, res: Response) => {
     } else if (!vote) {
       vote = new Vote({ user, value });
       vote.comment = comment;
-      await vote.save();
+      await voteRepository.save(vote);
     } else if (value === 0) {
       // if vote exists and value = 0 remove vote from DB
-      await vote.remove();
+      await voteRepository.remove(vote);
     } else if (vote.value !== value) {
       //If  vote  and value has changed, update vote
       vote.value = value;
-      await vote.save();
+      await voteRepository.save(vote);
     }
-    comment = await Comment.findOneOrFail(
-      { identifier },
-      { relations: ['votes'] }
-    );
+    comment = await commentRepository.findOneOrFail({
+      where: { identifier },
+      relations: ['votes']
+    });
 
     comment.setUserVote(user);
 
@@ -148,8 +159,7 @@ const topSubs = async (_: Request, res: Response) => {
      * LIMIT 5;
      */
     const imageUrlExp = `COALESCE('/images/' || s."imageUrn" , 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y')`;
-    const subs = await getConnection()
-      .createQueryBuilder()
+    const subs = await AppDataSource.createQueryBuilder()
       .select(
         `s.id, s.title, s.name, ${imageUrlExp} as "imageUrl", count(p.id) as "postCount"`
       )

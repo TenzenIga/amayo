@@ -5,10 +5,14 @@ import Post from '../entity/Post';
 import User from '../entity/User';
 
 import user from '../middleware/user';
+import AppDataSource from '../data-source';
+const commentRepository = AppDataSource.getRepository(Comment);
+const postRepository = AppDataSource.getRepository(Post);
+const userRepository = AppDataSource.getRepository(User);
 
 const getUserInfo = async (req: Request, res: Response) => {
   try {
-    const user = await User.findOneOrFail({
+    const user = await userRepository.findOneOrFail({
       where: { username: req.params.username },
       relations: ['subscriptions']
     });
@@ -23,25 +27,29 @@ const getUserInfo = async (req: Request, res: Response) => {
 const getUserSubmissions = async (req: Request, res: Response) => {
   try {
     const { type } = req.query;
-    const user = await User.findOneOrFail({
+    const user = await userRepository.findOneOrFail({
       where: { username: req.params.username }
     });
 
-    const postsCount = await Post.count({ where: { user } });
-    const commentsCount = await Comment.count({ where: { user } });
+    const postsCount = await postRepository.count({
+      where: { user: { id: user.id } }
+    });
+    const commentsCount = await commentRepository.count({
+      where: { user: { id: user.id } }
+    });
 
     let posts: Post[] = [];
     let comments: Comment[] = [];
 
     if (type === 'all' || type === 'post') {
-      posts = await Post.find({
-        where: { user },
+      posts = await postRepository.find({
+        where: { user: { id: user.id } },
         relations: ['comments', 'votes', 'sub']
       });
     }
     if (type === 'all' || type === 'comment') {
-      comments = await Comment.find({
-        where: { user },
+      comments = await commentRepository.find({
+        where: { user: { id: user.id } },
         relations: ['post', 'post.sub', 'votes']
       });
     }

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, Renderer2 } from '@angular/core';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { SidebarLeftComponent } from './components/sidebar-left/sidebar-left.component';
 import { SidebarService } from '@core/services/sidebar.service';
 import { AuthService } from '@core/services/auth.service';
