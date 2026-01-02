@@ -5,7 +5,7 @@ import Post from '../entity/Post';
 import User from '../entity/User';
 
 import user from '../middleware/user';
-import AppDataSource from '../data-source';
+import { AppDataSource } from '../data-source';
 const commentRepository = AppDataSource.getRepository(Comment);
 const postRepository = AppDataSource.getRepository(Post);
 const userRepository = AppDataSource.getRepository(User);

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import User from '../entity/User';
 import auth from '../middleware/auth';
 import user from '../middleware/user';
-import AppDataSource from '../data-source';
+import { AppDataSource } from '../data-source';
 
 const mapErrors = (errors: Object[]) => {
   return errors.reduce((prev: any, err: any) => {

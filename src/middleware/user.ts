@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express-serve-static-core';
 import jwt from 'jsonwebtoken';
 
 import User from '../entity/User';
-import AppDataSource from '../data-source';
+import { AppDataSource } from '../data-source';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -7,7 +7,7 @@ import Comment from '../entity/Comment';
 import user from '../middleware/user';
 import { upload } from '../utils/helpers';
 import fs from 'fs';
-import AppDataSource from '../data-source';
+import { AppDataSource } from '../data-source';
 
 interface PostExtended extends Post {
   subscriptionStatus?: boolean;

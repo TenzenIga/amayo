@@ -8,7 +8,7 @@ import Sub from '../entity/Sub';
 import user from '../middleware/user';
 import Post from '../entity/Post';
 import { upload, validateSubName } from '../utils/helpers';
-import AppDataSource from '../data-source';
+import { AppDataSource } from '../data-source';
 
 const subRepository = AppDataSource.getRepository(Sub);
 const postRepository = AppDataSource.getRepository(Post);

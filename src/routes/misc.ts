@@ -7,7 +7,7 @@ import Vote from '../entity/Vote';
 import Comment from '../entity/Comment';
 import user from '../middleware/user';
 import Sub from '../entity/Sub';
-import AppDataSource from '../data-source';
+import { AppDataSource } from '../data-source';
 
 const commentRepository = AppDataSource.getRepository(Comment);
 const subRepository = AppDataSource.getRepository(Sub);
