@@ -7,3 +7,4 @@ temp/
 public/
 .env
 ormconfig.json
+src/seeds/
