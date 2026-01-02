@@ -1,11 +1,9 @@
 import Post from './entity/Post';
 import User from './entity/User';
 import Comment from './entity/Comment';
-import { DataSource } from 'typeorm/index.js';
-import Sub from './entity/Sub';
 import Vote from './entity/Vote';
 import Entity from './entity/Entity';
-
+import { DataSource } from 'typeorm';
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
