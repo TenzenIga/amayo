@@ -5,6 +5,6 @@ build/
 tmp/
 temp/
 public/
+src/seeds/
 .env
 ormconfig.json
-src/seeds/
