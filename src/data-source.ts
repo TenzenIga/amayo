@@ -3,8 +3,12 @@ import User from './entity/User';
 import Comment from './entity/Comment';
 import Vote from './entity/Vote';
 import Entity from './entity/Entity';
-const TypeORM = require('typeorm') as typeof import('typeorm');
+import dotenv from 'dotenv';
 import Sub from './entity/Sub';
+
+dotenv.config();
+
+const TypeORM = require('typeorm') as typeof import('typeorm');
 export const AppDataSource = new TypeORM.DataSource({
   type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
