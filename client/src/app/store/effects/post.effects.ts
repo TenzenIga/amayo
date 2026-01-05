@@ -25,6 +25,8 @@ export class PostEffects {
   private subService: SubService = inject(SubService);
   private router: Router = inject(Router);
   private toastr: ToastrService = inject(ToastrService);
+
+  // home page
   public readonly getPosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.getPosts),
@@ -39,6 +41,8 @@ export class PostEffects {
       )
     );
   });
+
+  // Персональная лента
   public readonly getFeed$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PostActions.getFeed),
@@ -48,6 +52,22 @@ export class PostEffects {
           .pipe(
             map((res: Pick<IPostState, 'posts' | 'pagination'>) =>
               PostActions.getFeedSuccess({ res })
+            )
+          )
+      )
+    );
+  });
+
+  // popular post page
+  public readonly getPopular$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.getPopular),
+      exhaustMap((action) =>
+        this.postsService
+          .getPopularPosts(action.page)
+          .pipe(
+            map((res: Pick<IPostState, 'posts' | 'pagination'>) =>
+              PostActions.getPopularSuccess({ res })
             )
           )
       )
@@ -178,6 +198,18 @@ export class PostEffects {
 
       switchMap(() =>
         of(PostActions.resetPosts(), PostActions.getPosts({ page: 0 }))
+      )
+    );
+  });
+
+  loadPopularPosts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(routerNavigatedAction),
+      map((action) => action.payload.routerState.url),
+      distinctUntilChanged(),
+      filter((url) => url === '/popular'),
+      switchMap(() =>
+        of(PostActions.resetPosts(), PostActions.getPopular({ page: 0 }))
       )
     );
   });

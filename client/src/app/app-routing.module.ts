@@ -43,6 +43,13 @@ const routes: Routes = [
       )
   },
   {
+    path: 'popular',
+    loadComponent: () =>
+      import('./components/popular-page/popular-page.component').then(
+        (m) => m.PopularPageComponent
+      )
+  },
+  {
     path: 'edit',
     component: EditPostPageComponent,
     canActivate: [AuthGuard]

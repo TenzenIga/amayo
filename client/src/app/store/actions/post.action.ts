@@ -14,6 +14,8 @@ export enum PostActions {
   GetPostsSuccess = '[Post] Get Posts Success',
   GetFeed = '[Post] Get Feed',
   GetFeedSuccess = '[Post] Get Feed Success',
+  GetPopular = '[Post] Get Popular',
+  GetPopularSuccess = '[Post] Get Popular Success',
   GetPost = '[Post] Get Post',
   GetPostSuccess = '[Post] Get Post Success',
   CreatePost = '[Post] Create Post',
@@ -30,6 +32,15 @@ export enum PostActions {
   EditPostSuccess = '[Post] Edit Post Success',
   ResetPosts = '[Post] Reset Posts'
 }
+
+export const getPopular = createAction(
+  PostActions.GetPopular,
+  props<{ page: number }>()
+);
+export const getPopularSuccess = createAction(
+  PostActions.GetPopularSuccess,
+  props<{ res: Pick<IPostState, 'posts' | 'pagination'> }>()
+);
 
 export const getFeed = createAction(
   PostActions.GetFeed,

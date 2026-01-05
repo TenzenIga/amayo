@@ -1,0 +1,38 @@
+.sub,
+.username,
+.date,
+button {
+  font-weight: 500;
+}
+.sub-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: contain;
+  border: 2px solid #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+a {
+  text-decoration: none;
+  color: unset;
+}
+.button-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  border: none;
+  position: fixed;
+  bottom: 35px;
+  right: 30px;
+  box-shadow: rgba(255, 255, 255, 0.02) 0px 0px 0px 1px inset;
+}
+
+.scroll-watcher {
+  height: 100px;
+  width: 100%;
+  background: red;
+}

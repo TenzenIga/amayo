@@ -1,48 +1,44 @@
+import { NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
   inject,
-  OnInit,
   ViewChild
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { RouterLink } from '@angular/router';
-import { faPen } from '@fortawesome/free-solid-svg-icons';
-
-import { Store } from '@ngrx/store';
-import {
-  getFeed,
-  subscribeToSub,
-  unsubscribeSub
-} from 'app/store/actions/post.action';
-
-import { IPagination, Post } from 'app/store/state/post.state';
-import { IAppState } from 'app/store/state/app.state';
-import {
-  selectLoading,
-  selectPagination,
-  selectPosts
-} from 'app/store/selectors/post.selector';
-import { AuthService } from '@core/services/auth.service';
-import { clearSub } from 'app/store/actions/sub.action';
-import { LoaderComponent } from '../../shared/components/loader/loader.component';
-import { PostComponent } from '../post/post.component';
-import { NgStyle } from '@angular/common';
-import { SubscribeButtonComponent } from '../subscribe-button/subscribe-button.component';
-import { SidebarComponent } from '../sidebar/sidebar.component';
-import { TopSubsComponent } from '../top-subs/top-subs.component';
-import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
-import { PushPipe } from '@ngrx/component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '@core/services/auth.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { PushPipe } from '@ngrx/component';
+import { Store } from '@ngrx/store';
+import { LoaderComponent } from '@shared/components/loader/loader.component';
+import { Post } from '@shared/interfaces/interfaces';
+import { DateAgoPipe } from '@shared/pipes/date-ago.pipe';
+import {
+  subscribeToSub,
+  unsubscribeSub,
+  getFeed,
+  getPopular
+} from 'app/store/actions/post.action';
+import { clearSub } from 'app/store/actions/sub.action';
+import {
+  selectPosts,
+  selectLoading,
+  selectPagination
+} from 'app/store/selectors/post.selector';
+import { IAppState } from 'app/store/state/app.state';
+import { IPagination } from 'app/store/state/post.state';
+import { Observable } from 'rxjs';
+import { PostComponent } from '../post/post.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { SubscribeButtonComponent } from '../subscribe-button/subscribe-button.component';
+import { TopSubsComponent } from '../top-subs/top-subs.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-popular-page',
   standalone: true,
   imports: [
     FontAwesomeModule,
@@ -55,9 +51,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     TopSubsComponent,
     DateAgoPipe,
     PushPipe
-  ]
+  ],
+  templateUrl: './popular-page.component.html',
+  styleUrl: './popular-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit {
+export class PopularPageComponent {
   @ViewChild('sentinel') sentinel!: ElementRef;
   private observer!: IntersectionObserver;
   private page = 0;
@@ -132,6 +131,6 @@ export class HomeComponent implements OnInit {
     }
     this.page++;
 
-    this.store.dispatch(getFeed({ page: this.page }));
+    this.store.dispatch(getPopular({ page: this.page }));
   }
 }

@@ -18,6 +18,13 @@ export class PostsService {
       .set('limit', '10');
     return this.http.get<T>(`${this.url}/posts`, { params });
   }
+  public getPopularPosts<T>(page: number): Observable<T> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', '10');
+    return this.http.get<T>(`${this.url}/posts/popular`, { params });
+  }
+
   public getPosts<T>(page: number): Observable<T> {
     const params = new HttpParams()
       .set('page', page.toString())

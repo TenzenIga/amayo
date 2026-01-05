@@ -18,6 +18,13 @@ export const postReducer = createReducer(
     pagination: payload.res.pagination,
     loading: false
   })),
+  on(PostActions.getPopular, (state) => ({ ...state, loading: true })),
+  on(PostActions.getPopularSuccess, (state, payload) => ({
+    ...state,
+    posts: [...state.posts, ...payload.res.posts],
+    pagination: payload.res.pagination,
+    loading: false
+  })),
   on(PostActions.getPost, (state) => ({ ...state, loading: true })),
   on(PostActions.getPostSuccess, (state, payload) => ({
     ...state,
