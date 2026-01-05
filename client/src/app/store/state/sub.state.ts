@@ -25,7 +25,7 @@ export interface ISubState {
   suggestions: Sub[];
 }
 export const initialSubState: ISubState = {
-  subs: null,
+  subs: [],
   sub: null,
   topSubs: [],
   suggestions: [],

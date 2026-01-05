@@ -28,7 +28,9 @@
       </button>
 
       @if (isloggedIn()) {
-      <app-dropdown userInfo="userInfo"></app-dropdown>
+      <app-dropdown
+        class="mx-1"
+        userInfo="userInfo"></app-dropdown>
       } @else {
       <a
         routerLink="/login"
