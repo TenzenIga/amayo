@@ -8,17 +8,21 @@
       class="card-title">
       {{ post.title }}
     </h4>
-    <a [routerLink]="[post.url]">
+    <a
+      class="post-body"
+      [routerLink]="[post.url]">
       @if(post.postImageUrl) {
       <figure class="img-wrapper">
         <img
           [src]="post.postImageUrl"
           class="card-img mx-auto d-block" />
       </figure>
-      }
+      }@else {
       <p
         class="card-text"
-        [innerHtml]="post.body"></p>
+        [innerHtml]="post.body | truncateHtml : 300"></p>
+
+      }
     </a>
 
     <app-post-footer

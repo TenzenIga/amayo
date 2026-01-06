@@ -10,6 +10,11 @@
   color: white; /* For content visibility on a blurred background */
   text-align: center;
 }
+.card-text {
+  max-height: 270px;
+  overflow: hidden;
+  position: relative;
+}
 .card-img {
   max-height: 450px;
   object-fit: contain;
@@ -32,6 +37,9 @@
   a {
     color: unset;
     text-decoration: none;
+  }
+  &-body {
+    position: relative;
   }
 }
 
