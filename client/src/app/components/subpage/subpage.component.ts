@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { Sub } from '@shared/interfaces/interfaces';
+import { Post, Sub } from '@shared/interfaces/interfaces';
 import { selectSub } from 'app/store/selectors/sub.selector';
 import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
@@ -32,6 +32,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditSubDialogComponent } from './edit-sub-dialog/edit-sub-dialog.component';
 import { PostDropdownComponent } from '../post-dropdown/post-dropdown.component';
+import { getPostsBySub } from 'app/store/actions/post.action';
+import { selectPosts } from 'app/store/selectors/post.selector';
 
 @Component({
   selector: 'app-subpage',
@@ -61,6 +63,7 @@ export class SubpageComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private store: Store<IAppState> = inject(Store);
   public readonly sub$: Observable<Sub> = this.store.select(selectSub);
+  public readonly posts$: Observable<Post[]> = this.store.select(selectPosts);
   public subName: string;
   public faPen = faPen;
   public isFocused: boolean = false;
@@ -68,6 +71,7 @@ export class SubpageComponent implements OnInit {
     this.activatedRoute.params.subscribe((routeParams) => {
       this.subName = routeParams['subName'];
       this.store.dispatch(getSub({ subName: this.subName }));
+      this.store.dispatch(getPostsBySub({ subName: this.subName }));
     });
   }
   public trackByFn(index: string, sub: Sub): number {

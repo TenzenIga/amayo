@@ -200,6 +200,44 @@ const getPosts = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Someting went wrong' });
   }
 };
+const getPostsBySub = async (req: Request, res: Response) => {
+  const name = req.params.name;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
+  const totalPosts = await postRepository.count();
+  try {
+    const posts = await postRepository.find({
+      where: { sub: { name } },
+      order: { createdAt: 'DESC' },
+      relations: ['comments', 'votes'],
+      skip: skip,
+      take: limit
+    });
+
+    if (res.locals.user) {
+      posts.forEach((p) => {
+        p.setUserVote(res.locals.user);
+        p.setOwner(res.locals.user);
+      });
+    }
+
+    return res.json({
+      posts,
+      pagination: {
+        currentPage: page,
+        pageSize: limit,
+        totalCount: totalPosts,
+        totalPages: Math.ceil(totalPosts / limit),
+        hasNext: page < Math.ceil(totalPosts / limit),
+        hasPrevious: page > 1
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
 
 const getPopularPosts = async (req: Request, res: Response) => {
   try {
@@ -368,6 +406,7 @@ router.post('/', user, auth, upload.single('file'), createPost);
 router.get('/', user, getFeed);
 router.get('/all', user, getPosts);
 router.get('/popular', user, getPopularPosts);
+router.get('/:name', user, getPostsBySub);
 router.delete('/:identifier/:slug', user, auth, deletePost);
 router.get('/:identifier/:slug', user, getPost);
 router.post('/:identifier/:slug/comments', user, auth, commentOnPost);

@@ -32,6 +32,10 @@ export class PostsService {
     return this.http.get<T>(`${this.url}/posts/all`, { params });
   }
 
+  public getPostsBySub<T>(subName: string): Observable<T> {
+    return this.http.get<T>(`${this.url}/posts/${subName}`);
+  }
+
   public getPost(identifier: string, slug: string): Observable<Post> {
     return this.http.get<Post>(`${this.url}/posts/${identifier}/${slug}`);
   }

@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as SubActions from '../actions/sub.action';
 import { initialSubState } from '../state/sub.state';
-import * as PostActions from '../actions/post.action';
 
 export const subReducer = createReducer(
   initialSubState,
@@ -40,15 +39,6 @@ export const subReducer = createReducer(
     })
   })),
   on(SubActions.deleteSubSuccess, (state) => ({ ...state, sub: null })),
-  on(PostActions.deletePostSuccess, (state, paylaod) => ({
-    ...state,
-    sub: {
-      ...state.sub,
-      posts: state.sub.posts.filter(
-        (p) => p.identifier !== paylaod.post.identifier
-      )
-    }
-  })),
   on(SubActions.getSubsListSuccess, (state, paylaod) => ({
     ...state,
     subs: paylaod.subs

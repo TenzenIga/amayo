@@ -42,6 +42,22 @@ export class PostEffects {
     );
   });
 
+  // sub page
+  public readonly getPostsBySub$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(PostActions.getPostsBySub),
+      exhaustMap((action) =>
+        this.postsService
+          .getPostsBySub(action.subName)
+          .pipe(
+            map((res: Pick<IPostState, 'posts' | 'pagination'>) =>
+              PostActions.getPostsSuccess({ res })
+            )
+          )
+      )
+    );
+  });
+
   // Персональная лента
   public readonly getFeed$ = createEffect(() => {
     return this.actions$.pipe(
@@ -188,6 +204,15 @@ export class PostEffects {
     )
   );
 
+  resetPosts$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(routerNavigatedAction),
+      map((action) => action.payload.routerState.url),
+      distinctUntilChanged(),
+      switchMap(() => of(PostActions.resetPosts()))
+    );
+  });
+
   // Отслеживаем переход на /all
   loadAllPosts$ = createEffect(() => {
     return this.actions$.pipe(
@@ -196,9 +221,7 @@ export class PostEffects {
       distinctUntilChanged(),
       filter((url) => url === '/all'),
 
-      switchMap(() =>
-        of(PostActions.resetPosts(), PostActions.getPosts({ page: 0 }))
-      )
+      switchMap(() => of(PostActions.getPosts({ page: 0 })))
     );
   });
 
@@ -208,9 +231,7 @@ export class PostEffects {
       map((action) => action.payload.routerState.url),
       distinctUntilChanged(),
       filter((url) => url === '/popular'),
-      switchMap(() =>
-        of(PostActions.resetPosts(), PostActions.getPopular({ page: 0 }))
-      )
+      switchMap(() => of(PostActions.getPopular({ page: 0 })))
     );
   });
 }

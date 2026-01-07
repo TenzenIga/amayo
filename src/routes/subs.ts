@@ -6,12 +6,10 @@ import auth from '../middleware/auth';
 import User from '../entity/User';
 import Sub from '../entity/Sub';
 import user from '../middleware/user';
-import Post from '../entity/Post';
 import { upload, validateSubName } from '../utils/helpers';
 import { AppDataSource } from '../data-source';
 
 const subRepository = AppDataSource.getRepository(Sub);
-const postRepository = AppDataSource.getRepository(Post);
 
 const createSub = async (req: Request, res: Response) => {
   const { name, description } = req.body;
@@ -91,17 +89,8 @@ const getSub = async (req: Request, res: Response) => {
 
       relations: ['subscribers']
     });
-    const posts = await postRepository.find({
-      where: { sub: { id: sub.id } },
-      order: { createdAt: 'DESC' },
-      relations: ['comments', 'votes']
-    });
-    sub.posts = posts;
+
     if (res.locals.user) {
-      sub.posts.forEach((p) => {
-        p.setUserVote(res.locals.user);
-        p.setOwner(res.locals.user);
-      });
       sub.setStatus(res.locals.user);
       sub.setOwner(res.locals.user);
     }

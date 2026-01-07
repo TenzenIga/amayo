@@ -11,6 +11,7 @@ export type postPayload = {
 
 export enum PostActions {
   GetPosts = '[Post] Get Posts',
+  GetPostsBySub = '[Post] Get Posts By Sub',
   GetPostsSuccess = '[Post] Get Posts Success',
   GetFeed = '[Post] Get Feed',
   GetFeedSuccess = '[Post] Get Feed Success',
@@ -54,6 +55,11 @@ export const getFeedSuccess = createAction(
 export const getPosts = createAction(
   PostActions.GetPosts,
   props<{ page: number }>()
+);
+
+export const getPostsBySub = createAction(
+  PostActions.GetPostsBySub,
+  props<{ subName: string }>()
 );
 export const getPostsSuccess = createAction(
   PostActions.GetPostsSuccess,
