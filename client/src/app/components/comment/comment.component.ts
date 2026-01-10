@@ -50,4 +50,8 @@ export class CommentComponent {
       this.vote.emit({ identifier: this.comment.identifier, value });
     }
   }
+
+  public trackByFn(comment: Comment): number {
+    return comment.id;
+  }
 }

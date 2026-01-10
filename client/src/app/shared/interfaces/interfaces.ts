@@ -60,6 +60,7 @@ export interface Sub {
 }
 
 export interface Comment {
+  children: Comment[];
   createdAt: Date;
   updatedAt: Date;
   identifier: string;
@@ -67,6 +68,7 @@ export interface Comment {
   username: string;
   userVote: number;
   voteScore: number;
+  id: number;
 }
 
 export interface ValdiateSubInput {

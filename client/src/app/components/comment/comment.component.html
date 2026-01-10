@@ -1,4 +1,4 @@
-<div class="my-3 comment">
+<div class="comment">
   <div class="comment__header">
     <div class="avatar"></div>
     <a
@@ -39,4 +39,18 @@
         [ngClass]="comment.userVote === -1 ? 'text-danger' : ''"></fa-icon>
     </div>
   </div>
+  @if(comment.children.length > 0){
+  <ul class="comment-tree">
+    @for (subComment of comment.children; track trackByFn($index, subComment)){
+
+    <li>
+      <app-comment
+        [comment]="subComment"
+        (vote)="onVoteComment($event)"
+        [post]="post"></app-comment>
+    </li>
+
+    }
+  </ul>
+  }
 </div>
