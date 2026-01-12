@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title">Удаление сообщества</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <p>
+    <strong>Вы уверены что хотите удалить комментарий?</strong>
+  </p>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-secondary"
+    (click)="activeModal.dismiss('cancel click')">
+    Отмена
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    (click)="delete()">
+    Удалить
+  </button>
+</div>

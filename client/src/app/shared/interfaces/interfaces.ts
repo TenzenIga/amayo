@@ -70,6 +70,7 @@ export interface Comment {
   voteScore: number;
   id: number;
   parentId: number | null;
+  isCommentOwner: boolean;
 }
 
 export interface ValdiateSubInput {

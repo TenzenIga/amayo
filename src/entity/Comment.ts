@@ -127,4 +127,9 @@ export default class Comment extends Entity {
   makeIdAndSlug() {
     this.identifier = makeId(8);
   }
+
+  isCommentOwner: boolean;
+  setOwner(user: User) {
+    this.isCommentOwner = this.username === user.username;
+  }
 }

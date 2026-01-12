@@ -24,9 +24,13 @@
         class="reply-icon"></fa-icon>
       <span class="ms-2">Ответить</span>
     </button>
-    <div class="ms-4 book">
+    <div class="ms-3 book">
       <fa-icon [icon]="faBookmark"></fa-icon>
     </div>
+    @if(comment.isCommentOwner){
+    <app-comment-dropdown
+      [identifier]="comment.identifier"></app-comment-dropdown>
+    }
     <div class="ms-auto votes">
       <fa-icon
         [icon]="faThumbsUp"

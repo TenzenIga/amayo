@@ -84,6 +84,10 @@ export class PostsService {
     });
   }
 
+  public deleteComment<T>(identifier: string): Observable<T> {
+    return this.http.delete<T>(`${this.url}/posts/comments/${identifier}`);
+  }
+
   public deletePost(identifier: string, slug: string): Observable<Post> {
     return this.http.delete<Post>(`${this.url}/posts/${identifier}/${slug}`);
   }

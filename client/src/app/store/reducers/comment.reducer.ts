@@ -34,6 +34,10 @@ export const commentReducer = createReducer(
       }
       return c;
     })
+  })),
+  on(CommentActions.deleteCommentSuccess, (state, payload) => ({
+    ...state,
+    comments: deleteCommentFromTree(state.comments, payload.comment.identifier)
   }))
 );
 
@@ -55,4 +59,16 @@ function updateComment(
     };
   }
   return comment;
+}
+
+function deleteCommentFromTree(
+  comments: Comment[],
+  identifier: string
+): Comment[] {
+  return comments
+    .filter((comment) => comment.identifier !== identifier)
+    .map((comment) => ({
+      ...comment,
+      children: deleteCommentFromTree(comment.children, identifier)
+    }));
 }

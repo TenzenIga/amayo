@@ -9,7 +9,9 @@ export enum CommentActions {
   CreateComment = '[Comment] Create Comment',
   CreateCommentSuccess = '[Comment] Create Comment Success',
   ReplyComment = '[Comment] Reply Comment',
-  ReplyCommentSuccess = '[Comment] Reply Comment Success'
+  ReplyCommentSuccess = '[Comment] Reply Comment Success',
+  DeleteComment = '[Comment] Delete Comment',
+  DeleteCommentSuccess = '[Comment] Delete Comment Success'
 }
 
 export const getComments = createAction(
@@ -52,5 +54,13 @@ export const replyComment = createAction(
 
 export const replyCommentSuccess = createAction(
   CommentActions.ReplyCommentSuccess,
+  props<{ comment: Comment }>()
+);
+export const deleteComment = createAction(
+  CommentActions.DeleteComment,
+  props<{ identifier: string }>()
+);
+export const deleteCommentSuccess = createAction(
+  CommentActions.DeleteCommentSuccess,
   props<{ comment: Comment }>()
 );

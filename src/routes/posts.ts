@@ -485,7 +485,11 @@ const getPostComments = async (req: Request, res: Response) => {
           FROM votes v
           WHERE v."commentId" = ct.id AND v.username = $2
           LIMIT 1
-        ), 0) as "userVote"
+        ), 0) as "userVote",
+        CASE 
+        WHEN $2 IS NOT NULL AND ct.username = $2 THEN true
+        ELSE false
+      END as "isCommentOwner"
       FROM comment_tree ct
       LEFT JOIN users u ON ct.username = u.username
       ORDER BY 
@@ -505,6 +509,40 @@ const getPostComments = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Something went wrong' });
   }
 };
+const deleteComment = async (req: Request, res: Response) => {
+  const { identifier } = req.params;
+  const user = res.locals.user;
+  try {
+    const comment = await commentRepository.findOneOrFail({
+      where: { identifier }
+    });
+
+    if (comment.username !== user.username) {
+      return res.status(403).json({ error: 'You dont own this comment' });
+    }
+    await commentRepository.remove(comment);
+
+    return res.json(comment);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
+const router = Router();
+
+router.post('/', user, auth, upload.single('file'), createPost);
+router.get('/', user, getFeed);
+router.get('/all', user, getPosts);
+router.get('/popular', user, getPopularPosts);
+router.delete('/comments/:identifier', user, auth, deleteComment);
+router.get('/:name', user, getPostsBySub);
+router.delete('/:identifier/:slug', user, auth, deletePost);
+router.get('/:identifier/:slug', user, getPost);
+router.post('/:identifier/:slug/comments', user, auth, commentOnPost);
+router.get('/:identifier/:slug/comments', user, getPostComments);
+router.put('/:identifier/:slug', user, auth, upload.single('file'), updatePost);
+
 function buildCommentTree(flatComments: any[]): any[] {
   const commentMap = new Map<number, any>();
   const rootComments: any[] = [];
@@ -531,16 +569,5 @@ function buildCommentTree(flatComments: any[]): any[] {
 
   return rootComments;
 }
-const router = Router();
 
-router.post('/', user, auth, upload.single('file'), createPost);
-router.get('/', user, getFeed);
-router.get('/all', user, getPosts);
-router.get('/popular', user, getPopularPosts);
-router.get('/:name', user, getPostsBySub);
-router.delete('/:identifier/:slug', user, auth, deletePost);
-router.get('/:identifier/:slug', user, getPost);
-router.post('/:identifier/:slug/comments', user, auth, commentOnPost);
-router.get('/:identifier/:slug/comments', user, getPostComments);
-router.put('/:identifier/:slug', user, auth, upload.single('file'), updatePost);
 export default router;

@@ -1,0 +1,19 @@
+// work around https://github.com/ng-bootstrap/ng-bootstrap/issues/2560
+.dropdown-toggle::after {
+  display: none;
+}
+
+.elipsis-btn {
+  border: none;
+  background: transparent;
+  width: 40px;
+  font-size: 0.7rem;
+  color: #6c757d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background: #6c757d;
+    color: #fff;
+  }
+}

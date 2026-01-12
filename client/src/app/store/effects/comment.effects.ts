@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { exhaustMap, map, switchMap } from 'rxjs/operators';
 
 import { PostsService } from '@core/services/posts.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CommentActions from '../actions/comment.action';
 import { Comment } from '@shared/interfaces/interfaces';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class CommentEffects {
-  constructor(private actions$: Actions, private postsService: PostsService) {}
-
+  private toastr: ToastrService = inject(ToastrService);
+  private actions$: Actions = inject(Actions);
+  private postsService: PostsService = inject(PostsService);
   getComments$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CommentActions.getComments),
@@ -65,6 +67,20 @@ export class CommentEffects {
           .pipe(
             map((comment) => CommentActions.replyCommentSuccess({ comment }))
           )
+      )
+    );
+  });
+
+  deleteComment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CommentActions.deleteComment),
+      switchMap((action) =>
+        this.postsService.deleteComment(action.identifier).pipe(
+          map((comment: Comment) => {
+            this.toastr.success('Comment deleted!');
+            return CommentActions.deleteCommentSuccess({ comment });
+          })
+        )
       )
     );
   });

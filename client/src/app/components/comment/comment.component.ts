@@ -2,8 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input,
-  Output
+  Input
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
@@ -16,6 +15,7 @@ import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
 import { voteComment } from 'app/store/actions/comment.action';
 import { Store } from '@ngrx/store';
 import { ReplyFormComponent } from './reply-form/reply-form.component';
+import { CommentDropdownComponent } from './comment-dropdown/comment-dropdown.component';
 
 @Component({
   selector: 'app-comment',
@@ -28,7 +28,8 @@ import { ReplyFormComponent } from './reply-form/reply-form.component';
     FontAwesomeModule,
     NgClass,
     DateAgoPipe,
-    ReplyFormComponent
+    ReplyFormComponent,
+    CommentDropdownComponent
   ]
 })
 export class CommentComponent {

@@ -1,0 +1,29 @@
+<div
+  ngbDropdown
+  class="d-block">
+  <button
+    class="elipsis-btn rounded-pill ms-3"
+    ngbDropdownToggle>
+    <fa-icon [icon]="elipsis"></fa-icon>
+  </button>
+  <div
+    ngbDropdownMenu
+    class="dropdown-content"
+    aria-labelledby="comment-dropdown">
+    <button
+      ngbDropdownItem
+      class="dropdown-btn">
+      <span
+        class="ms-2"
+        (click)="openEditModal()">
+        Редактировать
+      </span>
+    </button>
+    <button
+      ngbDropdownItem
+      (click)="openDeleteModal()"
+      class="dropdown-btn">
+      <span class="ms-2">Удалить</span>
+    </button>
+  </div>
+</div>
