@@ -22,7 +22,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { QuillEditorComponent } from 'ngx-quill';
 import { quillConfiguration } from '@shared/utils';
 import { selectPost } from 'app/store/selectors/post.selector';
-import { PushPipe } from '@ngrx/component';
 import { Router } from '@angular/router';
 import slugify from 'slugify';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -35,7 +34,6 @@ import { SubInfoComponent } from '../sub-info/sub-info.component';
     ReactiveFormsModule,
     FontAwesomeModule,
     QuillEditorComponent,
-    PushPipe,
     SidebarComponent,
     SubInfoComponent
   ],

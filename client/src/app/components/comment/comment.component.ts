@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
   Input,
   Output
@@ -14,6 +13,9 @@ import { Post, Comment } from '@shared/interfaces/interfaces';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgClass } from '@angular/common';
 import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
+import { voteComment } from 'app/store/actions/comment.action';
+import { Store } from '@ngrx/store';
+import { ReplyFormComponent } from './reply-form/reply-form.component';
 
 @Component({
   selector: 'app-comment',
@@ -21,16 +23,23 @@ import { DateAgoPipe } from '../../shared/pipes/date-ago.pipe';
   styleUrls: ['./comment.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, FontAwesomeModule, NgClass, DateAgoPipe]
+  imports: [
+    RouterLink,
+    FontAwesomeModule,
+    NgClass,
+    DateAgoPipe,
+    ReplyFormComponent
+  ]
 })
 export class CommentComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
-
+  private store = inject(Store);
   public faCommentAlt = faCommentAlt;
   public faBookmark = faBookmark;
   public faThumbsUp = faThumbsUp;
   public faThumbsDown = faThumbsDown;
+  public toggleReplyFormStatus = false;
 
   @Input()
   post: Post;
@@ -38,20 +47,25 @@ export class CommentComponent {
   @Input()
   comment: Comment;
 
-  @Output() vote = new EventEmitter<{ identifier: string; value: number }>();
-
-  public onVote(value: number): void {
+  public onVoteComment(value: number) {
+    const { identifier } = this.comment;
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
     } else {
       if (value === this.comment.userVote) {
         value = 0;
       }
-      this.vote.emit({ identifier: this.comment.identifier, value });
+      console.log(identifier, value);
+
+      this.store.dispatch(voteComment({ identifier, value }));
     }
   }
 
   public trackByFn(comment: Comment): number {
     return comment.id;
+  }
+
+  public onToggleReplyForm(value: boolean) {
+    this.toggleReplyFormStatus = value;
   }
 }

@@ -51,10 +51,9 @@
           (commentEvent)="sendComment($event)"></app-comment-form>
         @if (comments$ | ngrxPush; as comments) {
         <div class="comments-list">
-          @for (comment of comments; track trackByFn($index, comment)) {
+          @for (comment of comments; track comment.id) {
           <app-comment
             [comment]="comment"
-            (vote)="onVoteComment($event)"
             [post]="post"></app-comment>
           }
         </div>

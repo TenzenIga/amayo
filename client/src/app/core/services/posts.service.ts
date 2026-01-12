@@ -52,11 +52,12 @@ export class PostsService {
   public sendComment(
     identifier: string,
     slug: string,
-    body: string
+    body: string,
+    commentId?: number
   ): Observable<Comment> {
     return this.http.post<Comment>(
       `${this.url}/posts/${identifier}/${slug}/comments`,
-      { body }
+      { body, parentId: commentId }
     );
   }
 
@@ -64,26 +65,21 @@ export class PostsService {
     return this.http.post<Post>(`${this.url}/posts`, postData);
   }
 
-  public voteOnPost(
+  public voteOnPost<T>(
     identifier: string,
     slug: string,
     value: number
-  ): Observable<any> {
-    return this.http.post(`${this.url}/misc/vote-post`, {
+  ): Observable<T> {
+    return this.http.post<T>(`${this.url}/misc/vote-post`, {
       identifier,
       slug,
       value
     });
   }
 
-  public voteOnComment(
-    identifier: string,
-    slug: string,
-    value: number
-  ): Observable<any> {
-    return this.http.post(`${this.url}/misc/vote-comment`, {
+  public voteOnComment<T>(identifier: string, value: number): Observable<T> {
+    return this.http.post<T>(`${this.url}/misc/vote-comment`, {
       identifier,
-      slug,
       value
     });
   }

@@ -47,7 +47,7 @@
     @if(userinfo$ | ngrxPush; as userinfo){
     <h4 class="mt-2">Мои сообщества</h4>
     <app-create-sub-form></app-create-sub-form>
-    @for(sub of userinfo.subscriptions; track trackByFn($index, sub)){
+    @for(sub of userinfo.subscriptions; track sub.id){
     <a
       (click)="goToSub(sub.name)"
       class="sub d-flex align-items-center border-0 rounded-2 px-0 list-group-item list-group-item-action">

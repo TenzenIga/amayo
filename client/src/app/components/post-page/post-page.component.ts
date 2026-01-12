@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -12,11 +7,7 @@ import { Store } from '@ngrx/store';
 import { IAppState } from 'app/store/state/app.state';
 import { selectPost } from 'app/store/selectors/post.selector';
 import { getPost, votePost } from 'app/store/actions/post.action';
-import {
-  getComments,
-  voteComment,
-  createComment
-} from 'app/store/actions/comment.action';
+import { getComments, createComment } from 'app/store/actions/comment.action';
 import { selectComments } from 'app/store/selectors/comment.selector';
 import { getSub } from 'app/store/actions/sub.action';
 import { NgStyle } from '@angular/common';
@@ -96,11 +87,6 @@ export class PostPageComponent {
     this.store.dispatch(
       votePost({ identifier: this.identifier, slug: this.slug, value })
     );
-  }
-
-  public onVoteComment(event: { identifier: string; value: number }) {
-    const { identifier, value } = event;
-    this.store.dispatch(voteComment({ identifier, slug: this.slug, value }));
   }
 
   public goToSub() {

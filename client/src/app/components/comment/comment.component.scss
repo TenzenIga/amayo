@@ -29,20 +29,15 @@
 
 .reply {
   display: flex;
-  align-items: baseline;
-  &-icon {
-    padding: 2px 0;
-  }
-
-  span {
-    margin-left: 8px;
-    font-size: 0.8rem;
-  }
+  align-items: center;
+  color: #6c757d;
   &:hover {
     color: #346eb8;
   }
+  span {
+    font-size: 0.8rem;
+  }
 }
-
 .votes {
   display: flex;
   span {

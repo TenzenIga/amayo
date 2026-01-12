@@ -4,13 +4,11 @@ import { exhaustMap, map, switchMap } from 'rxjs/operators';
 import { PostsService } from '@core/services/posts.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CommentActions from '../actions/comment.action';
+import { Comment } from '@shared/interfaces/interfaces';
 
 @Injectable()
 export class CommentEffects {
-  constructor(
-    private actions$: Actions,
-    private postsService: PostsService,
-   ) {}
+  constructor(private actions$: Actions, private postsService: PostsService) {}
 
   getComments$ = createEffect(() => {
     return this.actions$.pipe(
@@ -30,9 +28,11 @@ export class CommentEffects {
       ofType(CommentActions.voteComment),
       switchMap((action) =>
         this.postsService
-          .voteOnComment(action.identifier, action.slug, action.value)
+          .voteOnComment(action.identifier, action.value)
           .pipe(
-            map((comment) => CommentActions.voteCommentSuccess({ comment }))
+            map((comment: Comment) =>
+              CommentActions.voteCommentSuccess({ comment })
+            )
           )
       )
     );
@@ -46,6 +46,24 @@ export class CommentEffects {
           .sendComment(action.identifier, action.slug, action.value)
           .pipe(
             map((comment) => CommentActions.createCommentSuccess({ comment }))
+          )
+      )
+    );
+  });
+
+  replyComment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CommentActions.replyComment),
+      switchMap((action) =>
+        this.postsService
+          .sendComment(
+            action.identifier,
+            action.slug,
+            action.value,
+            action.commentId
+          )
+          .pipe(
+            map((comment) => CommentActions.replyCommentSuccess({ comment }))
           )
       )
     );

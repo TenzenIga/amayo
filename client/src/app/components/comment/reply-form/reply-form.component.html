@@ -1,0 +1,23 @@
+<div>
+  <form
+    [formGroup]="commentForm"
+    (ngSubmit)="sendComment()">
+    <textarea
+      class="form-control"
+      id="comment"
+      formControlName="body"
+      rows="3"></textarea>
+    <div class="controls d-flex">
+      <button
+        (click)="closeForm()"
+        class="mt-1 ms-auto btn btn-danger btn-sm">
+        Отмена
+      </button>
+      <button
+        class="mt-1 ms-1 btn btn-primary btn-sm"
+        [disabled]="commentForm.invalid">
+        Отправить
+      </button>
+    </div>
+  </form>
+</div>

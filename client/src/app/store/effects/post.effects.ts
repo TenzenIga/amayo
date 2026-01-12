@@ -14,7 +14,7 @@ import slugify from 'slugify';
 import * as PostActions from '../actions/post.action';
 import { SubService } from '@core/services/sub.service';
 import { ToastrService } from 'ngx-toastr';
-import { IPostState } from '../state/post.state';
+import { IPostState, Post } from '../state/post.state';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { of } from 'rxjs';
 
@@ -107,7 +107,7 @@ export class PostEffects {
       switchMap((action) =>
         this.postsService
           .voteOnPost(action.identifier, action.slug, action.value)
-          .pipe(map((post) => PostActions.votePostSuccess({ post })))
+          .pipe(map((post: Post) => PostActions.votePostSuccess({ post })))
       )
     );
   });

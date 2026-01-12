@@ -16,12 +16,14 @@
     {{ comment.body }}
   </div>
   <div class="mt-2 comment__footer">
-    <div class="reply">
+    <button
+      class="btn btn-sm reply"
+      (click)="onToggleReplyForm(true)">
       <fa-icon
         [icon]="faCommentAlt"
         class="reply-icon"></fa-icon>
-      <span>Ответить</span>
-    </div>
+      <span class="ms-2">Ответить</span>
+    </button>
     <div class="ms-4 book">
       <fa-icon [icon]="faBookmark"></fa-icon>
     </div>
@@ -29,24 +31,29 @@
       <fa-icon
         [icon]="faThumbsUp"
         class="mx-1 thumb-up"
-        (click)="onVote(1)"
+        (click)="onVoteComment(1)"
         [ngClass]="comment.userVote === 1 ? 'text-success' : ''"></fa-icon>
       <span class="text-success">{{ comment.voteScore }}</span>
       <fa-icon
         [icon]="faThumbsDown"
         class="mx-1 thumb-down"
-        (click)="onVote(-1)"
+        (click)="onVoteComment(-1)"
         [ngClass]="comment.userVote === -1 ? 'text-danger' : ''"></fa-icon>
     </div>
   </div>
-  @if(comment.children.length > 0){
+  <!-- reply form -->
+  @if(toggleReplyFormStatus){
+  <app-reply-form
+    [commentId]="comment.id"
+    (onFormClose)="onToggleReplyForm($event)"></app-reply-form>
+  }
+  <!-- comments tree -->
+  @if(comment.children?.length > 0){
   <ul class="comment-tree">
-    @for (subComment of comment.children; track trackByFn($index, subComment)){
-
+    @for (subComment of comment.children; track subComment.id){
     <li>
       <app-comment
         [comment]="subComment"
-        (vote)="onVoteComment($event)"
         [post]="post"></app-comment>
     </li>
 

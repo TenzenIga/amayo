@@ -7,7 +7,9 @@ export enum CommentActions {
   VoteComment = '[Comment] Vote Comment',
   VoteCommentSuccess = '[Comment] Vote Comment Success',
   CreateComment = '[Comment] Create Comment',
-  CreateCommentSuccess = '[Comment] Create Comment Success'
+  CreateCommentSuccess = '[Comment] Create Comment Success',
+  ReplyComment = '[Comment] Reply Comment',
+  ReplyCommentSuccess = '[Comment] Reply Comment Success'
 }
 
 export const getComments = createAction(
@@ -21,7 +23,7 @@ export const getCommentsSuccess = createAction(
 
 export const voteComment = createAction(
   CommentActions.VoteComment,
-  props<{ identifier: string; slug: string; value: number }>()
+  props<{ identifier: string; value: number }>()
 );
 
 export const voteCommentSuccess = createAction(
@@ -32,11 +34,23 @@ export const voteCommentSuccess = createAction(
 export const createComment = createAction(
   CommentActions.CreateComment,
   props<{ identifier: string; slug: string; value: string }>()
-
-)
+);
 
 export const createCommentSuccess = createAction(
   CommentActions.CreateCommentSuccess,
   props<{ comment: Comment }>()
+);
+export const replyComment = createAction(
+  CommentActions.ReplyComment,
+  props<{
+    identifier: string;
+    slug: string;
+    value: string;
+    commentId: number;
+  }>()
+);
 
-)
+export const replyCommentSuccess = createAction(
+  CommentActions.ReplyCommentSuccess,
+  props<{ comment: Comment }>()
+);

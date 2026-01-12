@@ -425,6 +425,7 @@ const getPostComments = async (req: Request, res: Response) => {
       WITH RECURSIVE comment_tree AS (
         SELECT 
           c.id,
+          c.identifier,
           c.body,
           c."parentId",
           c.username,
@@ -440,6 +441,7 @@ const getPostComments = async (req: Request, res: Response) => {
         
         SELECT 
           c.id,
+          c.identifier,
           c.body,
           c."parentId",
           c.username,
@@ -498,10 +500,6 @@ const getPostComments = async (req: Request, res: Response) => {
     );
     const commentTree = buildCommentTree(comments);
 
-    commentTree.forEach((comment) => {
-      comment.voteScore = (comment.upvotes || 0) - (comment.downvotes || 0);
-    });
-
     return res.json(commentTree);
   } catch (error) {
     return res.status(500).json({ error: 'Something went wrong' });
@@ -513,6 +511,8 @@ function buildCommentTree(flatComments: any[]): any[] {
 
   // Инициализируем узлы
   flatComments.forEach((comment) => {
+    comment.voteScore = (comment.upvotes || 0) - (comment.downvotes || 0);
+
     commentMap.set(comment.id, {
       ...comment,
       children: []
