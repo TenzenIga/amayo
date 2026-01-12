@@ -9,6 +9,10 @@ import { IAppState } from 'app/store/state/app.state';
 import { clearUserData } from 'app/store/actions/user.action';
 import { getPosts, resetPosts } from 'app/store/actions/post.action';
 
+/**
+ * TO DO
+ * Переписать используя observable и верификацию для токена
+ */
 @Injectable({
   providedIn: 'root'
 })

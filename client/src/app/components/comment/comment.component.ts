@@ -55,8 +55,6 @@ export class CommentComponent {
       if (value === this.comment.userVote) {
         value = 0;
       }
-      console.log(identifier, value);
-
       this.store.dispatch(voteComment({ identifier, value }));
     }
   }
@@ -66,6 +64,10 @@ export class CommentComponent {
   }
 
   public onToggleReplyForm(value: boolean) {
-    this.toggleReplyFormStatus = value;
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+    } else {
+      this.toggleReplyFormStatus = value;
+    }
   }
 }
