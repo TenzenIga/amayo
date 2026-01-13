@@ -106,7 +106,7 @@ export class EditPostPageComponent {
       formData.append('file', this.selectedFile, this.selectedFile.name);
     }
 
-    this.store.dispatch(editPost({ identifier, slug, postdData: formData }));
+    this.store.dispatch(editPost({ identifier, postdData: formData }));
   }
   public cancelEdit() {
     this.router.navigate([

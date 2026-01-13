@@ -61,12 +61,8 @@ export class PostPageComponent {
       this.identifier = params.get('identifier');
       this.slug = params.get('slug');
       this.subName = params.get('subName');
-      this.store.dispatch(
-        getPost({ identifier: this.identifier, slug: this.slug })
-      );
-      this.store.dispatch(
-        getComments({ identifier: this.identifier, slug: this.slug })
-      );
+      this.store.dispatch(getPost({ identifier: this.identifier }));
+      this.store.dispatch(getComments({ identifier: this.identifier }));
       this.store.dispatch(getSub({ subName: this.subName }));
     });
   }
@@ -74,9 +70,7 @@ export class PostPageComponent {
   public sendComment(commentBody: string): void {
     const identifier = this.activatedRoute.snapshot.paramMap.get('identifier');
     const slug = this.activatedRoute.snapshot.paramMap.get('slug');
-    this.store.dispatch(
-      createComment({ identifier, slug, value: commentBody })
-    );
+    this.store.dispatch(createComment({ identifier, value: commentBody }));
   }
 
   public trackByFn(comment: Comment): string {

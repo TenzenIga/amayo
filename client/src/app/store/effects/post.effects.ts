@@ -17,11 +17,13 @@ import { ToastrService } from 'ngx-toastr';
 import { IPostState, Post } from '../state/post.state';
 import { routerNavigatedAction } from '@ngrx/router-store';
 import { of } from 'rxjs';
+import { MiscService } from '@core/services/misc.service';
 
 @Injectable()
 export class PostEffects {
   private actions$: Actions = inject(Actions);
   private postsService: PostsService = inject(PostsService);
+  private miscService: MiscService = inject(MiscService);
   private subService: SubService = inject(SubService);
   private router: Router = inject(Router);
   private toastr: ToastrService = inject(ToastrService);
@@ -95,7 +97,7 @@ export class PostEffects {
       ofType(PostActions.getPost),
       exhaustMap((action) =>
         this.postsService
-          .getPost(action.identifier, action.slug)
+          .getPost(action.identifier)
           .pipe(map((post) => PostActions.getPostSuccess({ post })))
       )
     );
@@ -105,7 +107,7 @@ export class PostEffects {
     return this.actions$.pipe(
       ofType(PostActions.votePost),
       switchMap((action) =>
-        this.postsService
+        this.miscService
           .voteOnPost(action.identifier, action.slug, action.value)
           .pipe(map((post: Post) => PostActions.votePostSuccess({ post })))
       )
@@ -149,8 +151,8 @@ export class PostEffects {
       ofType(PostActions.editPost),
       switchMap((action) =>
         this.postsService
-          .editPost(action.identifier, action.slug, action.postdData)
-          .pipe(map((post) => PostActions.editPostSuccess({ post })))
+          .editPost(action.identifier, action.postdData)
+          .pipe(map((post: Post) => PostActions.editPostSuccess({ post })))
       )
     );
   });
@@ -173,7 +175,7 @@ export class PostEffects {
       ofType(PostActions.deletePost),
       switchMap((action) =>
         this.postsService
-          .deletePost(action.identifier, action.slug)
+          .deletePost(action.identifier)
           .pipe(map((post) => PostActions.deletePostSuccess({ post })))
       )
     );

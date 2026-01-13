@@ -45,7 +45,7 @@ export class ReplyFormComponent {
     const commentId = this.commentId();
     this.commentBody = this.commentForm.get('body').value;
     this.store.dispatch(
-      replyComment({ identifier, slug, value: this.commentBody, commentId })
+      replyComment({ identifier, value: this.commentBody, commentId })
     );
     this.commentForm.get('body').setValue('');
     this.onFormClose.emit(false);

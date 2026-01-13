@@ -11,6 +11,7 @@ import postsRoutes from './routes/posts';
 import subRoutes from './routes/subs';
 import miscRoutes from './routes/misc';
 import userRoutes from './routes/users';
+import commentsRoutes from './routes/comments';
 import trim from './middleware/trim';
 import path from 'path';
 import { AppDataSource } from './data-source';
@@ -30,6 +31,7 @@ app.use('/api/posts', postsRoutes);
 app.use('/api/subs', subRoutes);
 app.use('/api/misc', miscRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/comments', commentsRoutes);
 
 // Отдача статики из Angular-сборки
 app.use(express.static(path.join(__dirname, '../client/dist/client')));

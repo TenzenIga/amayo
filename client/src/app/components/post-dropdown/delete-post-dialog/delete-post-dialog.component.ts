@@ -24,9 +24,7 @@ export class DeletePostDialogComponent {
   public activeModal = inject(NgbActiveModal);
 
   public delete() {
-    this.store.dispatch(
-      deletePost({ identifier: this.post.identifier, slug: this.post.slug })
-    );
+    this.store.dispatch(deletePost({ identifier: this.post.identifier }));
     this.activeModal.close();
   }
 }

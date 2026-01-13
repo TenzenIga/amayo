@@ -68,7 +68,7 @@ export const getPostsSuccess = createAction(
 
 export const getPost = createAction(
   PostActions.GetPost,
-  props<{ identifier: string; slug: string }>()
+  props<{ identifier: string }>()
 );
 
 export const getPostSuccess = createAction(
@@ -118,7 +118,7 @@ export const unsubscribeSubSuccess = createAction(
 
 export const deletePost = createAction(
   PostActions.DeletePost,
-  props<{ identifier: string; slug: string }>()
+  props<{ identifier: string }>()
 );
 
 export const deletePostSuccess = createAction(
@@ -128,7 +128,7 @@ export const deletePostSuccess = createAction(
 
 export const editPost = createAction(
   PostActions.EditPost,
-  props<{ identifier: string; slug: string; postdData: FormData }>()
+  props<{ identifier: string; postdData: FormData }>()
 );
 
 export const editPostSuccess = createAction(
