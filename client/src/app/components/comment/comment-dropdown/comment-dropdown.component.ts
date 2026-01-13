@@ -2,7 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  input
+  input,
+  output
 } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
@@ -23,6 +24,8 @@ import { DeleteCommentDialogComponent } from '../delete-comment-dialog/delete-co
 })
 export class CommentDropdownComponent {
   public identifier = input<string>();
+  public body = input<string>();
+  public openEditForm = output();
   private modalService = inject(NgbModal);
   public readonly elipsis = faEllipsisH;
   public openDeleteModal(): void {
@@ -30,10 +33,7 @@ export class CommentDropdownComponent {
     const modalRef = this.modalService.open(DeleteCommentDialogComponent);
     modalRef.componentInstance.identifier = identifier;
   }
-  public openEditModal(): void {
-    // const modalRef = this.modalService.open(EditSubDialogComponent, {
-    //   size: 'lg'
-    // });
-    // modalRef.componentInstance.sub = this.sub;
+  public onOpenEditForm(): void {
+    this.openEditForm.emit();
   }
 }

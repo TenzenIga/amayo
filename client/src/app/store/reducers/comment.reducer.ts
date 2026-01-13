@@ -14,7 +14,7 @@ export const commentReducer = createReducer(
   on(CommentActions.voteCommentSuccess, (state, payload) => ({
     ...state,
     comments: state.comments.map((c) =>
-      updateComment(
+      addCommentVote(
         c,
         payload.comment.identifier,
         payload.comment.userVote,
@@ -38,10 +38,14 @@ export const commentReducer = createReducer(
   on(CommentActions.deleteCommentSuccess, (state, payload) => ({
     ...state,
     comments: deleteCommentFromTree(state.comments, payload.comment.identifier)
+  })),
+  on(CommentActions.editCommentSuccess, (state, payload) => ({
+    ...state,
+    comments: updateComment(state.comments, payload.comment)
   }))
 );
 
-function updateComment(
+function addCommentVote(
   comment: Comment,
   identifier: string,
   userVote: number,
@@ -54,7 +58,7 @@ function updateComment(
     return {
       ...comment,
       children: comment.children.map((c) =>
-        updateComment(c, identifier, userVote, voteScore)
+        addCommentVote(c, identifier, userVote, voteScore)
       )
     };
   }
@@ -71,4 +75,25 @@ function deleteCommentFromTree(
       ...comment,
       children: deleteCommentFromTree(comment.children, identifier)
     }));
+}
+
+function updateComment(
+  comments: Comment[],
+  updatedComment: Comment
+): Comment[] {
+  return comments.map((comment) => {
+    if (comment.identifier === updatedComment.identifier) {
+      return { ...comment, ...updatedComment };
+    }
+
+    const updatedChildren = comment.children
+      ? updateComment(comment.children, updatedComment)
+      : comment.children;
+
+    if (updatedChildren !== comment.children) {
+      return { ...comment, children: updatedChildren };
+    }
+
+    return comment;
+  });
 }

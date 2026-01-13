@@ -16,6 +16,7 @@ import { voteComment } from 'app/store/actions/comment.action';
 import { Store } from '@ngrx/store';
 import { ReplyFormComponent } from './reply-form/reply-form.component';
 import { CommentDropdownComponent } from './comment-dropdown/comment-dropdown.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
 
 @Component({
   selector: 'app-comment',
@@ -29,7 +30,8 @@ import { CommentDropdownComponent } from './comment-dropdown/comment-dropdown.co
     NgClass,
     DateAgoPipe,
     ReplyFormComponent,
-    CommentDropdownComponent
+    CommentDropdownComponent,
+    EditFormComponent
   ]
 })
 export class CommentComponent {
@@ -41,7 +43,7 @@ export class CommentComponent {
   public faThumbsUp = faThumbsUp;
   public faThumbsDown = faThumbsDown;
   public toggleReplyFormStatus = false;
-
+  public hideEditForm = true;
   @Input()
   post: Post;
 
@@ -70,5 +72,12 @@ export class CommentComponent {
     } else {
       this.toggleReplyFormStatus = value;
     }
+  }
+
+  public onCloseEditForm() {
+    this.hideEditForm = true;
+  }
+  public onOpenEditForm() {
+    this.hideEditForm = false;
   }
 }

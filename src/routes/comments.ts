@@ -198,7 +198,7 @@ const updateComment = async (req: Request, res: Response) => {
     }
     comment.body = body;
 
-    await commentRepository.remove(comment);
+    await commentRepository.save(comment);
 
     return res.json(comment);
   } catch (error) {

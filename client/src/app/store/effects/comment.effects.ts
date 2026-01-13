@@ -50,7 +50,9 @@ export class CommentEffects {
         this.commentService
           .sendComment(action.identifier, action.value)
           .pipe(
-            map((comment) => CommentActions.createCommentSuccess({ comment }))
+            map((comment: Comment) =>
+              CommentActions.createCommentSuccess({ comment })
+            )
           )
       )
     );
@@ -63,7 +65,9 @@ export class CommentEffects {
         this.commentService
           .sendComment(action.identifier, action.value, action.commentId)
           .pipe(
-            map((comment) => CommentActions.replyCommentSuccess({ comment }))
+            map((comment: Comment) =>
+              CommentActions.replyCommentSuccess({ comment })
+            )
           )
       )
     );
@@ -77,6 +81,19 @@ export class CommentEffects {
           map((comment: Comment) => {
             this.toastr.success('Comment deleted!');
             return CommentActions.deleteCommentSuccess({ comment });
+          })
+        )
+      )
+    );
+  });
+
+  editComment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(CommentActions.editComment),
+      switchMap((action) =>
+        this.commentService.updateComment(action.identifier, action.body).pipe(
+          map((comment: Comment) => {
+            return CommentActions.editCommentSuccess({ comment });
           })
         )
       )

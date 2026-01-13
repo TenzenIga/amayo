@@ -15,12 +15,12 @@ export class CommentService {
     return this.http.get<Comment[]>(`${this.url}/${identifier}`);
   }
 
-  public sendComment(
+  public sendComment<T>(
     identifier: string,
     body: string,
     commentId?: number
-  ): Observable<Comment> {
-    return this.http.post<Comment>(`${this.url}/${identifier}`, {
+  ): Observable<T> {
+    return this.http.post<T>(`${this.url}/${identifier}`, {
       body,
       parentId: commentId
     });
@@ -29,7 +29,7 @@ export class CommentService {
   public deleteComment<T>(identifier: string): Observable<T> {
     return this.http.delete<T>(`${this.url}/${identifier}`);
   }
-  //   public updateComment<T>(identifier: string, body: string): Observable<T> {
-  //     return this.http.put<T>(`${this.url}/${identifier}`);
-  //   }
+  public updateComment<T>(identifier: string, body: string): Observable<T> {
+    return this.http.put<T>(`${this.url}/${identifier}`, { body });
+  }
 }
