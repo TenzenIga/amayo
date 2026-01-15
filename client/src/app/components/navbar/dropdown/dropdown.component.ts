@@ -11,12 +11,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { faCog, faMoon, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dropdown',
   standalone: true,
-  imports: [FontAwesomeModule, NgbDropdownModule],
+  imports: [FontAwesomeModule, NgbDropdownModule, RouterLink],
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

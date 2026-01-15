@@ -22,6 +22,11 @@ export interface User {
   userImage: string | null;
   subscriptions: Subscription[];
   userImageUrl: string;
+  nickname: string | null;
+  description: string | null;
+  notificationsComments: boolean;
+  notificationsReplies: boolean;
+  notificationsLikes: boolean;
 }
 
 export interface IUserState {

@@ -7,6 +7,7 @@ import { AuthGuard } from './auth.guard';
 
 import { CreatePostPageComponent } from './components/create-post-page/create-post-page.component';
 import { EditPostPageComponent } from './components/edit-post-page/edit-post-page.component';
+import { SettingsPageComponent } from './components/settings-page/settings-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +24,14 @@ const routes: Routes = [
       import('./components/login/login.component').then((m) => m.LoginComponent)
   },
   { path: 'userpage', component: UserpageComponent, canActivate: [AuthGuard] },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./components/settings-page/settings-page.component').then(
+        (m) => m.SettingsPageComponent
+      ),
+    canActivate: [AuthGuard]
+  },
   {
     path: 'submit',
     component: CreatePostPageComponent,
